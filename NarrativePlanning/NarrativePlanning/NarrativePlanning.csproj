@@ -48,5 +48,8 @@
     <Compile Include="Plan.cs" />
     <Compile Include="Solution.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DomainBuilder\" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
