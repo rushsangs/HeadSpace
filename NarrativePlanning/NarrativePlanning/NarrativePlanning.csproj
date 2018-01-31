@@ -47,9 +47,18 @@
     <Compile Include="PlanningProblem.cs" />
     <Compile Include="Plan.cs" />
     <Compile Include="Solution.cs" />
+    <Compile Include="TypeNode.cs" />
+    <Compile Include="Instance.cs" />
+    <Compile Include="DomainBuilder\TypeTreeBuilder.cs" />
+    <Compile Include="DomainBuilder\InstanceAdder.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DomainBuilder\" />
+    <Folder Include="Text Files\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Text Files\types.txt" />
+    <None Include="Text Files\instances.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

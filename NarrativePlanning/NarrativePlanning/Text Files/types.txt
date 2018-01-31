@@ -1,0 +1,7 @@
+﻿LivingThings IS-A Objects
+Persons IS-A LivingThings
+Creatures IS-A LivingThings
+WildAnimals IS-A Creatures
+Pets IS-A Creatures
+Weapons IS-A Objects
+Locations IS-A Objects

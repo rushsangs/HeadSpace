@@ -1,0 +1,8 @@
+﻿John IS-A Persons
+Dragon IS-A WildAnimals
+Dog IS-A Pets
+Unicorn IS-A Creatures
+Gun IS-A Weapons
+Bomb IS-A Weapons
+Knife IS-A Weapons
+Kitchen IS-A Locations

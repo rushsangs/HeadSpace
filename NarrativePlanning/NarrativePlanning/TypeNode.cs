@@ -1,0 +1,74 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace NarrativePlanning
+{
+
+    public class TypeNode
+    {
+        public String name;
+        public List<Instance> instances;
+        public List<TypeNode> children;
+
+        public TypeNode(String name)
+        {
+            this.name = name;
+            children = new List<TypeNode>();
+            instances = new List<Instance>();
+        }
+
+        public void addNode(String parent, String child){
+            TypeNode n = getSubTree(parent);
+            TypeNode newNode = new TypeNode(child);
+            Console.WriteLine("Will attempt to add " + child + " to " + parent);
+            addNode(newNode, n);
+            Console.WriteLine("Added " + child + " to " + parent);
+        }
+
+        public void addNode(TypeNode child, TypeNode parent)
+        {
+            parent.children.Add(child);
+        }
+
+        public void addInstance(String instance, String parent){
+            Instance i = new Instance(instance);
+            getSubTree(parent).addInstance(i);
+        }
+
+        public void addInstance(Instance i){
+            this.instances.Add(i);
+        }
+
+        public TypeNode getSubTree(String name){
+            if (this.name.Equals(name))
+                return this;   
+            else if (this.children.Count > 0)
+            {
+                foreach (TypeNode child in this.children)
+                {
+                    TypeNode x = child.getSubTree(name);
+                    if (x == null)
+                        continue;
+                    else return x;
+                }
+            }
+            return null;
+        }
+
+        public TypeNode getSubTree(TypeNode node)
+        {
+            if (this.Equals(node))
+                return this;
+            else if(this.children.Count>0)
+            {
+                foreach(TypeNode child in this.children){
+                    TypeNode x = child.getSubTree(node);
+                    if (x == null)
+                        return null;
+                    else return x;
+                }
+            }
+            return null;
+        }
+    }
+}
