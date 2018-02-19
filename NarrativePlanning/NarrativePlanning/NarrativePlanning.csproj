@@ -51,6 +51,9 @@
     <Compile Include="Instance.cs" />
     <Compile Include="DomainBuilder\TypeTreeBuilder.cs" />
     <Compile Include="DomainBuilder\InstanceAdder.cs" />
+    <Compile Include="Literal.cs" />
+    <Compile Include="DomainBuilder\OperationBuilder.cs" />
+    <Compile Include="DomainBuilder\GroundGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DomainBuilder\" />
@@ -59,6 +62,7 @@
   <ItemGroup>
     <None Include="Text Files\types.txt" />
     <None Include="Text Files\instances.txt" />
+    <None Include="Text Files\operators.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

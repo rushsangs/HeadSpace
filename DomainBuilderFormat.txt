@@ -35,14 +35,34 @@ Kitchen IS-A Locations
 -----------------------------------------
 3. operators.txt
 This file defines all possible operators that can be performed in the domain, along with specifications.
-TODO: how to define preconditions and effects, along with b+, b- and U?
 
-Example: 
-kill ?actor ?target ?weapon ?location :- 
-	actor IS-A Persons
-	target IS-A LivingThings
-	weapon IS-A Weapons
-	location IS-A Locations.
-	
+Example:
+{
+kill
+args:
+(?killer Persons)
+(?target Persons)
+(?place Locations)
+char:?killer
+loc: ?place
+pre-t:
+(at ?killer room2)
+(at ?target ?place)
+eff-t:
+pre-bplus:
+pre-bminus:
+pre-u:
+eff-bplus:
+eff-bminus:
+eff-u:
+}
+
+Create literals on the fly
+No overloading of literals... literal relation-names are unique
+
+- Write parser for operators
+- Grounding tool for operators
+
+
 
 
