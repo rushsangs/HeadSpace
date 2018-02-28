@@ -5,9 +5,9 @@ namespace NarrativePlanning
 {
     public class EpistemicGoal
     {
-        List<GroundLiteral> bPlus;
-        List<GroundLiteral> bMinus;
-        List<GroundLiteral> unsure;
+        List<Literal> bPlus;
+        List<Literal> bMinus;
+        List<Literal> unsure;
 
         public EpistemicGoal()
         {

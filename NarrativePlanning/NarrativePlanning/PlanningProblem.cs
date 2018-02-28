@@ -8,7 +8,7 @@ namespace NarrativePlanning
         public WorldFrame wf;
         public WorldState w0;
         public MasterGoal mgs;
-        public List<GroundOperator> go;
+        public List<Operator> go;
 
         public PlanningProblem()
         {

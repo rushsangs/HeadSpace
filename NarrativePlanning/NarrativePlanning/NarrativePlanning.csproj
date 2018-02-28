@@ -37,13 +37,10 @@
     <Compile Include="Operator.cs" />
     <Compile Include="Object.cs" />
     <Compile Include="Character.cs" />
-    <Compile Include="GroundLiteral.cs" />
-    <Compile Include="WorldFrame.cs" />
     <Compile Include="BeliefState.cs" />
     <Compile Include="WorldState.cs" />
     <Compile Include="EpistemicGoal.cs" />
     <Compile Include="MasterGoal.cs" />
-    <Compile Include="GroundOperator.cs" />
     <Compile Include="PlanningProblem.cs" />
     <Compile Include="Plan.cs" />
     <Compile Include="Solution.cs" />

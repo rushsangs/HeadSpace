@@ -70,5 +70,36 @@ namespace NarrativePlanning
             }
             return null;
         }
+
+        public List<Instance> getAllInstances(){
+            List<Instance> res = new List<Instance>();
+            res.AddRange(this.instances.AsReadOnly());
+            foreach(TypeNode child in this.children){
+                res.AddRange(child.getAllInstances().AsReadOnly());
+            }
+            return res;
+        }
+
+        public List<String> getAllInstancesStrings()
+        {
+            List<String> res = new List<String>();
+            foreach(Instance i in this.instances){
+                res.Add(i.name);
+            }
+            foreach (TypeNode child in this.children)
+            {
+                res.AddRange(child.getAllInstancesStrings().AsReadOnly());
+            }
+            return res;
+        }
+
+        public bool containsInstance(String instancename){
+            List<Instance> instances = this.getAllInstances();
+            foreach(Instance i in instances){
+                if (i.name.Equals(instancename))
+                    return true;
+            }
+            return false;
+        }
     }
 }

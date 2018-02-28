@@ -5,8 +5,8 @@ namespace NarrativePlanning
 {
     public class MasterGoal
     {
-        List<GroundLiteral> tWorld;
-        List<GroundLiteral> fWorld;
+        List<Literal> tWorld;
+        List<Literal> fWorld;
         List<EpistemicGoal> egCharacters;
 
         public MasterGoal(WorldFrame wf)

@@ -13,12 +13,12 @@ namespace NarrativePlanning
         {
         }
 
-        public bool isExecutable(GroundOperator gop, WorldState w){
-            foreach(GroundLiteral gl in gop.preT){
+        public bool isExecutable(Operator gop, WorldState w){
+            foreach(Literal gl in gop.preT){
                 if (!w.tWorld.Contains(gl))
                     return false;
             }
-            foreach (GroundLiteral gl in gop.preF)
+            foreach (Literal gl in gop.preF)
             {
                 if (!w.fWorld.Contains(gl))
                     return false;
@@ -26,14 +26,14 @@ namespace NarrativePlanning
             return true;
         }
 
-        public bool isApparentlyExecutable(GroundOperator gop, WorldState w)
+        public bool isApparentlyExecutable(Operator gop, WorldState w)
         {
-            foreach (GroundLiteral gl in gop.preBPlus)
+            foreach (Literal gl in gop.preBPlus)
             {
                 if (!this.bs.bPlus.Contains(gl))
                     return false;
             }
-            foreach (GroundLiteral gl in gop.preBMinus)
+            foreach (Literal gl in gop.preBMinus)
             {
                 if (!this.bs.bMinus.Contains(gl))
                     return false;

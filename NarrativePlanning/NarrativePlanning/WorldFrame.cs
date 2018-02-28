@@ -5,7 +5,7 @@ namespace NarrativePlanning
 {
     public class WorldFrame
     {
-        List<GroundLiteral> gl;
+        List<Literal> gl;
         public List<Character> characters;
         public WorldFrame()
         {

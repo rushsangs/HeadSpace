@@ -7,7 +7,7 @@ namespace NarrativePlanning.DomainBuilder
     {
         String filename;
         TypeNode root;
-        List<Operator> operators;
+        public List<Operator> operators;
         public OperationBuilder(TypeNode root)
         {
             filename = "/Users/abc/Desktop/UoU/Research/HeadSpace/NarrativePlanning/NarrativePlanning/Text Files/operators.txt";
@@ -17,14 +17,21 @@ namespace NarrativePlanning.DomainBuilder
         }
         public void parse(){
             String[] lines = readFile(filename);
-            for (int i = 0; i < lines.Length;++i){
+            for (int i = 0; i < lines.Length;++i)
+            {
                 if(lines[i].Contains("{"))
                 {
                     for (int j = i; i < lines.Length && j<lines.Length;++j){
                         if(lines[j].Contains("}"))
                         {
-                            ArraySegment<String> op = new ArraySegment<string>(lines, i, j - i);
-                            parseOperator(op.Array);
+                            //basically create new array, with lines starting from i to j, including both
+                            String[] op = new string[j - i + 1];
+                            for (int x = i; x <= j; ++x){
+                                op[x - i] = lines[x];
+                            }
+                            //ArraySegment<String> op = new ArraySegment<string>(lines, i, j - i);
+                            parseOperator(op);
+                            break;
                         }
                     }
                 }
@@ -80,7 +87,8 @@ namespace NarrativePlanning.DomainBuilder
             String variable = a[0].Substring(a[0].IndexOf('?'));
 
             String type = a[1].Trim(')').Trim();
-            root.addInstance(variable, type);
+            args.Add(variable, root.getSubTree(type));
+            //root.addInstance(variable, type);
         }
 
         private void readLiterals(List<Literal> literals, string[] op, string v)

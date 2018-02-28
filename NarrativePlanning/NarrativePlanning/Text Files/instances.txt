@@ -1,4 +1,5 @@
 ﻿John IS-A Persons
+Bob IS-A Persons
 Dragon IS-A WildAnimals
 Dog IS-A Pets
 Unicorn IS-A Creatures

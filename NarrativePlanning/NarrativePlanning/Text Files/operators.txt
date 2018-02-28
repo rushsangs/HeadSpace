@@ -18,4 +18,25 @@ pre-u:
 eff-bplus:
 eff-bminus:
 eff-u:
-}   
+}
+{
+shoot
+args:
+(?killer Persons)
+(?target Persons)
+(?place Locations)
+char: ?killer
+loc: ?place
+pre-t:
+(at ?killer ?place)
+(at ?target ?place)
+pre-f:
+eff-t:
+eff-f:
+pre-bplus:
+pre-bminus:
+pre-u:
+eff-bplus:
+eff-bminus:
+eff-u:
+}
