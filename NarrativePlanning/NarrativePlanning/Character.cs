@@ -5,6 +5,7 @@ namespace NarrativePlanning
 {
     public class Character : Object
     {
+        public String name;
         List<Operator> actions;
         public BeliefState bs;
         public EpistemicGoal eg;

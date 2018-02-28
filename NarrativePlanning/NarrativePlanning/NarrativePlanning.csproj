@@ -60,6 +60,7 @@
     <None Include="Text Files\types.txt" />
     <None Include="Text Files\instances.txt" />
     <None Include="Text Files\operators.txt" />
+    <None Include="Text Files\initial.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

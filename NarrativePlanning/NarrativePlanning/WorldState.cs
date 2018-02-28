@@ -10,9 +10,11 @@ namespace NarrativePlanning
         public List<Literal> fWorld;
         public List<Character> characters;
 
-        public WorldState(WorldFrame wf )
+        public WorldState(List<Literal> tWorld, List<Literal> fWorld, List<Character> characters)
         {
-            characters = wf.characters;
+            this.tWorld = tWorld;
+            this.fWorld = fWorld;
+            this.characters = characters;
         }
 
         public List<WorldState> getPossibleNextStates(List<Operator> operators, List<String> groundOperators){
@@ -53,8 +55,36 @@ namespace NarrativePlanning
                     newState.tWorld.Remove(lit);
                 newState.fWorld.Add(lit);
             }
+            foreach(Character c in newState.characters){
+                if(c.name.Equals(ground.character)){
+                    foreach(Literal lit in ground.effBPlus){
+                        if (c.bs.bMinus.Contains(lit))
+                            c.bs.bMinus.Remove(lit);
+                        if (c.bs.unsure.Contains(lit))
+                            c.bs.unsure.Remove(lit);
+                        c.bs.bPlus.Add(lit);
+                    }
+                    foreach (Literal lit in ground.effBMinus)
+                    {
+                        if (c.bs.bPlus.Contains(lit))
+                            c.bs.bPlus.Remove(lit);
+                        if (c.bs.unsure.Contains(lit))
+                            c.bs.unsure.Remove(lit);
+                        c.bs.bMinus.Add(lit);
+                    }
+                    foreach (Literal lit in ground.effUnsure)
+                    {
+                        if (c.bs.bMinus.Contains(lit))
+                            c.bs.bMinus.Remove(lit);
+                        if (c.bs.bPlus.Contains(lit))
+                            c.bs.bPlus.Remove(lit);
+                        c.bs.unsure.Add(lit);
+                    }
+                    break;
+                }
+            }
             return newState;
-            for(current.bsCharacters.)
+
         }
     }
 }

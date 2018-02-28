@@ -43,12 +43,14 @@ args:
 (?killer Persons)
 (?target Persons)
 (?place Locations)
-char:?killer
+char: ?killer
 loc: ?place
 pre-t:
-(at ?killer room2)
+(at ?killer Kitchen)
 (at ?target ?place)
+pre-f:
 eff-t:
+eff-f:
 pre-bplus:
 pre-bminus:
 pre-u:
@@ -56,13 +58,51 @@ eff-bplus:
 eff-bminus:
 eff-u:
 }
+-----------------------------------------
+4.initial.txt
+This file defines the initial world state. It must be a consistent world state. It must include all the literals divided into t,f and character belief states too.
 
-Create literals on the fly
-No overloading of literals... literal relation-names are unique
-
-- Write parser for operators
-- Grounding tool for operators
-
-
+Example:
+t:
+	(at John Kitchen)
+	(at Bob Room1)
+	(alive John)
+	(alive Bob)
+	(at Knife Room1)
+f:
+	(at John Room1)
+	(at Bob Kitchen)
+	(at Knife Kitchen)
+{
+	John
+	bplus:
+		(at John Kitchen)
+		(at Bob Room1)
+		(alive John)
+		(alive Bob)
+	bminus:
+		(at John Room1)
+		(at Bob Kitchen)
+	unsure:
+		(at Knife Room1)
+		(at Knife Kitchen)
+}
+{
+	Bob
+	bplus:
+		(at John Kitchen)
+		(at Bob Room1)
+		(alive John)
+		(alive Bob)
+	bminus:
+		(at John Room1)
+		(at Bob Kitchen)
+	unsure:
+		(at Knife Room1)
+		(at Knife Kitchen)
+}
+-----------------------------------------
+5. final.txt
+This text defines the master goal. It is similar in structure to inital world state.
 
 

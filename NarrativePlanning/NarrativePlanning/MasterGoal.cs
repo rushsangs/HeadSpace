@@ -9,10 +9,10 @@ namespace NarrativePlanning
         List<Literal> fWorld;
         List<EpistemicGoal> egCharacters;
 
-        public MasterGoal(WorldFrame wf)
+        public MasterGoal(WorldState initial)
         {
-            egCharacters = new List<EpistemicGoal>(wf.characters.Count);
-            foreach (Character c in wf.characters)
+            egCharacters = new List<EpistemicGoal>(initial.characters.Count);
+            foreach (Character c in initial.characters)
             {
                 egCharacters.Add(c.eg);
             }
