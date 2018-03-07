@@ -7,3 +7,4 @@ Gun IS-A Weapons
 Bomb IS-A Weapons
 Knife IS-A Weapons
 Kitchen IS-A Locations
+LivingRoom IS-A Locations
