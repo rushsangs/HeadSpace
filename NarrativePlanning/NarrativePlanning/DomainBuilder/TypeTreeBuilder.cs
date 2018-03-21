@@ -7,7 +7,7 @@ namespace NarrativePlanning.DomainBuilder
         public TypeNode root;
         public TypeTreeBuilder()
         {
-            filename = "/Users/abc/Desktop/UoU/Research/HeadSpace/NarrativePlanning/NarrativePlanning/Text Files/types.txt";
+            filename = "/Users/abc/Desktop/UoU/Research/HeadSpace/NarrativePlanning/NarrativePlanning/Text Files/beanstalk-types.txt";
             buildTypeTree();
         }
 

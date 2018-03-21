@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace NarrativePlanning
 {
+    [Serializable]
     public class WorldState
     {
         public List<Literal> tWorld;
@@ -27,7 +30,19 @@ namespace NarrativePlanning
             return possibleNextStates;
         }
 
-        public bool isExecutable(Operator gop, WorldState w)
+        public List<Tuple<String, WorldState>> getPossibleNextStatesTuples(List<Operator> operators, List<String> groundOperators)
+        {
+            List<Tuple<String, WorldState>> possibleNextStateTuples = new List<Tuple<string, WorldState>>();
+            foreach (String ground in groundOperators)
+            {
+                Operator gop = Operator.getOperator(operators, ground);
+                if (isExecutable(gop, this))
+                    possibleNextStateTuples.Add(new Tuple<String, WorldState>(ground, getNextState(this, gop)));
+            }
+            return possibleNextStateTuples;
+        }
+
+        public static bool isExecutable(Operator gop, WorldState w)
         {
             foreach (Literal gl in gop.preT)
             {
@@ -42,8 +57,8 @@ namespace NarrativePlanning
             return true;
         }
 
-        public WorldState getNextState(WorldState current, Operator ground){
-            WorldState newState = current;
+        public static WorldState getNextState(WorldState current, Operator ground){
+            WorldState newState = DeepCopy<WorldState>(current);
             foreach(Literal lit in ground.effT){
                 if (newState.fWorld.Contains(lit))
                     newState.fWorld.Remove(lit);
@@ -84,7 +99,49 @@ namespace NarrativePlanning
                 }
             }
             return newState;
+        }
 
+        public bool isGoalState(WorldState goal){
+            foreach(Literal l in goal.tWorld){
+                if (!this.tWorld.Contains(l))
+                    return false;
+            }
+            foreach (Literal l in goal.fWorld)
+            {
+                if (!this.fWorld.Contains(l))
+                    return false;
+            }
+            foreach(Character cgoals in goal.characters){
+                Character ccurrent = this.characters.Find(x => x.name.Equals(cgoals.name));
+                if (ccurrent == null)
+                    return false;
+                foreach(Literal l in cgoals.bs.bPlus)
+                {
+                    if (!ccurrent.bs.bPlus.Contains(l))
+                        return false;
+                }
+                foreach (Literal l in cgoals.bs.bMinus)
+                {
+                    if (!ccurrent.bs.bMinus.Contains(l))
+                        return false;
+                }
+                foreach (Literal l in cgoals.bs.unsure)
+                {
+                    if (!ccurrent.bs.unsure.Contains(l))
+                        return false;
+                }
+            }
+            return true;
+        }
+        public static T DeepCopy<T>(T other)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                BinaryFormatter formatter = new BinaryFormatter();
+                formatter.Serialize(ms, other);
+                ms.Position = 0;
+                return (T)formatter.Deserialize(ms);
+            }
         }
     }
 }

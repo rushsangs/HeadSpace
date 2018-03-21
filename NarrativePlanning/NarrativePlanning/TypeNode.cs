@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace NarrativePlanning
 {
-
+    [Serializable]
     public class TypeNode
     {
         public String name;

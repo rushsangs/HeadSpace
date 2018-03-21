@@ -10,7 +10,7 @@ namespace NarrativePlanning.DomainBuilder
         public List<Operator> operators;
         public OperationBuilder(TypeNode root)
         {
-            filename = "/Users/abc/Desktop/UoU/Research/HeadSpace/NarrativePlanning/NarrativePlanning/Text Files/operators.txt";
+            filename = "/Users/abc/Desktop/UoU/Research/HeadSpace/NarrativePlanning/NarrativePlanning/Text Files/beanstalk-operators.txt";
             this.root = root;
             operators = new List<Operator>();
             parse();
@@ -61,9 +61,9 @@ namespace NarrativePlanning.DomainBuilder
             }
 
             //bind char and loc
-            newOperator.character = op[i].Trim().Substring(op[i].IndexOf("char:") + 5).Trim();
+            newOperator.character = op[i].Trim().Substring(op[i].IndexOf("char:") + 2).Trim();
             ++i;
-            newOperator.location = op[i].Trim().Substring(op[i].IndexOf("loc:") + 4).Trim();
+            newOperator.location = op[i].Trim().Substring(op[i].IndexOf("loc:") + 1).Trim();
 
 
             readLiterals(newOperator.preT, op, "pre-t");
@@ -111,7 +111,7 @@ namespace NarrativePlanning.DomainBuilder
             //starting with index, process literals, one on each line
             while(index<op.Length-1 && !op[index].Contains(":")){
                 
-                String[] terms = op[index].Trim('(', ')').Trim().Split(' ');
+                String[] terms = op[index].Replace('(',' ').Replace(')',' ').Trim().Split(' ');
 
                 Literal l = new Literal();
                 l.relation = terms[0];

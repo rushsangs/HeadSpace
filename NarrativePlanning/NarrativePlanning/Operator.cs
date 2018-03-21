@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace NarrativePlanning
 {
+    [Serializable]
     public class Operator
     {
         public String name, character, location;
@@ -34,11 +37,12 @@ namespace NarrativePlanning
         }
 
         public static Operator getOperator(List<Operator> operators, String ground){
-            Operator result = null;
-            String[] words = ground.Split(' ');
-            foreach(Operator op in operators){
-                if(op.name.Equals(words[0])){
+            Operator op = null;
+            String[] words = ground.Trim().Split(' ');
+            foreach(Operator oper in operators){
+                if(oper.name.Equals(words[0])){
                     //found the operator object, now populate it.
+                    op = DeepCopy<Operator>(oper);
                     Dictionary<String, TypeNode>.Enumerator dict =  op.args.GetEnumerator();
 
                     for (int i = 0; i < op.args.Count; ++i){
@@ -48,7 +52,7 @@ namespace NarrativePlanning
 
                         //words[i+1] should be an instance of op.args[i] typenode
                         if(dict.Current.Value.getAllInstancesStrings().Contains(words[i+1]))
-                        {
+                            {
                             if (op.character.Equals(dict.Current.Key))
                                 op.character = words[i + 1];
                             if (op.location.Equals(dict.Current.Key))
@@ -132,8 +136,6 @@ namespace NarrativePlanning
                                         l.terms[j] = words[i + 1];
                                 }
                             }
-                            result = op;
-                            break;
                         }
                         else{
                             Console.WriteLine("there seems to be an instance mismatch!");
@@ -141,7 +143,19 @@ namespace NarrativePlanning
                     }
                 }
             }
-            return result;
+           
+            return op;
+        }
+
+        public static T DeepCopy<T>(T other)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                BinaryFormatter formatter = new BinaryFormatter();
+                formatter.Serialize(ms, other);
+                ms.Position = 0;
+                return (T)formatter.Deserialize(ms);
+            }
         }
     }
 }

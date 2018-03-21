@@ -1,0 +1,129 @@
+﻿{
+    trade
+    args:
+        (?person1 Character)
+        (?person2 Character)
+        (?item1 Thing)
+        (?item2 Thing)
+        (?place Location)
+    char: ?person1
+    loc: ?place
+    pre-t:
+        (at ?person1 ?place)
+        (at ?person2 ?place)
+        (has ?person1 ?item1)
+        (has ?person2 ?item2)
+    pre-f:
+        (has ?person1 ?item2)
+        (has ?person2 ?item1)
+    eff-t:
+        (has ?person1 ?item2)
+        (has ?person2 ?item1)
+    eff-f:
+        (has ?person1 ?item1)
+        (has ?person2 ?item2)
+    pre-bplus:
+        (at ?person1 ?place)
+        (at ?person2 ?place)
+        (has ?person1 ?item1)
+        (has ?person2 ?item2)
+    pre-bminus:
+        (has ?person1 ?item2)
+        (has ?person2 ?item1)
+    pre-u:
+    eff-bplus:
+        (has ?person1 ?item2)
+        (has ?person2 ?item1)
+    eff-bminus:
+        (has ?person1 ?item1)
+        (has ?person2 ?item2)
+    eff-u:
+}
+{
+    grow
+    args:
+        (?person Character)
+        (?seedtype Seed)
+        (?place Location)
+    char: ?person
+    loc: ?place
+    pre-t:
+        (at ?person ?place)
+        (has ?person ?seedtype)
+    pre-f:
+        (exists Beanstalk ?place)
+    eff-t:
+        (exists Beanstalk ?place)
+    eff-f:
+        (has ?person ?seedtype)
+    pre-bplus:
+        (at ?person ?place)
+        (has ?person ?seedtype)
+    pre-bminus:
+        (exists Beanstalk ?place)
+    pre-u:
+    eff-bplus:
+        (exists Beanstalk ?place)
+    eff-bminus:
+        (has ?person ?seedtype)
+    eff-u:
+}
+{
+    goto
+    args:
+        (?person Character)
+        (?from Location)
+        (?to Location)
+    char: ?person
+    loc: ?from
+    pre-t:
+        (at ?person ?from)
+    pre-f:
+        (at ?person ?to)
+        (equal ?to CloudWorld)
+        (equal ?from CloudWorld)
+    eff-t:
+        (at ?person ?to)
+    eff-f:
+        (at ?person ?from)
+    pre-bplus:
+        (at ?person ?from)
+    pre-bminus:
+        (at ?person ?to)
+        (equal ?to CloudWorld)
+        (equal ?from CloudWorld)
+    pre-u:
+    eff-bplus:
+        (at ?person ?to)
+    eff-bminus:
+        (at ?person ?from)
+    eff-u:
+}
+{
+    climbUpBeanstalk
+    args:
+        (?person Character)
+        (?from Location)
+    char: ?person
+    loc: ?from
+    pre-t:
+        (at ?person ?from)
+        (exists Beanstalk ?from)
+    pre-f:
+        (at ?person CloudWorld)
+    eff-t:
+        (at ?person CloudWorld)
+    eff-f:
+        (at ?person ?from)
+    pre-bplus:
+        (at ?person ?from)
+        (exists Beanstalk ?from)
+    pre-bminus:
+        (at ?person CloudWorld)
+    pre-u:
+    eff-bplus:
+        (at ?person CloudWorld)
+    eff-bminus:
+        (at ?person ?from)
+    eff-u:
+}

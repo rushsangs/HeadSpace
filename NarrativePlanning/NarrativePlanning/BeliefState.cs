@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace NarrativePlanning
 {
+    [Serializable]
     public class BeliefState
     {
         //all three should make up the GL in the world.
@@ -12,6 +13,9 @@ namespace NarrativePlanning
 
         public BeliefState()
         {
+            bPlus = new List<Literal>();
+            bMinus = new List<Literal>();
+            unsure = new List<Literal>();
         }
     }
 }

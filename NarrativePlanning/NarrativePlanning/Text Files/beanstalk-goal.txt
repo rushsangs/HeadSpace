@@ -1,0 +1,28 @@
+﻿t:
+    (exists Beanstalk Backyard)
+f:
+    (at Mother Home)
+{
+    Jack
+    bplus:
+    bminus:
+    unsure:
+}
+{
+    Mother
+    bplus:
+    bminus:
+    unsure:
+}
+{
+    Giant
+    bplus:
+    bminus:
+    unsure:
+}
+{
+    Seller
+    bplus:
+    bminus:
+    unsure:
+}

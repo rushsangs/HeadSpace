@@ -8,7 +8,7 @@ namespace NarrativePlanning.DomainBuilder
         public InstanceAdder(TypeNode tree)
         {
             this.tree = tree;
-            file = "/Users/abc/Desktop/UoU/Research/HeadSpace/NarrativePlanning/NarrativePlanning/Text Files/instances.txt";
+            file = "/Users/abc/Desktop/UoU/Research/HeadSpace/NarrativePlanning/NarrativePlanning/Text Files/beanstalk-instances.txt";
             addInstances();
         }
         public void addInstances(){

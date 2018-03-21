@@ -1,0 +1,12 @@
+﻿Jack IS-A Human
+Mother IS-A Human
+Seller IS-A Human
+Cow IS-A Animal
+Hen IS-A Animal
+Giant IS-A Monster
+GreenBeans IS-A Seed
+Beanstalk IS-A Object
+CloudWorld IS-A Location
+Backyard IS-A Location
+Home IS-A Location
+Market IS-A Location

@@ -3,15 +3,19 @@ using System.Collections.Generic;
 
 namespace NarrativePlanning
 {
-    public class Character : Object
+    [Serializable]
+    public class Character
     {
         public String name;
-        List<Operator> actions;
+        //List<Operator> actions;
         public BeliefState bs;
-        public EpistemicGoal eg;
+        //public EpistemicGoal eg;
 
         public Character()
         {
+            //actions = new List<Operator>();
+            bs = new BeliefState();
+            //eg = new EpistemicGoal();
         }
 
         public bool isExecutable(Operator gop, WorldState w){

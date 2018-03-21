@@ -2,6 +2,7 @@
 
 namespace NarrativePlanning
 {
+    [Serializable]
     public class Instance
     {
         public String name;

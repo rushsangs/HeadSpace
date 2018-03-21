@@ -60,7 +60,7 @@ eff-u:
 }
 -----------------------------------------
 4.initial.txt
-This file defines the initial world state. It must be a consistent world state. It must include all the literals divided into t,f and character belief states too.
+This file defines the initial world state. It must be a consistent and complete world state. It must include all the literals divided into t,f and character belief states too.
 
 Example:
 t:
@@ -103,6 +103,8 @@ f:
 }
 -----------------------------------------
 5. final.txt
-This text defines the master goal. It is similar in structure to inital world state.
-
-
+This text defines the master goal. It is similar in structure to inital world state. However, this can be an incomplete state.
+t:
+	(at Knife Kitchen)
+f:
+	(alive John)

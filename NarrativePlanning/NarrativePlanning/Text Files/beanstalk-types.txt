@@ -1,0 +1,7 @@
+﻿Character IS-A Object
+Thing IS-A Object
+Human IS-A Character
+Animal IS-A Thing
+Monster IS-A Character
+Location IS-A Object
+Seed IS-A Thing
