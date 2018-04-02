@@ -16,9 +16,18 @@ namespace NarrativePlanning
         }
 
         public String toString(){
-            String s = "";
+            String s = "\n";
             steps.ForEach(step=>s=s+step.Item1+"\n");
             return s;
+        }
+
+        public Plan clone(){
+            Plan p = new Plan(this.pp.clone());
+            p.steps = new List<Tuple<string, WorldState>>();
+            foreach(Tuple<String, WorldState> t in this.steps){
+                p.steps.Add(t);
+            }
+            return p;
         }
     }
 }

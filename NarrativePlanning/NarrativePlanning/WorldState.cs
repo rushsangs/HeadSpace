@@ -9,47 +9,61 @@ namespace NarrativePlanning
     [Serializable]
     public class WorldState
     {
-        public List<Literal> tWorld;
-        public List<Literal> fWorld;
-        public List<Character> characters;
 
-        public WorldState(List<Literal> tWorld, List<Literal> fWorld, List<Character> characters)
+        public Hashtable tWorld
         {
+            get;
+            set;
+        }
+        public Hashtable fWorld
+        {
+            get;
+            set;
+        }
+        //public List<Literal> tWorld;
+        //public List<Literal> fWorld;
+        public List<Character> characters
+        {
+            get;
+            set;
+        }
+
+        public WorldState(Hashtable tWorld, Hashtable fWorld, List<Character> characters)
+        {
+            
             this.tWorld = tWorld;
             this.fWorld = fWorld;
             this.characters = characters;
         }
 
-        public List<WorldState> getPossibleNextStates(List<Operator> operators, List<String> groundOperators){
+        public List<WorldState> getPossibleNextStates(List<Operator> operators){
             List<WorldState> possibleNextStates = new List<WorldState>();
-            foreach(String ground in groundOperators){
-                Operator gop = Operator.getOperator(operators, ground);
+            foreach(Operator gop in operators){
                 if (isExecutable(gop, this))
                     possibleNextStates.Add(getNextState(this, gop));
             }
             return possibleNextStates;
         }
 
-        public List<Tuple<String, WorldState>> getPossibleNextStatesTuples(List<Operator> operators, List<String> groundOperators)
+        public List<Tuple<String, WorldState>> getPossibleNextStatesTuples(List<Operator> operators)
         {
             List<Tuple<String, WorldState>> possibleNextStateTuples = new List<Tuple<string, WorldState>>();
-            foreach (String ground in groundOperators)
+            foreach (Operator gop in operators)
             {
-                Operator gop = Operator.getOperator(operators, ground);
                 if (isExecutable(gop, this))
-                    possibleNextStateTuples.Add(new Tuple<String, WorldState>(ground, getNextState(this, gop)));
+                    possibleNextStateTuples.Add(new Tuple<String, WorldState>(gop.text, getNextState(this, gop)));
             }
             return possibleNextStateTuples;
         }
 
         public static bool isExecutable(Operator gop, WorldState w)
         {
-            foreach (Literal gl in gop.preT)
+            foreach (String gl in gop.preT.Keys)
             {
                 if (!w.tWorld.Contains(gl))
                     return false;
             }
-            foreach (Literal gl in gop.preF)
+            foreach (String gl in gop.preF.Keys)
             {
                 if (!w.fWorld.Contains(gl))
                     return false;
@@ -58,42 +72,42 @@ namespace NarrativePlanning
         }
 
         public static WorldState getNextState(WorldState current, Operator ground){
-            WorldState newState = DeepCopy<WorldState>(current);
-            foreach(Literal lit in ground.effT){
+            WorldState newState = current.clone();
+            foreach(String lit in ground.effT.Keys){
                 if (newState.fWorld.Contains(lit))
                     newState.fWorld.Remove(lit);
-                newState.tWorld.Add(lit);
+                newState.tWorld.Add(lit, 1);
             }
-            foreach (Literal lit in ground.effF)
+            foreach (String lit in ground.effF.Keys)
             {
                 if (newState.tWorld.Contains(lit))
                     newState.tWorld.Remove(lit);
-                newState.fWorld.Add(lit);
+                newState.fWorld.Add(lit, 1);
             }
             foreach(Character c in newState.characters){
                 if(c.name.Equals(ground.character)){
-                    foreach(Literal lit in ground.effBPlus){
-                        if (c.bs.bMinus.Contains(lit))
-                            c.bs.bMinus.Remove(lit);
-                        if (c.bs.unsure.Contains(lit))
-                            c.bs.unsure.Remove(lit);
-                        c.bs.bPlus.Add(lit);
+                    foreach(String lit in ground.effBPlus.Keys){
+                        if (c.bMinus.Contains(lit))
+                            c.bMinus.Remove(lit);
+                        if (c.unsure.Contains(lit))
+                            c.unsure.Remove(lit);
+                        c.bPlus.Add(lit, 1);
                     }
-                    foreach (Literal lit in ground.effBMinus)
+                    foreach (String lit in ground.effBMinus.Keys)
                     {
-                        if (c.bs.bPlus.Contains(lit))
-                            c.bs.bPlus.Remove(lit);
-                        if (c.bs.unsure.Contains(lit))
-                            c.bs.unsure.Remove(lit);
-                        c.bs.bMinus.Add(lit);
+                        if (c.bPlus.Contains(lit))
+                            c.bPlus.Remove(lit);
+                        if (c.unsure.Contains(lit))
+                            c.unsure.Remove(lit);
+                        c.bMinus.Add(lit, 1);
                     }
-                    foreach (Literal lit in ground.effUnsure)
+                    foreach (String lit in ground.effUnsure.Keys)
                     {
-                        if (c.bs.bMinus.Contains(lit))
-                            c.bs.bMinus.Remove(lit);
-                        if (c.bs.bPlus.Contains(lit))
-                            c.bs.bPlus.Remove(lit);
-                        c.bs.unsure.Add(lit);
+                        if (c.bMinus.Contains(lit))
+                            c.bMinus.Remove(lit);
+                        if (c.bPlus.Contains(lit))
+                            c.bPlus.Remove(lit);
+                        c.unsure.Add(lit, 1);
                     }
                     break;
                 }
@@ -102,11 +116,11 @@ namespace NarrativePlanning
         }
 
         public bool isGoalState(WorldState goal){
-            foreach(Literal l in goal.tWorld){
+            foreach(String l in goal.tWorld.Keys){
                 if (!this.tWorld.Contains(l))
                     return false;
             }
-            foreach (Literal l in goal.fWorld)
+            foreach (String l in goal.fWorld.Keys)
             {
                 if (!this.fWorld.Contains(l))
                     return false;
@@ -115,33 +129,42 @@ namespace NarrativePlanning
                 Character ccurrent = this.characters.Find(x => x.name.Equals(cgoals.name));
                 if (ccurrent == null)
                     return false;
-                foreach(Literal l in cgoals.bs.bPlus)
+                foreach(String l in cgoals.bPlus.Keys)
                 {
-                    if (!ccurrent.bs.bPlus.Contains(l))
+                    if (!ccurrent.bPlus.Contains(l))
                         return false;
                 }
-                foreach (Literal l in cgoals.bs.bMinus)
+                foreach (String l in cgoals.bMinus.Keys)
                 {
-                    if (!ccurrent.bs.bMinus.Contains(l))
+                    if (!ccurrent.bMinus.Contains(l))
                         return false;
                 }
-                foreach (Literal l in cgoals.bs.unsure)
+                foreach (String l in cgoals.unsure.Keys)
                 {
-                    if (!ccurrent.bs.unsure.Contains(l))
+                    if (!ccurrent.unsure.Contains(l))
                         return false;
                 }
             }
             return true;
         }
-        public static T DeepCopy<T>(T other)
-        {
-            using (MemoryStream ms = new MemoryStream())
-            {
-                BinaryFormatter formatter = new BinaryFormatter();
-                formatter.Serialize(ms, other);
-                ms.Position = 0;
-                return (T)formatter.Deserialize(ms);
+        //public static T DeepCopy<T>(T other)
+        //{
+        //    using (MemoryStream ms = new MemoryStream())
+        //    {
+        //        BinaryFormatter formatter = new BinaryFormatter();
+        //        formatter.Serialize(ms, other);
+        //        ms.Position = 0;
+        //        return (T)formatter.Deserialize(ms);
+        //    }
+        //}
+        public WorldState clone(){
+            Hashtable t = this.tWorld.Clone() as Hashtable;
+            Hashtable f = this.fWorld.Clone() as Hashtable;
+            List<Character> cs = new List<Character>();
+            foreach(Character c in this.characters){
+                cs.Add(c.clone());
             }
+            return new WorldState(t, f, cs);
         }
     }
 }

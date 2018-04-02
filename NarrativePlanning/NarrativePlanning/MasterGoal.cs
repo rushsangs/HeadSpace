@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace NarrativePlanning
@@ -7,8 +8,8 @@ namespace NarrativePlanning
     //DO NOT USE, USE WORLDSTATE INSTEAD
     public class MasterGoal
     {
-        List<Literal> tWorld;
-        List<Literal> fWorld;
+        Hashtable tWorld;
+        Hashtable fWorld;
         List<Character> egCharacters;
 
         public MasterGoal(WorldState initial)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace NarrativePlanning.DomainBuilder
@@ -11,8 +12,8 @@ namespace NarrativePlanning.DomainBuilder
 
         public static WorldState getState(String filename){
             WorldState state = null;
-            List<Literal> tWorld = new List<Literal>();
-            List<Literal> fWorld = new List<Literal>();
+            Hashtable tWorld = new Hashtable();
+            Hashtable fWorld = new Hashtable();
             List<Character> characters = new List<Character>();
 
             String[] lines = readFile(filename);
@@ -21,29 +22,29 @@ namespace NarrativePlanning.DomainBuilder
                 i++;
                 //each next line is a literal which is true;
                 while(!lines[i].Trim().Equals("f:")){
-                    Literal l = new Literal();
-                    String[] allterms =lines[i].Trim().Trim('(', ')').Trim().Split(' ');
+                    //Literal l = new Literal();
+                    String l = lines[i].Trim().Trim('(', ')').Trim();
 
-                    l.relation = allterms[0];
-                    for (int j = 1; j < allterms.Length; ++j){
-                        l.terms.Add(allterms[j]);
-                    }
-                    tWorld.Add(l);
+                    //l.relation = allterms[0];
+                    //for (int j = 1; j < allterms.Length; ++j){
+                    //    l.terms.Add(allterms[j]);
+                    //}
+                    tWorld.Add(l,1);
                     ++i;
                 }
                 //now i is at f:
                 i++;
                 while (!lines[i].Trim().Contains("{"))
                 {
-                    Literal l = new Literal();
-                    String[] allterms = lines[i].Trim().Trim('(', ')').Trim().Split(' ');
+                    //Literal l = new Literal();
+                    String l = lines[i].Trim().Trim('(', ')').Trim();
 
-                    l.relation = allterms[0];
-                    for (int j = 1; j < allterms.Length; ++j)
-                    {
-                        l.terms.Add(allterms[j]);
-                    }
-                    fWorld.Add(l);
+                    //l.relation = allterms[0];
+                    //for (int j = 1; j < allterms.Length; ++j)
+                    //{
+                    //    l.terms.Add(allterms[j]);
+                    //}
+                    fWorld.Add(l,1);
                     ++i;
                 }
                 //now i is at the first character opening brace
@@ -67,43 +68,43 @@ namespace NarrativePlanning.DomainBuilder
             x++;
             x++;
             while(!lines[x].Trim().Equals("bminus:")){
-                Literal l = new Literal();
-                String[] allterms = lines[x].Trim().Trim('(', ')').Trim().Split(' ');
+                //Literal l = new Literal();
+                String l = lines[x].Trim().Trim('(', ')').Trim();
 
-                l.relation = allterms[0];
-                for (int k = 1; k < allterms.Length; ++k)
-                {
-                    l.terms.Add(allterms[k]);
-                }
-                c.bs.bPlus.Add(l);
+                //l.relation = allterms[0];
+                //for (int k = 1; k < allterms.Length; ++k)
+                //{
+                //    l.terms.Add(allterms[k]);
+                //}
+                c.bPlus.Add(l, 1);
                 ++x;
             }
             ++x;
             while (!lines[x].Trim().Equals("unsure:"))
             {
-                Literal l = new Literal();
-                String[] allterms = lines[x].Trim().Trim('(', ')').Trim().Split(' ');
+                //Literal l = new Literal();
+                String l= lines[x].Trim().Trim('(', ')').Trim();
 
-                l.relation = allterms[0];
-                for (int k = 1; k < allterms.Length; ++k)
-                {
-                    l.terms.Add(allterms[k]);
-                }
-                c.bs.bMinus.Add(l);
+                //l.relation = allterms[0];
+                //for (int k = 1; k < allterms.Length; ++k)
+                //{
+                //    l.terms.Add(allterms[k]);
+                //}
+                c.bMinus.Add(l, 1);
                 ++x;
             }
             ++x;
             while (!lines[x].Trim().Equals("}"))
             {
-                Literal l = new Literal();
-                String[] allterms = lines[x].Trim().Trim('(', ')').Trim().Split(' ');
+                //Literal l = new Literal();
+                String l = lines[x].Trim().Trim('(', ')').Trim();
 
-                l.relation = allterms[0];
-                for (int k = 1; k < allterms.Length; ++k)
-                {
-                    l.terms.Add(allterms[k]);
-                }
-                c.bs.unsure.Add(l);
+                //l.relation = allterms[0];
+                //for (int k = 1; k < allterms.Length; ++k)
+                //{
+                //    l.terms.Add(allterms[k]);
+                //}
+                c.unsure.Add(l, 1);
                 ++x;
             }
             return c;

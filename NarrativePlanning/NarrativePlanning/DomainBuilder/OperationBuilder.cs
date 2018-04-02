@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace NarrativePlanning.DomainBuilder
 {
@@ -64,7 +67,7 @@ namespace NarrativePlanning.DomainBuilder
             newOperator.character = op[i].Trim().Substring(op[i].IndexOf("char:") + 2).Trim();
             ++i;
             newOperator.location = op[i].Trim().Substring(op[i].IndexOf("loc:") + 1).Trim();
-
+            newOperator.text = "";
 
             readLiterals(newOperator.preT, op, "pre-t");
             readLiterals(newOperator.preF, op, "pre-f");
@@ -91,7 +94,7 @@ namespace NarrativePlanning.DomainBuilder
             //root.addInstance(variable, type);
         }
 
-        private void readLiterals(List<Literal> literals, string[] op, string v)
+        private void readLiterals(Hashtable literals, string[] op, string v)
         {
             //search for index that contains v
             int index = -1;
@@ -111,18 +114,40 @@ namespace NarrativePlanning.DomainBuilder
             //starting with index, process literals, one on each line
             while(index<op.Length-1 && !op[index].Contains(":")){
                 
-                String[] terms = op[index].Replace('(',' ').Replace(')',' ').Trim().Split(' ');
+                String l = op[index].Replace('(',' ').Replace(')',' ').Trim();
 
-                Literal l = new Literal();
-                l.relation = terms[0];
-                for (int j = 1; j < terms.Length; ++j){
-                    if (terms[j].Trim().Length > 0)
-                        l.terms.Add(terms[j].Trim());
-                }
-                literals.Add(l);
+                //Literal l = new Literal();
+                //l.relation = terms[0];
+                //for (int j = 1; j < terms.Length; ++j){
+                //    if (terms[j].Trim().Length > 0)
+                //        l.terms.Add(terms[j].Trim());
+                //}
+                literals.Add(l, 1);
                 index++;
             }
 
+        }
+
+        public static void storeOperators(List<String> grounds, List<Operator> operators, String fileName)
+        {
+            FileStream s = new FileStream(fileName, FileMode.Create, FileAccess.ReadWrite);
+            BinaryFormatter B = new BinaryFormatter();
+            List<Operator> groundedoperators = new List<Operator>();
+            foreach(String ground in grounds){
+                groundedoperators.Add(Operator.getOperator(operators, ground));
+            }
+
+            B.Serialize(s, groundedoperators);
+            s.Close();
+        }
+
+        public static List<Operator> getStoredOperators(string fileName)
+        {
+            FileStream Fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
+            BinaryFormatter F = new BinaryFormatter();
+            List<Operator> op = (List<Operator>)F.Deserialize(Fs);
+            Fs.Close();
+            return op;
         }
 
         public String[] readFile(String file)

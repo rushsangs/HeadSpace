@@ -6,8 +6,16 @@ namespace NarrativePlanning
     [Serializable]
     public class Literal
     {
-        public String relation;
-        public List<String> terms;
+        public String relation
+        {
+            get;
+            set;
+        }
+        public List<String> terms
+        {
+            get;
+            set;
+        }
         public Literal()
         {
             terms = new List<string>();
@@ -27,6 +35,16 @@ namespace NarrativePlanning
                     return false;
             }
             return true;
+        }
+
+        public override int GetHashCode()
+        {
+            int res = 0;
+            //res += relation.GetHashCode();
+            //foreach(string term in terms){
+            //    res += term.GetHashCode();
+            //}
+            return res;
         }
 
     }
