@@ -13,6 +13,7 @@ namespace NarrativePlanning
             Stopwatch watch = new Stopwatch();
             watch.Start();
 
+            // UNCOMMENT THIS IF YOU WANT TO RECREATE OR UPDATE DOMAIN
             //DomainBuilder.TypeTreeBuilder t = new DomainBuilder.TypeTreeBuilder();
             //DomainBuilder.InstanceAdder i = new DomainBuilder.InstanceAdder(t.root);
             //DomainBuilder.OperationBuilder opb = new DomainBuilder.OperationBuilder(t.root);
@@ -24,12 +25,12 @@ namespace NarrativePlanning
             WorldState goal = DomainBuilder.StateCreator.getState("/Users/abc/Desktop/UoU/Research/HeadSpace/NarrativePlanning/NarrativePlanning/Text Files/beanstalk-goal.txt");
 
             watch.Stop();
-            Console.WriteLine("Time taken to prepare everything: " + watch.ElapsedMilliseconds + "milliseconds.");
+            Console.WriteLine("Time taken to prepare everything: " + watch.ElapsedMilliseconds + " milliseconds.");
             watch.Restart();
             PlanningProblem problem = new PlanningProblem(initial, goal, o);
-            Console.Write(problem.BFSSolution().toString());
+            Console.Write(problem.FFSolution().toString());
             watch.Stop();
-            Console.WriteLine("Complete, planning algorithm time = " + watch.ElapsedMilliseconds + "milliseconds.");
+            Console.WriteLine("Complete, planning algorithm time = " + watch.ElapsedMilliseconds + " milliseconds.");
         }
     }
 }

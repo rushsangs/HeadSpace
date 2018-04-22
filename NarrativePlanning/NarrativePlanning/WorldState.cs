@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Linq;
 
 namespace NarrativePlanning
 {
@@ -91,7 +92,8 @@ namespace NarrativePlanning
                             c.bMinus.Remove(lit);
                         if (c.unsure.Contains(lit))
                             c.unsure.Remove(lit);
-                        c.bPlus.Add(lit, 1);
+                        if(!c.bPlus.ContainsKey(lit))
+                            c.bPlus.Add(lit, 1);
                     }
                     foreach (String lit in ground.effBMinus.Keys)
                     {
@@ -99,7 +101,8 @@ namespace NarrativePlanning
                             c.bPlus.Remove(lit);
                         if (c.unsure.Contains(lit))
                             c.unsure.Remove(lit);
-                        c.bMinus.Add(lit, 1);
+                        if (!c.bMinus.ContainsKey(lit))
+                            c.bMinus.Add(lit, 1);
                     }
                     foreach (String lit in ground.effUnsure.Keys)
                     {
@@ -107,11 +110,63 @@ namespace NarrativePlanning
                             c.bMinus.Remove(lit);
                         if (c.bPlus.Contains(lit))
                             c.bPlus.Remove(lit);
-                        c.unsure.Add(lit, 1);
+                        if (!c.unsure.ContainsKey(lit))
+                            c.unsure.Add(lit, 1);
                     }
                     break;
                 }
             }
+            return newState;
+        }
+
+        public static WorldState getNextRelaxedState(WorldState current, Operator ground)
+        {
+            WorldState newState = current.clone();
+            foreach (String lit in ground.effT.Keys)
+            {
+                //if (newState.fWorld.Contains(lit))
+                    //newState.fWorld.Remove(lit);
+                if(!newState.tWorld.Contains(lit))
+                    newState.tWorld.Add(lit, 1);
+            }
+            foreach (String lit in ground.effF.Keys)
+            {
+                //if (newState.tWorld.Contains(lit))
+                    //newState.tWorld.Remove(lit);
+                if (!newState.fWorld.Contains(lit))
+                newState.fWorld.Add(lit, 1);
+            }
+            //foreach (Character c in newState.characters)
+            //{
+            //    if (c.name.Equals(ground.character))
+            //    {
+            //        foreach (String lit in ground.effBPlus.Keys)
+            //        {
+            //            //if (c.bMinus.Contains(lit))
+            //            //    c.bMinus.Remove(lit);
+            //            //if (c.unsure.Contains(lit))
+            //                //c.unsure.Remove(lit);
+            //            c.bPlus.Add(lit, 1);
+            //        }
+            //        foreach (String lit in ground.effBMinus.Keys)
+            //        {
+            //            //if (c.bPlus.Contains(lit))
+            //            //    c.bPlus.Remove(lit);
+            //            //if (c.unsure.Contains(lit))
+            //                //c.unsure.Remove(lit);
+            //            c.bMinus.Add(lit, 1);
+            //        }
+            //        foreach (String lit in ground.effUnsure.Keys)
+            //        {
+            //            //if (c.bMinus.Contains(lit))
+            //            //    c.bMinus.Remove(lit);
+            //            //if (c.bPlus.Contains(lit))
+            //                //c.bPlus.Remove(lit);
+            //            c.unsure.Add(lit, 1);
+            //        }
+            //        break;
+            //    }
+            //}
             return newState;
         }
 
@@ -166,5 +221,23 @@ namespace NarrativePlanning
             }
             return new WorldState(t, f, cs);
         }
+
+        public override bool Equals(object obj)
+        {
+            WorldState w = obj as WorldState;
+            bool a = this.tWorld.Cast<DictionaryEntry>().Union(w.tWorld.Cast<DictionaryEntry>()).Count() == this.tWorld.Count && this.tWorld.Count == w.tWorld.Count;
+            bool b = this.fWorld.Cast<DictionaryEntry>().Union(w.fWorld.Cast<DictionaryEntry>()).Count() == this.fWorld.Count && this.fWorld.Count == w.fWorld.Count;
+            bool c = this.characters.Count() == w.characters.Count();
+            for (int i = 0; i < this.characters.Count(); ++i){
+                c = c && this.characters[i].Equals(w.characters[i]);
+            }
+            return a && b && c;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
     }
 }

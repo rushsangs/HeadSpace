@@ -47,6 +47,7 @@ namespace NarrativePlanning
             Queue<Plan> queue = new Queue<Plan>();
             while (solutionPlan==null)
             {
+                //if first time do not look at queue
                 if (depth == 1)
                 {
                     foreach (Tuple<String, WorldState> next in w0.getPossibleNextStatesTuples(groundedoperators))
@@ -91,6 +92,65 @@ namespace NarrativePlanning
                         if (x > bfactor)
                             bfactor = x;
                     }
+                }
+                depth++;
+            }
+            return solutionPlan;
+        }
+
+        public Plan FFSolution(){
+            List<Tuple<String, WorldState>> nextStateTuples = w0.getPossibleNextStatesTuples(groundedoperators);
+            int depth = 1;
+            int bfactor = 0;
+            int nnodes = 0;
+            Plan solutionPlan = null;
+            Plan current = new Plan(this);
+            //Queue<Plan> queue = new Queue<Plan>();
+            int min = -1;
+            Tuple<String, WorldState> best = null;
+            while (solutionPlan == null)
+            {
+                min = 100;
+                WorldState w = current.steps[current.steps.Count - 1].Item2;
+                int tmp = 0;
+                //check every node in the frontier    
+                foreach (Tuple<String, WorldState> next in w.getPossibleNextStatesTuples(groundedoperators))
+                {
+                    nnodes++;
+                    tmp++;
+                    Plan p = new Plan(this);
+                    p.steps.Add(next);
+                    //queue.Enqueue(p);
+                    int x = FastForward.extractRPSize(FastForward.computeRPG(groundedoperators, next.Item2, this.goal), this.goal, groundedoperators);
+                    Console.Write("Possible next step " + next.Item1 + " with hueristic of " + x + "\n") ;
+                    if (x < min && x!=-1)
+                    {
+                        best = next;
+                        min = x;
+                    }
+
+                    if(next.Item2.isGoalState(this.goal))
+                    {
+                        //solution found!
+                        current.steps.Add(next);
+                        solutionPlan = current;
+                        Console.Write("\n Number of nodes = " + nnodes + " and branching factor = " + bfactor);
+                        return solutionPlan;
+                    }
+                }
+                Console.Write("STEP SELECTED: " + best.Item1+ "\n");
+                Console.Write("----------\n");
+                if (tmp > bfactor)
+                    bfactor = tmp;
+
+                //add best node to plan
+                current.steps.Add(best);
+                if (current.steps[current.steps.Count - 1].Item2.isGoalState(this.goal))
+                {
+                    //solution found!
+                    solutionPlan = current;
+                    Console.Write("\n Number of nodes = " + nnodes + " and branching factor = " + bfactor);
+                    return solutionPlan;
                 }
                 depth++;
             }

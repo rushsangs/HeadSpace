@@ -48,6 +48,7 @@
     <Compile Include="DomainBuilder\OperationBuilder.cs" />
     <Compile Include="DomainBuilder\GroundGenerator.cs" />
     <Compile Include="DomainBuilder\StateCreator.cs" />
+    <Compile Include="FastForward.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DomainBuilder\" />

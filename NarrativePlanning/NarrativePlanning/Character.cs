@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NarrativePlanning
 {
@@ -68,6 +69,21 @@ namespace NarrativePlanning
             res.bMinus = this.bMinus.Clone() as Hashtable;
             res.unsure = this.unsure.Clone() as Hashtable;
             return res;
+        }
+
+        public override bool Equals(object obj)
+        {
+            Character c = obj as Character;
+            bool a = this.bPlus.Cast<DictionaryEntry>().Union(c.bPlus.Cast<DictionaryEntry>()).Count() == this.bPlus.Count && this.bPlus.Count == c.bPlus.Count;
+            bool b = this.bMinus.Cast<DictionaryEntry>().Union(c.bMinus.Cast<DictionaryEntry>()).Count() == this.bMinus.Count && this.bMinus.Count == c.bMinus.Count;
+            bool d = this.unsure.Cast<DictionaryEntry>().Union(c.unsure.Cast<DictionaryEntry>()).Count() == this.unsure.Count && this.unsure.Count == c.unsure.Count;
+            bool e = this.name.Equals(c.name);
+            return a && b && d && e;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }
