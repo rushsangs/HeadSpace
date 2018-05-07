@@ -1,7 +1,8 @@
 ﻿t:
+    (has Seller Cow)
     (exists Beanstalk Backyard)
 f:
-    (at Mother Home)
+    (at Jack Home)
 {
     Jack
     bplus:

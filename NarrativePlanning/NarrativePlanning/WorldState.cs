@@ -136,37 +136,34 @@ namespace NarrativePlanning
                 if (!newState.fWorld.Contains(lit))
                 newState.fWorld.Add(lit, 1);
             }
-            //foreach (Character c in newState.characters)
-            //{
-            //    if (c.name.Equals(ground.character))
-            //    {
-            //        foreach (String lit in ground.effBPlus.Keys)
-            //        {
-            //            //if (c.bMinus.Contains(lit))
-            //            //    c.bMinus.Remove(lit);
-            //            //if (c.unsure.Contains(lit))
-            //                //c.unsure.Remove(lit);
-            //            c.bPlus.Add(lit, 1);
-            //        }
-            //        foreach (String lit in ground.effBMinus.Keys)
-            //        {
-            //            //if (c.bPlus.Contains(lit))
-            //            //    c.bPlus.Remove(lit);
-            //            //if (c.unsure.Contains(lit))
-            //                //c.unsure.Remove(lit);
-            //            c.bMinus.Add(lit, 1);
-            //        }
-            //        foreach (String lit in ground.effUnsure.Keys)
-            //        {
-            //            //if (c.bMinus.Contains(lit))
-            //            //    c.bMinus.Remove(lit);
-            //            //if (c.bPlus.Contains(lit))
-            //                //c.bPlus.Remove(lit);
-            //            c.unsure.Add(lit, 1);
-            //        }
-            //        break;
-            //    }
-            //}
+            Character c = newState.characters.Find(x => x.name.Equals(ground.character));
+            foreach (String lit in ground.effBPlus.Keys)
+            {
+                //if (c.bMinus.Contains(lit))
+                //    c.bMinus.Remove(lit);
+                //if (c.unsure.Contains(lit))
+                //c.unsure.Remove(lit);
+                if (!c.bPlus.Contains(lit))
+                    c.bPlus.Add(lit, 1);
+            }
+            foreach (String lit in ground.effBMinus.Keys)
+            {
+                //if (c.bPlus.Contains(lit))
+                //    c.bPlus.Remove(lit);
+                //if (c.unsure.Contains(lit))
+                //c.unsure.Remove(lit);
+                if (!c.bMinus.Contains(lit))
+                    c.bMinus.Add(lit, 1);
+            }
+            foreach (String lit in ground.effUnsure.Keys)
+            {
+                //if (c.bMinus.Contains(lit))
+                //    c.bMinus.Remove(lit);
+                //if (c.bPlus.Contains(lit))
+                //c.bPlus.Remove(lit);
+                if (!c.unsure.Contains(lit))
+                    c.unsure.Add(lit, 1);
+            }
             return newState;
         }
 
