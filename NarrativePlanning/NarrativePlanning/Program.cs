@@ -21,8 +21,8 @@ namespace NarrativePlanning
             //DomainBuilder.OperationBuilder.storeOperators(gg.grounds, opb.operators, "serialized-ops.txt");
 
             List<Operator> o = DomainBuilder.OperationBuilder.getStoredOperators("serialized-ops.txt");
-            WorldState initial = DomainBuilder.StateCreator.getState("/Users/abc/Desktop/UoU/Research/HeadSpace/NarrativePlanning/NarrativePlanning/Text Files/beanstalk-initial.txt");
-            WorldState goal = DomainBuilder.StateCreator.getState("/Users/abc/Desktop/UoU/Research/HeadSpace/NarrativePlanning/NarrativePlanning/Text Files/beanstalk-goal.txt");
+            WorldState initial = DomainBuilder.StateCreator.getState("../../Text Files/beanstalk-initial.txt");
+            WorldState goal = DomainBuilder.StateCreator.getState("../../Text Files/beanstalk-goal.txt");
 
             watch.Stop();
             Console.WriteLine("Time taken to prepare everything: " + watch.ElapsedMilliseconds + " milliseconds.");
