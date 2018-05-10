@@ -7,11 +7,13 @@ f:
     Jack
     bplus:
     bminus:
+			(at Jack Home)
     unsure:
 }
 {
     Mother
     bplus:
+			(exists Beanstalk Backyard)
     bminus:
     unsure:
 }
@@ -24,6 +26,7 @@ f:
 {
     Seller
     bplus:
+				(has Seller Cow)
     bminus:
     unsure:
 }

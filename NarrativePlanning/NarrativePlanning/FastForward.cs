@@ -225,6 +225,10 @@ namespace NarrativePlanning
 				//else
 				return -1;
 			}
+            if(l.k==0)
+            {
+                return 0;
+            }
 			List<int> firstlevels = new List<int>();
 			foreach (String lit in characterg.bPlus.Keys)
 			{

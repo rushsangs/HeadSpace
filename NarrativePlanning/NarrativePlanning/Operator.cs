@@ -284,6 +284,7 @@ namespace NarrativePlanning
                             Console.WriteLine("there seems to be an instance mismatch!");
                         }
                     }
+                    return op;
                 }
             }
            
