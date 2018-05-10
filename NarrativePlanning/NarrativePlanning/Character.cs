@@ -34,29 +34,75 @@ namespace NarrativePlanning
             unsure = new Hashtable();
         }
 
-        //public bool isExecutable(Operator gop, WorldState w){
-        //    foreach(Literal gl in gop.preT){
-        //        if (!w.tWorld.Contains(gl))
-        //            return false;
-        //    }
-        //    foreach (Literal gl in gop.preF)
-        //    {
-        //        if (!w.fWorld.Contains(gl))
-        //            return false;
-        //    }
-        //    return true;
-        //}
+        public Character(Hashtable bPlus, Hashtable bMinus, Hashtable unsure)
+        {
+            this.bPlus = bPlus;
+            this.bMinus = bMinus;
+            this.unsure = unsure;
+        }
 
-        public bool isApparentlyExecutable(Operator gop, WorldState w)
+        public static Character getNextRelaxedState(Character current, Operator ground)
+        {
+            Character newState = current.clone();
+            foreach (String lit in ground.effBPlus.Keys)
+            {
+                //if (newState.fWorld.Contains(lit))
+                //newState.fWorld.Remove(lit);
+                if (!newState.bPlus.Contains(lit))
+                    newState.bPlus.Add(lit, 1);
+            }
+            foreach (String lit in ground.effBMinus.Keys)
+            {
+                //if (newState.tWorld.Contains(lit))
+                //newState.tWorld.Remove(lit);
+                if (!newState.bMinus.Contains(lit))
+                    newState.bMinus.Add(lit, 1);
+            }
+            foreach (String lit in ground.effUnsure.Keys)
+            {
+                //if (newState.tWorld.Contains(lit))
+                //newState.tWorld.Remove(lit);
+                if (!newState.unsure.Contains(lit))
+                    newState.unsure.Add(lit, 1);
+            }
+            return newState;
+        }
+
+        public static bool isApparentlyExecutable(Operator gop, Character c)
         {
             foreach (String gl in gop.preBPlus.Keys)
             {
-                if (!this.bPlus.Contains(gl))
+                if (!c.bPlus.Contains(gl))
                     return false;
             }
             foreach (String gl in gop.preBMinus.Keys)
             {
-                if (!this.bMinus.Contains(gl))
+                if (!c.bMinus.Contains(gl))
+                    return false;
+            }
+            foreach (String gl in gop.preUnsure.Keys)
+            {
+                if (!c.unsure.Contains(gl))
+                    return false;
+            }
+            return true;
+        }
+
+        public bool isGoalState(Character goal)
+        {
+            foreach (String l in goal.bPlus.Keys)
+            {
+                if (!this.bPlus.Contains(l))
+                    return false;
+            }
+            foreach (String l in goal.bMinus.Keys)
+            {
+                if (!this.bMinus.Contains(l))
+                    return false;
+            }
+            foreach (String l in goal.unsure.Keys)
+            {
+                if (!this.unsure.Contains(l))
                     return false;
             }
             return true;
