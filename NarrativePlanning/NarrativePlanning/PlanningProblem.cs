@@ -122,7 +122,9 @@ namespace NarrativePlanning
                     p.steps.Add(next);
                     //queue.Enqueue(p);
                     int x = FastForward.extractRPSize(FastForward.computeRPG(groundedoperators, next.Item2, this.goal), this.goal, groundedoperators);
-                    Console.Write("Possible next step " + next.Item1 + " with hueristic of " + x + "\n") ;
+					String charactername = Operator.getOperator(groundedoperators, next.Item1).character;
+					int y = FastForward.extractCharacterRPSize(FastForward.computeCharacterRPG(groundedoperators, next.Item2, this.goal, charactername), this.goal, groundedoperators, charactername);
+					Console.Write("Possible next step " + next.Item1 + " with global hueristic of " + x + " and character heuristic of " + y + "\n") ;
                     if (x < min && x!=-1)
                     {
                         best = next;
