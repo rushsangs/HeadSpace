@@ -94,6 +94,15 @@ namespace NarrativePlanning.DomainBuilder
             //root.addInstance(variable, type);
         }
 
+        private static void parseArgument(JSONDomain.Instance arg, Dictionary<string, TypeNode> args, TypeNode root)
+        {
+            String variable = arg.Name;
+
+            String type = arg.Type;
+            args.Add(variable, root.getSubTree(type));
+           
+        }
+
         private void readLiterals(Hashtable literals, string[] op, string v)
         {
             //search for index that contains v
@@ -128,6 +137,60 @@ namespace NarrativePlanning.DomainBuilder
 
         }
 
+        private static void readLiterals(Operator newOp, JSONDomain.Operator op)
+        {
+            foreach(string lit in op.PreT)
+            {
+                String l = lit.Replace('(', ' ').Replace(')', ' ').Trim();
+                newOp.preT.Add(l, 1);
+            }
+            foreach (string lit in op.PreF)
+            {
+                String l = lit.Replace('(', ' ').Replace(')', ' ').Trim();
+                newOp.preF.Add(l, 1);
+            }
+            foreach (string lit in op.PreBplus)
+            {
+                String l = lit.Replace('(', ' ').Replace(')', ' ').Trim();
+                newOp.preBPlus.Add(l, 1);
+            }
+            foreach (string lit in op.PreBminus)
+            {
+                String l = lit.Replace('(', ' ').Replace(')', ' ').Trim();
+                newOp.preBMinus.Add(l, 1);
+            }
+            foreach (string lit in op.PreU)
+            {
+                String l = lit.Replace('(', ' ').Replace(')', ' ').Trim();
+                newOp.preUnsure.Add(l, 1);
+            }
+            foreach (string lit in op.EffT)
+            {
+                String l = lit.Replace('(', ' ').Replace(')', ' ').Trim();
+                newOp.effT.Add(l, 1);
+            }
+            foreach (string lit in op.EffF)
+            {
+                String l = lit.Replace('(', ' ').Replace(')', ' ').Trim();
+                newOp.effF.Add(l, 1);
+            }
+            foreach (string lit in op.EffBminus)
+            {
+                String l = lit.Replace('(', ' ').Replace(')', ' ').Trim();
+                newOp.effBPlus.Add(l, 1);
+            }
+            foreach (string lit in op.EffBminus)
+            {
+                String l = lit.Replace('(', ' ').Replace(')', ' ').Trim();
+                newOp.effBMinus.Add(l, 1);
+            }
+            foreach (string lit in op.EffU)
+            {
+                String l = lit.Replace('(', ' ').Replace(')', ' ').Trim();
+                newOp.effUnsure.Add(l, 1);
+            }
+        }
+
         public static void storeOperators(List<String> grounds, List<NarrativePlanning.Operator> operators, String fileName)
         {
             FileStream s = new FileStream(fileName, FileMode.Create, FileAccess.ReadWrite);
@@ -153,6 +216,26 @@ namespace NarrativePlanning.DomainBuilder
         public String[] readFile(String file)
         {
             return System.IO.File.ReadAllLines(file);
+        }
+
+        public static List<Operator> parseOperators(JSONDomain.Operator[] operators, TypeNode root)
+        {
+            List<Operator> res = new List<Operator>();
+            foreach(JSONDomain.Operator op in operators)
+            {
+                NarrativePlanning.Operator newOperator = new NarrativePlanning.Operator();
+                newOperator.name = op.Name;
+                newOperator.character = op.Char;
+                newOperator.location = op.Loc;
+                //one or more args
+                foreach(JSONDomain.Instance arg in op.Args)
+                {
+                    parseArgument(arg, newOperator.args, root);
+                }
+                readLiterals(newOperator, op);
+                res.Add(newOperator);
+            }
+            return res;
         }
     }
 }

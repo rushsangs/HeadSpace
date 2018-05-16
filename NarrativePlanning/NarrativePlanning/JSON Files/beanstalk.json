@@ -75,13 +75,28 @@
   "operators": [
     {
       "name": "trade",
-      "args": {
-        "?person1": "Character",
-        "?person2": "Character",
-        "?item1": "Thing",
-        "?item2": "Thing",
-        "?place": "Location"
-      },
+      "args": [
+        {
+          "name": "?person1",
+          "type": "Character"
+          },
+          {
+          "name": "?person2",
+          "type": "Character"
+          },
+          {
+          "name": "?item1",
+          "type": "Thing"
+          },
+          {
+          "name": "?item2",
+          "type": "Thing"
+          },
+          {
+          "name": "?place",
+          "type": "Location"
+          }
+      ],
       "char": "?person1",
       "loc": "?place",
       "pre-t": [
@@ -125,11 +140,20 @@
     },
     {
       "name": "grow",
-      "args": {
-        "?person": "Character",
-        "?seedtype": "seed",
-        "?place": "Location"
-      },
+      "args": [
+        {
+          "name": "?person",
+          "type": "Character"
+          },
+          {
+          "name": "?seedtype",
+          "type": "Seed"
+          },
+          {
+          "name": "?place",
+          "type": "Location"
+          }
+      ],
       "char": "?person",
       "loc": "?place",
       "pre-t": [

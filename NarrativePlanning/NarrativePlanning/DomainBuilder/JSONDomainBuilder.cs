@@ -14,6 +14,10 @@ namespace NarrativePlanning.DomainBuilder
     class JSONDomainBuilder
     {
         String filename;
+        public TypeNode root {
+            get;
+            set;
+        }
         public JSONDomainBuilder(String filename)
         {
             this.filename = filename;
@@ -22,8 +26,13 @@ namespace NarrativePlanning.DomainBuilder
         private void create()
         {
             StreamReader r = new StreamReader(filename);
-                string json = r.ReadToEnd();
+            string json = r.ReadToEnd();
             var jsonDomain = JsonDomain.FromJson(json);
+            root = TypeTreeBuilder.buildTypeTree(jsonDomain.Types);
+            InstanceAdder.addInstances(root, jsonDomain.Instances);
+            List<NarrativePlanning.Operator> operators = OperationBuilder.parseOperators(jsonDomain.Operators, root);
+            NarrativePlanning.WorldState initial = StateCreator.getState(jsonDomain.Initial);
+            NarrativePlanning.WorldState goal = StateCreator.getState(jsonDomain.Final);
             Console.Write("Deserialized JSON file");
         }
     }
@@ -86,7 +95,7 @@ namespace JSONDomain
         public string[] Bminus { get; set; }
 
         [JsonProperty("unsure")]
-        public object[] Unsure { get; set; }
+        public string[] Unsure { get; set; }
     }
 
     public partial class Instance
@@ -104,7 +113,7 @@ namespace JSONDomain
         public string Name { get; set; }
 
         [JsonProperty("args")]
-        public Dictionary<string, string> Args { get; set; }
+        public Instance[] Args { get; set; }
 
         [JsonProperty("char")]
         public string Char { get; set; }
@@ -131,7 +140,7 @@ namespace JSONDomain
         public string[] PreBminus { get; set; }
 
         [JsonProperty("pre-u")]
-        public object[] PreU { get; set; }
+        public string[] PreU { get; set; }
 
         [JsonProperty("eff-bplus")]
         public string[] EffBplus { get; set; }
@@ -140,7 +149,7 @@ namespace JSONDomain
         public string[] EffBminus { get; set; }
 
         [JsonProperty("eff-u")]
-        public object[] EffU { get; set; }
+        public string[] EffU { get; set; }
     }
 
     public partial class JsonDomain

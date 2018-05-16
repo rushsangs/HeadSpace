@@ -33,5 +33,22 @@ namespace NarrativePlanning.DomainBuilder
             int startIndex = line.IndexOf("IS-A", StringComparison.CurrentCulture) + 4;
             return line.Substring(startIndex, line.Length - startIndex).Trim();
         }
+
+        public static void addInstances(TypeNode tree, JSONDomain.Instance[] instances)
+        {
+            foreach (JSONDomain.Instance line in instances)
+            {
+                tree.addInstance(getLeftTerm(line), getRightTerm(line));
+            }
+        }
+
+        public static String getLeftTerm(JSONDomain.Instance line)
+        {
+            return line.Name;
+        }
+        public static String getRightTerm(JSONDomain.Instance line)
+        {
+            return line.Type;
+        }
     }
 }
