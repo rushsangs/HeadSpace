@@ -35,6 +35,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DomainBuilder\JSONDomainBuilder.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Operator.cs" />
@@ -53,7 +54,9 @@
     <Compile Include="DomainBuilder\StateCreator.cs" />
     <Compile Include="FastForward.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="JSON Files\beanstalk.json" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="Text Files\types.txt" />

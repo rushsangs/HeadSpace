@@ -10,12 +10,12 @@ namespace NarrativePlanning.DomainBuilder
     {
         String filename;
         TypeNode root;
-        public List<Operator> operators;
+        public List<NarrativePlanning.Operator> operators;
         public OperationBuilder(TypeNode root)
         {
             filename = "/Users/abc/Desktop/UoU/Research/HeadSpace/NarrativePlanning/NarrativePlanning/Text Files/beanstalk-operators.txt";
             this.root = root;
-            operators = new List<Operator>();
+            operators = new List<NarrativePlanning.Operator>();
             parse();
         }
         public void parse(){
@@ -46,7 +46,7 @@ namespace NarrativePlanning.DomainBuilder
 
         private void parseOperator(String[] op)
         {
-            Operator newOperator = new Operator();
+            NarrativePlanning.Operator newOperator = new NarrativePlanning.Operator();
             newOperator.name = op[1].Trim();
 
 
@@ -128,24 +128,24 @@ namespace NarrativePlanning.DomainBuilder
 
         }
 
-        public static void storeOperators(List<String> grounds, List<Operator> operators, String fileName)
+        public static void storeOperators(List<String> grounds, List<NarrativePlanning.Operator> operators, String fileName)
         {
             FileStream s = new FileStream(fileName, FileMode.Create, FileAccess.ReadWrite);
             BinaryFormatter B = new BinaryFormatter();
-            List<Operator> groundedoperators = new List<Operator>();
+            List<NarrativePlanning.Operator> groundedoperators = new List<NarrativePlanning.Operator>();
             foreach(String ground in grounds){
-                groundedoperators.Add(Operator.getOperator(operators, ground));
+                groundedoperators.Add(NarrativePlanning.Operator.getOperator(operators, ground));
             }
 
             B.Serialize(s, groundedoperators);
             s.Close();
         }
 
-        public static List<Operator> getStoredOperators(string fileName)
+        public static List<NarrativePlanning.Operator> getStoredOperators(string fileName)
         {
             FileStream Fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
             BinaryFormatter F = new BinaryFormatter();
-            List<Operator> op = (List<Operator>)F.Deserialize(Fs);
+            List<NarrativePlanning.Operator> op = (List<NarrativePlanning.Operator>)F.Deserialize(Fs);
             Fs.Close();
             return op;
         }

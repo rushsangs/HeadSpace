@@ -1,0 +1,270 @@
+﻿{
+  "types": [
+    {
+      "name": "Character",
+      "type": "Object"
+      },
+      {
+      "name": "Human",
+      "type": "Character"
+      },
+      {
+      "name": "Thing",
+      "type": "Object"
+      },
+      {
+      "name": "Animal",
+      "type": "Thing"
+      },
+      {
+      "name": "Monster",
+      "type": "Character"
+      },
+      {
+      "name": "Location",
+      "type": "Object"
+      },
+      {
+      "name": "Seed",
+      "type": "Thing"
+      }
+  ],
+  "instances": [
+    {
+      "name": "Jack",
+      "type": "Human"
+    },
+    {
+      "name": "Mother",
+      "type": "Human"
+    },
+    {
+      "name": "Seller",
+      "type": "Human"
+    },{
+      "name": "Cow",
+      "type": "Animal"
+    },{
+      "name": "Hen",
+      "type": "Animal"
+    },{
+      "name": "Giant",
+      "type": "Monster"
+    },{
+      "name": "GreenBeans",
+      "type": "Seed"
+    },{
+      "name": "Beanstalk",
+      "type": "Object"
+    },{
+      "name": "Backyard",
+      "type": "Location"
+    },{
+      "name": "Market",
+      "type": "Location"
+    },
+    {
+      "name": "Home",
+      "type": "Location"
+    },
+    {
+      "name": "CloudWorld",
+      "type": "Location"
+    }
+    ],
+  "operators": [
+    {
+      "name": "trade",
+      "args": {
+        "?person1": "Character",
+        "?person2": "Character",
+        "?item1": "Thing",
+        "?item2": "Thing",
+        "?place": "Location"
+      },
+      "char": "?person1",
+      "loc": "?place",
+      "pre-t": [
+        "(at ?person1 ?place)",
+        "(at ?person2 ?place)",
+        "(has ?person1 ?item1)",
+        "(has ?person2 ?item2)"
+      ],
+      "pre-f": [
+        "(has ?person1 ?item2)",
+        "(has ?person2 ?item1)"
+      ],
+      "eff-t": [
+        "(has ?person1 ?item2)",
+        "(has ?person2 ?item1)"
+      ],
+      "eff-f": [
+        "(has ?person1 ?item1)",
+        "(has ?person2 ?item2)"
+      ],
+      "pre-bplus": [
+        "(at ?person1 ?place)",
+        "(at ?person2 ?place)",
+        "(has ?person1 ?item1)",
+        "(has ?person2 ?item2)"
+      ],
+      "pre-bminus": [
+        "(has ?person1 ?item2)",
+        "(has ?person2 ?item1)"
+      ],
+      "pre-u": [],
+      "eff-bplus": [
+        "(has ?person1 ?item2)",
+        "(has ?person2 ?item1)"
+      ],
+      "eff-bminus": [
+        "(has ?person1 ?item1)",
+        "(has ?person2 ?item2)"
+      ],
+      "eff-u": []
+    },
+    {
+      "name": "grow",
+      "args": {
+        "?person": "Character",
+        "?seedtype": "seed",
+        "?place": "Location"
+      },
+      "char": "?person",
+      "loc": "?place",
+      "pre-t": [
+        "(at ?person ?place)",
+        "(has ?person ?seedtype)"
+      ],
+      "pre-f": [
+        "(exists Beanstalk ?place)"
+      ],
+      "eff-t": [
+        "(exists Beanstalk ?place)"
+      ],
+      "eff-f": [
+        "(has ?person ?seedtype)"
+      ],
+      "pre-bplus": [
+        "(at ?person ?place)",
+        "(has ?person ?seedtype)"
+      ],
+      "pre-bminus": [
+        "(exists Beanstalk ?place)"
+      ],
+      "pre-u": [],
+      "eff-bplus": [
+        "(exists Beanstalk ?place)"
+      ],
+      "eff-bminus": [
+        "(has ?person ?seedtype)"
+      ],
+      "eff-u": []
+    }
+  ],
+  "initial": {
+    "t": [
+      "(at Jack Home)",
+      "(at Mother Home)",
+      "(at Seller Market)",
+      "(at Giant CloudWorld)",
+      "(has Mother Cow)",
+      "(has Seller GreenBeans)",
+      "(has Giant Hen)",
+      "(equal Cloudworld CloudWorld)"
+    ],
+    "f": [
+      "(at Jack Market)",
+      "(at Jack CloudWorld)",
+      "(at Jack Backyard)",
+      "(at Mother Market)",
+      "(at Mother CloudWorld)",
+      "(at Mother Backyard)",
+      "(at Seller Home)",
+      "(at Seller CloudWorld)",
+      "(at Seller Backyard)",
+      "(at Giant Home)",
+      "(at Giant Market)",
+      "(at Giant Backyard)",
+      "(has Jack Cow)",
+      "(has Jack GreenBeans)",
+      "(has Jack Hen)",
+      "(has Mother GreenBeans)",
+      "(has Mother Hen)",
+      "(has Seller Cow)",
+      "(has Seller Hen)",
+      "(has Giant Cow)",
+      "(has Giant GreenBeans)",
+      "(exists Beanstalk Backyard)",
+      "(exists Beanstalk Home)",
+      "(exists Beanstalk Market)",
+      "(exists Beanstalk Cloudworld)",
+      "(equal Market CloudWorld)",
+      "(equal Home CloudWorld)",
+      "(equal Backyard CloudWorld)"
+    ],
+    "characters": [
+      {
+        "name": "Jack",
+        "bplus": [
+          "(at Jack Home)",
+          "(at Mother Home)",
+          "(at Seller Market)",
+          "(at Giant CloudWorld)",
+          "(has Mother Cow)",
+          "(has Seller GreenBeans)",
+          "(has Giant Hen)",
+          "(equal Cloudworld CloudWorld)"
+        ],
+        "bminus": [
+          "(at Jack Market)",
+          "(at Jack CloudWorld)",
+          "(at Jack Backyard)",
+          "(at Mother Market)",
+          "(at Mother CloudWorld)",
+          "(at Mother Backyard)",
+          "(at Seller Home)",
+          "(at Seller CloudWorld)",
+          "(at Seller Backyard)",
+          "(at Giant Home)",
+          "(at Giant Market)",
+          "(at Giant Backyard)",
+          "(has Jack Cow)",
+          "(has Jack GreenBeans)",
+          "(has Jack Hen)",
+          "(has Mother GreenBeans)",
+          "(has Mother Hen)",
+          "(has Seller Cow)",
+          "(has Seller Hen)",
+          "(has Giant Cow)",
+          "(has Giant GreenBeans)",
+          "(exists Beanstalk Backyard)",
+          "(exists Beanstalk Home)",
+          "(exists Beanstalk Market)",
+          "(exists Beanstalk Cloudworld)",
+          "(equal Market CloudWorld)",
+          "(equal Home CloudWorld)",
+          "(equal Backyard CloudWorld)"
+        ],
+        "unsure": []
+      }
+    ]
+  },
+  "final": {
+    "t": [
+      "(has Seller Cow)",
+      "(exists Beanstalk Backyard)"
+    ],
+    "f": [
+      "(at Jack Home)"
+    ],
+    "characters": [
+      {
+        "name": "Jack",
+        "bplus": [],
+        "bminus": [],
+        "unsure": []
+      }
+    ]
+  }
+}

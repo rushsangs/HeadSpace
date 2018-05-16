@@ -20,7 +20,8 @@ namespace NarrativePlanning
             //DomainBuilder.GroundGenerator gg = new DomainBuilder.GroundGenerator(t.root, opb.operators);
             //DomainBuilder.OperationBuilder.storeOperators(gg.grounds, opb.operators, "serialized-ops.txt");
 
-            List<Operator> o = DomainBuilder.OperationBuilder.getStoredOperators("serialized-ops.txt");
+            DomainBuilder.JSONDomainBuilder j = new DomainBuilder.JSONDomainBuilder("../../JSON Files/beanstalk.json");
+            List<NarrativePlanning.Operator> o = DomainBuilder.OperationBuilder.getStoredOperators("serialized-ops.txt");
             WorldState initial = DomainBuilder.StateCreator.getState("../../Text Files/beanstalk-initial.txt");
             WorldState goal = DomainBuilder.StateCreator.getState("../../Text Files/beanstalk-goal.txt");
 
