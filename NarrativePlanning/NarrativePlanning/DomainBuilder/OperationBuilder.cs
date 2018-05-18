@@ -69,6 +69,7 @@ namespace NarrativePlanning.DomainBuilder
             newOperator.location = op[i].Trim().Substring(op[i].IndexOf("loc:") + 1).Trim();
             newOperator.text = "";
 
+
             readLiterals(newOperator.preT, op, "pre-t");
             readLiterals(newOperator.preF, op, "pre-f");
             readLiterals(newOperator.effT, op, "eff-t");
@@ -227,6 +228,7 @@ namespace NarrativePlanning.DomainBuilder
                 newOperator.name = op.Name;
                 newOperator.character = op.Char;
                 newOperator.location = op.Loc;
+                newOperator.isPrivate = op.IsPrivate;
                 //one or more args
                 foreach(JSONDomain.Instance arg in op.Args)
                 {

@@ -3,31 +3,31 @@
     {
       "name": "Character",
       "type": "Object"
-      },
-      {
+    },
+    {
       "name": "Human",
       "type": "Character"
-      },
-      {
+    },
+    {
       "name": "Thing",
       "type": "Object"
-      },
-      {
+    },
+    {
       "name": "Animal",
       "type": "Thing"
-      },
-      {
+    },
+    {
       "name": "Monster",
       "type": "Character"
-      },
-      {
+    },
+    {
       "name": "Location",
       "type": "Object"
-      },
-      {
+    },
+    {
       "name": "Seed",
       "type": "Thing"
-      }
+    }
   ],
   "instances": [
     {
@@ -41,25 +41,32 @@
     {
       "name": "Seller",
       "type": "Human"
-    },{
+    },
+    {
       "name": "Cow",
       "type": "Animal"
-    },{
+    },
+    {
       "name": "Hen",
       "type": "Animal"
-    },{
+    },
+    {
       "name": "Giant",
       "type": "Monster"
-    },{
+    },
+    {
       "name": "GreenBeans",
       "type": "Seed"
-    },{
+    },
+    {
       "name": "Beanstalk",
       "type": "Object"
-    },{
+    },
+    {
       "name": "Backyard",
       "type": "Location"
-    },{
+    },
+    {
       "name": "Market",
       "type": "Location"
     },
@@ -71,7 +78,7 @@
       "name": "CloudWorld",
       "type": "Location"
     }
-    ],
+  ],
   "operators": [
     {
       "name": "trade",
@@ -79,23 +86,23 @@
         {
           "name": "?person1",
           "type": "Character"
-          },
-          {
+        },
+        {
           "name": "?person2",
           "type": "Character"
-          },
-          {
+        },
+        {
           "name": "?item1",
           "type": "Thing"
-          },
-          {
+        },
+        {
           "name": "?item2",
           "type": "Thing"
-          },
-          {
+        },
+        {
           "name": "?place",
           "type": "Location"
-          }
+        }
       ],
       "char": "?person1",
       "loc": "?place",
@@ -136,7 +143,8 @@
         "(has ?person1 ?item1)",
         "(has ?person2 ?item2)"
       ],
-      "eff-u": []
+      "eff-u": [],
+      "isPrivate": false
     },
     {
       "name": "grow",
@@ -144,15 +152,15 @@
         {
           "name": "?person",
           "type": "Character"
-          },
-          {
+        },
+        {
           "name": "?seedtype",
           "type": "Seed"
-          },
-          {
+        },
+        {
           "name": "?place",
           "type": "Location"
-          }
+        }
       ],
       "char": "?person",
       "loc": "?place",
@@ -183,7 +191,8 @@
       "eff-bminus": [
         "(has ?person ?seedtype)"
       ],
-      "eff-u": []
+      "eff-u": [],
+      "isPrivate": true
     }
   ],
   "initial": {

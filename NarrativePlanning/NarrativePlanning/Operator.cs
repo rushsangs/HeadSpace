@@ -12,6 +12,7 @@ namespace NarrativePlanning
     public class Operator : ISerializable
     {
         public String name, character, location;
+        public bool isPrivate;
         public String text;
         public Dictionary<String, TypeNode> args;
         public Hashtable preT
