@@ -23,6 +23,14 @@
     {
       "name": "Gun",
       "type": "Weapon"
+    },
+    {
+      "name": "Furniture",
+      "type": "Object"
+    },
+    {
+      "name": "Consumable",
+      "type": "Thing"
     }
   ],
   "instances": [
@@ -69,6 +77,26 @@
     {
       "name": "BarberShop",
       "type": "Location"
+    },
+    {
+      "name": "Countertop",
+      "type": "Furniture"
+    },
+    {
+      "name": "Desk",
+      "type": "Furniture"
+    },
+    {
+      "name": "BarTable",
+      "type": "Furniture"
+    },
+    {
+      "name": "Moonshine",
+      "type": "Consumable"
+    },
+    {
+      "name": "VenisonStew",
+      "type": "Consumable"
     }
   ],
   "operators": [
