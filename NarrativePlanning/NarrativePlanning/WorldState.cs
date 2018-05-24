@@ -37,6 +37,15 @@ namespace NarrativePlanning
             this.characters = characters;
         }
 
+        public Character getCharacter(String name)
+        {
+            foreach(Character c in this.characters)
+            {
+                if (c.name.Equals(name))
+                    return c;
+            }
+            return null;
+        }
         public List<WorldState> getPossibleNextStates(List<Operator> operators){
             List<WorldState> possibleNextStates = new List<WorldState>();
             foreach(Operator gop in operators){
@@ -46,12 +55,13 @@ namespace NarrativePlanning
             return possibleNextStates;
         }
 
-        public List<Tuple<String, WorldState>> getPossibleNextStatesTuples(List<Operator> operators)
+        public List<Tuple<String, WorldState>> getPossibleApparentNextStatesTuples(List<Operator> operators)
         {
             List<Tuple<String, WorldState>> possibleNextStateTuples = new List<Tuple<string, WorldState>>();
             foreach (Operator gop in operators)
             {
-                if (isExecutable(gop, this))
+                 
+                if (Character.isApparentlyExecutable(gop, this.getCharacter(gop.character)))
                     possibleNextStateTuples.Add(new Tuple<String, WorldState>(gop.text, getNextState(this, gop)));
             }
             return possibleNextStateTuples;
@@ -77,13 +87,15 @@ namespace NarrativePlanning
             foreach(String lit in ground.effT.Keys){
                 if (newState.fWorld.Contains(lit))
                     newState.fWorld.Remove(lit);
-                newState.tWorld.Add(lit, 1);
+                if(!newState.tWorld.Contains(lit))
+                    newState.tWorld.Add(lit, 1);
             }
             foreach (String lit in ground.effF.Keys)
             {
                 if (newState.tWorld.Contains(lit))
                     newState.tWorld.Remove(lit);
-                newState.fWorld.Add(lit, 1);
+                if (!newState.fWorld.Contains(lit))
+                    newState.fWorld.Add(lit, 1);
             }
             foreach(Character c in newState.characters){
                 if(c.name.Equals(ground.character)){

@@ -18,6 +18,25 @@ namespace NarrativePlanning.DomainBuilder
             get;
             set;
         }
+
+        public List<NarrativePlanning.Operator> operators
+        {
+            get;
+            set;
+        }
+
+        public NarrativePlanning.WorldState initial
+        {
+            get;
+            set;
+        }
+
+        public NarrativePlanning.WorldState goal
+        {
+            get;
+            set;
+        }
+
         public JSONDomainBuilder(String filename)
         {
             this.filename = filename;
@@ -30,9 +49,13 @@ namespace NarrativePlanning.DomainBuilder
             var jsonDomain = JsonDomain.FromJson(json);
             root = TypeTreeBuilder.buildTypeTree(jsonDomain.Types);
             InstanceAdder.addInstances(root, jsonDomain.Instances);
-            List<NarrativePlanning.Operator> operators = OperationBuilder.parseOperators(jsonDomain.Operators, root);
-            NarrativePlanning.WorldState initial = StateCreator.getState(jsonDomain.Initial);
-            NarrativePlanning.WorldState goal = StateCreator.getState(jsonDomain.Final);
+            operators = OperationBuilder.parseOperators(jsonDomain.Operators, root);
+            DomainBuilder.GroundGenerator gg = new GroundGenerator(root, operators);
+            DomainBuilder.OperationBuilder.storeOperators(gg.grounds, operators, "serialized-ops.txt");
+            operators = DomainBuilder.OperationBuilder.getStoredOperators("serialized-ops.txt");
+
+            initial = StateCreator.getState(jsonDomain.Initial);
+            goal = StateCreator.getState(jsonDomain.Final);
             Console.Write("Deserialized JSON file");
         }
     }

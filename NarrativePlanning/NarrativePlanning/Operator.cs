@@ -111,6 +111,7 @@ namespace NarrativePlanning
             effUnsure = info.GetValue("effUnsure", typeof(Hashtable)) as Hashtable;
         }
 
+        //DO NOT GIVE THE GROUNDED VERSIONS!
         public static Operator getOperator(List<Operator> operators, String ground){
             Operator op = null;
             String[] words = ground.Trim().Split(' ');
@@ -118,7 +119,7 @@ namespace NarrativePlanning
                 if(oper.name.Equals(words[0])){
                     //found the operator object, now populate it.
                     op = oper.clone();
-                    op.text = ground;
+                    op.text = ground.Trim();
                     Dictionary<String, TypeNode>.Enumerator dict = op.args.GetEnumerator();
                     for (int i = 0; i < op.args.Count; ++i){
                         
@@ -290,6 +291,23 @@ namespace NarrativePlanning
             }
            
             return op;
+        }
+
+        public static Operator getFailedOperator(List<Operator> operators, Operator trueop)
+        {
+            String n = trueop.name.Substring(0, trueop.name.IndexOf("true") - 1);
+            n = n + "-false";
+            foreach(Operator o in operators)
+            {
+                if (o.name.Equals(n))
+                {
+                    String a = o.text.Substring(o.text.IndexOf(" ") + 1);
+                    String b = trueop.text.Substring(trueop.text.IndexOf(" ") + 1);
+                    if (a.Equals(b))
+                        return o;
+                }
+            }
+            throw new Exception("Operator not found!!");
         }
 
         //public static T DeepCopy<T>(T other)

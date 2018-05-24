@@ -175,7 +175,7 @@ namespace NarrativePlanning.DomainBuilder
                 String l = lit.Replace('(', ' ').Replace(')', ' ').Trim();
                 newOp.effF.Add(l, 1);
             }
-            foreach (string lit in op.EffBminus)
+            foreach (string lit in op.EffBplus)
             {
                 String l = lit.Replace('(', ' ').Replace(')', ' ').Trim();
                 newOp.effBPlus.Add(l, 1);
@@ -229,6 +229,7 @@ namespace NarrativePlanning.DomainBuilder
                 newOperator.character = op.Char;
                 newOperator.location = op.Loc;
                 newOperator.isPrivate = op.IsPrivate;
+                newOperator.text = "";
                 //one or more args
                 foreach(JSONDomain.Instance arg in op.Args)
                 {

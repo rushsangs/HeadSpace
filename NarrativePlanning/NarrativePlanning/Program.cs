@@ -20,15 +20,15 @@ namespace NarrativePlanning
             //DomainBuilder.GroundGenerator gg = new DomainBuilder.GroundGenerator(t.root, opb.operators);
             //DomainBuilder.OperationBuilder.storeOperators(gg.grounds, opb.operators, "serialized-ops.txt");
 
-            DomainBuilder.JSONDomainBuilder j = new DomainBuilder.JSONDomainBuilder("../../JSON Files/beanstalk.json");
-            List<NarrativePlanning.Operator> o = DomainBuilder.OperationBuilder.getStoredOperators("serialized-ops.txt");
-            WorldState initial = DomainBuilder.StateCreator.getState("../../Text Files/beanstalk-initial.txt");
-            WorldState goal = DomainBuilder.StateCreator.getState("../../Text Files/beanstalk-goal.txt");
+            DomainBuilder.JSONDomainBuilder j = new DomainBuilder.JSONDomainBuilder("../../JSON Files/breakout.json");
+            //List<NarrativePlanning.Operator> o = DomainBuilder.OperationBuilder.getStoredOperators("serialized-ops.txt");
+            //WorldState initial = DomainBuilder.StateCreator.getState("../../Text Files/beanstalk-initial.txt");
+            //WorldState goal = DomainBuilder.StateCreator.getState("../../Text Files/beanstalk-goal.txt");
 
             watch.Stop();
             Console.WriteLine("Time taken to prepare everything: " + watch.ElapsedMilliseconds + " milliseconds.");
             watch.Restart();
-            PlanningProblem problem = new PlanningProblem(initial, goal, o);
+            PlanningProblem problem = new PlanningProblem(j.initial, j.goal, j.operators);
             Console.Write(problem.FFSolution().toString());
             watch.Stop();
             Console.WriteLine("Complete, planning algorithm time = " + watch.ElapsedMilliseconds + " milliseconds.");

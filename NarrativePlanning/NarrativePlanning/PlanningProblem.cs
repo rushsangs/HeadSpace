@@ -39,7 +39,7 @@ namespace NarrativePlanning
         //}
 
         public Plan BFSSolution(){
-            List<Tuple<String, WorldState>> nextStateTuples = w0.getPossibleNextStatesTuples(groundedoperators);
+            List<Tuple<String, WorldState>> nextStateTuples = w0.getPossibleApparentNextStatesTuples(groundedoperators);
             int depth = 1;
             int bfactor = 0;
             int nnodes = 0;
@@ -50,7 +50,7 @@ namespace NarrativePlanning
                 //if first time do not look at queue
                 if (depth == 1)
                 {
-                    foreach (Tuple<String, WorldState> next in w0.getPossibleNextStatesTuples(groundedoperators))
+                    foreach (Tuple<String, WorldState> next in w0.getPossibleApparentNextStatesTuples(groundedoperators))
                     {
                         nnodes++;
                         bfactor++;
@@ -74,7 +74,7 @@ namespace NarrativePlanning
                         Plan p = queue.Dequeue();
                         WorldState w = p.steps[p.steps.Count - 1].Item2;
                         int x = 0;
-                        foreach (Tuple<String, WorldState> next in w.getPossibleNextStatesTuples(groundedoperators))
+                        foreach (Tuple<String, WorldState> next in w.getPossibleApparentNextStatesTuples(groundedoperators))
                         {
                             x++;
                             nnodes++;
@@ -99,7 +99,7 @@ namespace NarrativePlanning
         }
 
         public Plan FFSolution(){
-            List<Tuple<String, WorldState>> nextStateTuples = w0.getPossibleNextStatesTuples(groundedoperators);
+            List<Tuple<String, WorldState>> nextStateTuples = w0.getPossibleApparentNextStatesTuples(groundedoperators);
             int depth = 1;
             int bfactor = 0;
             int nnodes = 0;
@@ -114,32 +114,53 @@ namespace NarrativePlanning
                 WorldState w = current.steps[current.steps.Count - 1].Item2;
                 int tmp = 0;
                 //check every node in the frontier    
-                foreach (Tuple<String, WorldState> next in w.getPossibleNextStatesTuples(groundedoperators))
+                foreach (Tuple<String, WorldState> next in w.getPossibleApparentNextStatesTuples(groundedoperators))
                 {
+                    if (next.Item1.Contains("-false"))
+                        continue;
                     nnodes++;
                     tmp++;
                     Plan p = new Plan(this);
-                    p.steps.Add(next);
                     //queue.Enqueue(p);
-                    int x = FastForward.extractRPSize(FastForward.computeRPG(groundedoperators, next.Item2, this.goal), this.goal, groundedoperators);
-					String charactername = Operator.getOperator(groundedoperators, next.Item1).character;
-					int y = FastForward.extractCharacterRPSize(FastForward.computeCharacterRPG(groundedoperators, next.Item2, this.goal, charactername), this.goal, groundedoperators, charactername);
-					Console.Write("Possible next step " + next.Item1 + " with global hueristic of " + x + " and character heuristic of " + y + "\n") ;
-                    if (x < min && x!=-1)
+                    Operator op = groundedoperators.Find(xy => xy.text.Equals(next.Item1));
+                    int x;
+                    
+                    String charactername = Operator.getOperator(groundedoperators, next.Item1).character;
+                    int y = FastForward.extractCharacterRPSize(FastForward.computeCharacterRPG(groundedoperators, next.Item2, this.goal, charactername), this.goal, groundedoperators, charactername);
+
+                    Tuple<string, WorldState> res;
+                    if (!WorldState.isExecutable(op, w))
                     {
-                        best = next;
-                        min = x;
+
+                        NarrativePlanning.Operator failedop = NarrativePlanning.Operator.getFailedOperator(groundedoperators, op);
+                        res = new Tuple<string, WorldState>(failedop.text, WorldState.getNextState(w, failedop));
+                        p.steps.Add(res);
+                        x = FastForward.extractRPSize(FastForward.computeRPG(groundedoperators, res.Item2, this.goal), this.goal, groundedoperators);
+                    }
+                    else
+                    {
+                        res = next;
+                        p.steps.Add(next);
+                        x = FastForward.extractRPSize(FastForward.computeRPG(groundedoperators, next.Item2, this.goal), this.goal, groundedoperators);
+                    }
+                    
+					Console.Write("Possible apparent next step " + next.Item1 + ", but actual step " + res.Item1+  " with global hueristic of " + x + " and character heuristic of " + y + "\n") ;
+                    if (y < min && y!=-1)
+                    {
+                        best = res;
+                        min = y;
                     }
 
-                    if(next.Item2.isGoalState(this.goal))
+                    if(res.Item2.isGoalState(this.goal))
                     {
                         //solution found!
-                        current.steps.Add(next);
+                        current.steps.Add(res);
                         solutionPlan = current;
                         Console.Write("\n Number of nodes = " + nnodes + " and branching factor = " + bfactor);
                         return solutionPlan;
                     }
                 }
+
                 Console.Write("STEP SELECTED: " + best.Item1+ "\n");
                 Console.Write("----------\n");
                 if (tmp > bfactor)

@@ -58,6 +58,7 @@
     <None Include="JSON Files\beanstalk.json" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="JSON Files\breakout.json" />
     <None Include="packages.config" />
     <None Include="Text Files\types.txt" />
     <None Include="Text Files\instances.txt" />
@@ -68,6 +69,9 @@
     <None Include="Text Files\beanstalk-operators.txt" />
     <None Include="Text Files\beanstalk-types.txt" />
     <None Include="Text Files\beanstalk-goal.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="JSON Files\utahpia.json" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
