@@ -125,7 +125,7 @@ namespace NarrativePlanning
                     Operator op = groundedoperators.Find(xy => xy.text.Equals(next.Item1));
                     int x;
                     
-                    String charactername = Operator.getOperator(groundedoperators, next.Item1).character;
+                    String charactername = op.character;
                     int y = FastForward.extractCharacterRPSize(FastForward.computeCharacterRPG(groundedoperators, next.Item2, this.goal, charactername), this.goal, groundedoperators, charactername);
 
                     Tuple<string, WorldState> res;

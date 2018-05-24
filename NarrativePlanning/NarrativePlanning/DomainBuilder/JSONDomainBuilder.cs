@@ -174,8 +174,8 @@ namespace JSONDomain
         [JsonProperty("eff-u")]
         public string[] EffU { get; set; }
 
-        [JsonProperty("isPrivate")]
-        public bool IsPrivate { get; set; }
+        [JsonProperty("private-effects")]
+        public string[] PrivateEffects { get; set; }
     }
 
     public partial class JsonDomain

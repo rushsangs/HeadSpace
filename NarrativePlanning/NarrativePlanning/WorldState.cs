@@ -125,7 +125,54 @@ namespace NarrativePlanning
                         if (!c.unsure.ContainsKey(lit))
                             c.unsure.Add(lit, 1);
                     }
-                    break;
+                }
+                ////////////////// OBSERVABILITY ///////////////////////
+                else
+                {
+                    foreach(String literal in c.bPlus.Keys)
+                    {
+                        if(literal.Trim().StartsWith("at ") && literal.Contains(c.name) && literal.Contains(ground.location))
+                        {
+                            //character was in same location, apply effects.
+                            foreach(String lit in ground.effBPlus.Keys)
+                            {
+                                if (!ground.privateEffects.ContainsKey(lit))
+                                {
+                                    if (c.bMinus.Contains(lit))
+                                        c.bMinus.Remove(lit);
+                                    if (c.unsure.Contains(lit))
+                                        c.unsure.Remove(lit);
+                                    if (!c.bPlus.ContainsKey(lit))
+                                        c.bPlus.Add(lit, 1);
+                                }
+                            }
+                            foreach (String lit in ground.effBMinus.Keys)
+                            {
+                                if (!ground.privateEffects.ContainsKey(lit))
+                                {
+                                    if (c.bPlus.Contains(lit))
+                                        c.bPlus.Remove(lit);
+                                    if (c.unsure.Contains(lit))
+                                        c.unsure.Remove(lit);
+                                    if (!c.bMinus.ContainsKey(lit))
+                                        c.bMinus.Add(lit, 1);
+                                }
+                            }
+                            foreach (String lit in ground.effUnsure.Keys)
+                            {
+                                if (!ground.privateEffects.ContainsKey(lit))
+                                {
+                                    if (c.bMinus.Contains(lit))
+                                        c.bMinus.Remove(lit);
+                                    if (c.bPlus.Contains(lit))
+                                        c.bPlus.Remove(lit);
+                                    if (!c.unsure.ContainsKey(lit))
+                                        c.unsure.Add(lit, 1);
+                                }
+                            }
+                            break;
+                        } 
+                    }
                 }
             }
             return newState;
@@ -148,15 +195,15 @@ namespace NarrativePlanning
                 if (!newState.fWorld.Contains(lit))
                 newState.fWorld.Add(lit, 1);
             }
-            Character c = newState.characters.Find(x => x.name.Equals(ground.character));
+            Character ch = newState.characters.Find(x => x.name.Equals(ground.character));
             foreach (String lit in ground.effBPlus.Keys)
             {
                 //if (c.bMinus.Contains(lit))
                 //    c.bMinus.Remove(lit);
                 //if (c.unsure.Contains(lit))
                 //c.unsure.Remove(lit);
-                if (!c.bPlus.Contains(lit))
-                    c.bPlus.Add(lit, 1);
+                if (!ch.bPlus.Contains(lit))
+                    ch.bPlus.Add(lit, 1);
             }
             foreach (String lit in ground.effBMinus.Keys)
             {
@@ -164,8 +211,8 @@ namespace NarrativePlanning
                 //    c.bPlus.Remove(lit);
                 //if (c.unsure.Contains(lit))
                 //c.unsure.Remove(lit);
-                if (!c.bMinus.Contains(lit))
-                    c.bMinus.Add(lit, 1);
+                if (!ch.bMinus.Contains(lit))
+                    ch.bMinus.Add(lit, 1);
             }
             foreach (String lit in ground.effUnsure.Keys)
             {
@@ -173,9 +220,47 @@ namespace NarrativePlanning
                 //    c.bMinus.Remove(lit);
                 //if (c.bPlus.Contains(lit))
                 //c.bPlus.Remove(lit);
-                if (!c.unsure.Contains(lit))
-                    c.unsure.Add(lit, 1);
+                if (!ch.unsure.Contains(lit))
+                    ch.unsure.Add(lit, 1);
             }
+            foreach( Character c in newState.characters)
+            {
+                if (c.name.Equals(ground.character))
+                    continue;
+                foreach (String literal in c.bPlus.Keys)
+                {
+                    if (literal.Trim().StartsWith("at ") && literal.Contains(c.name) && literal.Contains(ground.location))
+                    {
+                        //character was in same location, apply effects.
+                        foreach (String lit in ground.effBPlus.Keys)
+                        {
+                            if (!ground.privateEffects.ContainsKey(lit))
+                            {
+                                if (!c.bPlus.ContainsKey(lit))
+                                    c.bPlus.Add(lit, 1);
+                            }
+                        }
+                        foreach (String lit in ground.effBMinus.Keys)
+                        {
+                            if (!ground.privateEffects.ContainsKey(lit))
+                            {
+                                if (!c.bMinus.ContainsKey(lit))
+                                    c.bMinus.Add(lit, 1);
+                            }
+                        }
+                        foreach (String lit in ground.effUnsure.Keys)
+                        {
+                            if (!ground.privateEffects.ContainsKey(lit))
+                            {
+                                if (!c.unsure.ContainsKey(lit))
+                                    c.unsure.Add(lit, 1);
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+
             return newState;
         }
 

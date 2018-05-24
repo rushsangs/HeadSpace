@@ -24,7 +24,7 @@
       "name": "Gun",
       "type": "Weapon"
     },
-     {
+    {
       "name": "Furniture",
       "type": "Object"
     },
@@ -34,6 +34,10 @@
     }
   ],
   "instances": [
+    {
+      "name": "Teddy",
+      "type": "Person"
+    },
     {
       "name": "Dolores",
       "type": "Person"
@@ -118,9 +122,9 @@
         "(has ?person ?ammo)"
       ],
       "eff-u": [],
-      "isPrivate": false
-    }, 
-	{
+      "private-effects": []
+    },
+    {
       "name": "unload-true",
       "args": [
         {
@@ -164,15 +168,15 @@
       "pre-bminus": [],
       "pre-u": [],
       "eff-bplus": [
-       "(has ?person ?ammo)"
+        "(has ?person ?ammo)"
       ],
       "eff-bminus": [
         "(loaded ?gun)"
       ],
       "eff-u": [],
-      "isPrivate": false
+      "private-effects": []
     },
-	{
+    {
       "name": "unload-false",
       "args": [
         {
@@ -200,8 +204,8 @@
         "(alive ?person)"
       ],
       "pre-f": [
-		"(loaded ?gun)"
-		],
+        "(loaded ?gun)"
+      ],
       "eff-t": [
         "(has ?person ?ammo)"
       ],
@@ -217,13 +221,13 @@
       "pre-bminus": [],
       "pre-u": [],
       "eff-bplus": [
-       "(has ?person ?ammo)"
+        "(has ?person ?ammo)"
       ],
       "eff-bminus": [
         "(loaded ?gun)"
       ],
       "eff-u": [],
-      "isPrivate": false
+      "private-effects": []
     },
     {
       "name": "checkgunloaded-true",
@@ -256,17 +260,19 @@
         "(has ?person ?gun)",
         "(alive ?person)",
         "(at ?person ?loc)"
-        ],
+      ],
       "pre-bminus": [],
       "pre-u": [
         "(loaded ?gun)"
-        ],
+      ],
       "eff-bplus": [
-       "(loaded ?gun)"
+        "(loaded ?gun)"
       ],
       "eff-bminus": [],
       "eff-u": [],
-      "isPrivate": false
+      "private-effects": [
+        "(loaded ?gun)"
+        ]
     },
     {
       "name": "checkgunloaded-false",
@@ -293,24 +299,26 @@
       ],
       "pre-f": [
         "(loaded ?gun)"
-        ],
+      ],
       "eff-t": [],
       "eff-f": [],
       "pre-bplus": [
         "(has ?person ?gun)",
         "(alive ?person)",
         "(at ?person ?loc)"
-        ],
+      ],
       "pre-bminus": [],
       "pre-u": [
         "(loaded ?gun)"
-        ],
+      ],
       "eff-bplus": [],
       "eff-bminus": [
-       "(loaded ?gun)"
+        "(loaded ?gun)"
       ],
       "eff-u": [],
-      "isPrivate": false
+      "private-effects": [
+        "(loaded ?gun)"
+        ]
     },
     {
       "name": "fireatlock-true",
@@ -345,23 +353,22 @@
       "eff-t": [],
       "eff-f": [
         "(locked ?door)"
-        ],
+      ],
       "pre-bplus": [
         "(has ?person ?gun)",
         "(alive ?person)",
         "(at ?person ?loc)",
         "(in ?door ?loc)",
         "(loaded ?gun)"
-        ],
+      ],
       "pre-bminus": [],
-      "pre-u": [
-        ],
+      "pre-u": [],
       "eff-bplus": [],
       "eff-bminus": [
-       "(locked ?door)"
+        "(locked ?door)"
       ],
       "eff-u": [],
-      "isPrivate": false
+      "private-effects": []
     },
     {
       "name": "fireatlock-false",
@@ -393,7 +400,7 @@
       ],
       "pre-f": [
         "(loaded ?gun)"
-        ],
+      ],
       "eff-t": [],
       "eff-f": [],
       "pre-bplus": [
@@ -402,16 +409,15 @@
         "(at ?person ?loc)",
         "(in ?door ?loc)",
         "(loaded ?gun)"
-        ],
+      ],
       "pre-bminus": [],
-      "pre-u": [
-        ],
+      "pre-u": [],
       "eff-bplus": [],
       "eff-bminus": [],
       "eff-u": [
         "(loaded ?gun)"
-        ],
-      "isPrivate": false
+      ],
+      "private-effects": []
     },
     {
       "name": "traverse",
@@ -442,35 +448,34 @@
         "(adjacent ?from ?to)"
       ],
       "pre-f": [
-	  "(locked ?door)",
+        "(locked ?door)",
         "(at ?person ?to)"
-        ],
+      ],
       "eff-t": [
         "(at ?person ?to)"
-        ],
+      ],
       "eff-f": [
         "(at ?person ?from)"
-        ],
+      ],
       "pre-bplus": [
         "(alive ?person)",
         "(at ?person ?from)",
         "(in ?door ?from)",
         "(adjacent ?from ?to)"
-        ],
+      ],
       "pre-bminus": [
-		"(locked ?door)",
+        "(locked ?door)",
         "(at ?person ?to)"
-        ],
-      "pre-u": [
-        ],
+      ],
+      "pre-u": [],
       "eff-bplus": [
         "(at ?person ?to)"
-        ],
+      ],
       "eff-bminus": [
         "(at ?person ?from)"
-        ],
+      ],
       "eff-u": [],
-      "isPrivate": false
+      "private-effects": []
     },
     {
       "name": "pickup",
@@ -501,38 +506,39 @@
         "(on ?item ?furn)"
       ],
       "pre-f": [
-	      "(has ?person ?item)"
-        ],
+        "(has ?person ?item)"
+      ],
       "eff-t": [
         "(has ?person ?item)"
-        ],
+      ],
       "eff-f": [
         "(on ?item ?furn)"
-        ],
+      ],
       "pre-bplus": [
-         "(alive ?person)",
+        "(alive ?person)",
         "(at ?person ?loc)",
         "(in ?furn ?loc)",
         "(on ?item ?furn)"
-        ],
-      "pre-bminus": [
-		    "(has ?person ?item)"
       ],
-      "pre-u": [
-        ],
+      "pre-bminus": [
+        "(has ?person ?item)"
+      ],
+      "pre-u": [],
       "eff-bplus": [
         "(has ?person ?item)"
-        ],
+      ],
       "eff-bminus": [
         "(on ?item ?furn)"
-        ],
+      ],
       "eff-u": [],
-      "isPrivate": false
+      "private-effects": []
     }
   ],
   "initial": {
     "t": [
       "(at Dolores JailCell)",
+      "(at Teddy JailCell)",
+      "(alive Teddy)",
       "(has Dolores Handgun)",
       "(in Floor JailCell)",
       "(on 9mmBullet Floor)",
@@ -544,7 +550,10 @@
     ],
     "f": [
       "(at Dolores MainStreet)",
+      "(at Teddy MainStreet)",
       "(has Dolores 9mmBullet)",
+      "(has Teddy 9mmBullet)",
+      "(has Teddy Handgun)",
       "(in Floor MainStreet)",
       "(in JailDoor MainStreet)",
       "(loaded Handgun)"
@@ -554,21 +563,48 @@
         "name": "Dolores",
         "bplus": [
           "(at Dolores JailCell)",
-      "(has Dolores Handgun)",
-      "(in Floor JailCell)",
-      "(on 9mmBullet Floor)",
-      "(locked JailDoor)",
-      "(alive Dolores)",
-      "(adjacent JailCell MainStreet)",
-      "(adjacent MainStreet JailCell)",
-      "(in JailDoor JailCell)",
-      "(loaded Handgun)"
+          "(has Dolores Handgun)",
+          "(in Floor JailCell)",
+          "(on 9mmBullet Floor)",
+          "(locked JailDoor)",
+          "(alive Dolores)",
+          "(adjacent JailCell MainStreet)",
+          "(adjacent MainStreet JailCell)",
+          "(in JailDoor JailCell)",
+          "(loaded Handgun)"
         ],
         "bminus": [
           "(at Dolores MainStreet)",
-      "(has Dolores 9mmBullet)",
-      "(in Floor MainStreet)",
-      "(in JailDoor MainStreet)"
+          "(has Dolores 9mmBullet)",
+          "(in Floor MainStreet)",
+          "(in JailDoor MainStreet)"
+        ],
+        "unsure": []
+      },
+      {
+        "name": "Teddy",
+        "bplus": [
+          "(at Dolores JailCell)",
+          "(at Teddy JailCell)",
+          "(has Dolores Handgun)",
+          "(in Floor JailCell)",
+          "(on 9mmBullet Floor)",
+          "(locked JailDoor)",
+          "(alive Dolores)",
+          "(alive Teddy)",
+          "(adjacent JailCell MainStreet)",
+          "(adjacent MainStreet JailCell)",
+          "(in JailDoor JailCell)",
+          "(loaded Handgun)"
+        ],
+        "bminus": [
+          "(at Dolores MainStreet)",
+          "(at Teddy MainStreet)",
+          "(has Teddy Handgun)",
+          "(has Dolores 9mmBullet)",
+          "(has Teddy 9mmBullet)",
+          "(in Floor MainStreet)",
+          "(in JailDoor MainStreet)"
         ],
         "unsure": []
       }
@@ -576,7 +612,8 @@
   },
   "final": {
     "t": [
-      "(at Dolores MainStreet)"
+      "(at Dolores MainStreet)",
+      "(at Teddy MainStreet)"
     ],
     "f": [],
     "characters": [
@@ -584,7 +621,15 @@
         "name": "Dolores",
         "bplus": [
           "(at Dolores MainStreet)"
-          ],
+        ],
+        "bminus": [],
+        "unsure": []
+      },
+      {
+        "name": "Teddy",
+        "bplus": [
+          "(at Teddy MainStreet)"
+        ],
         "bminus": [],
         "unsure": []
       }

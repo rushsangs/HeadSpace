@@ -18,6 +18,8 @@ namespace NarrativePlanning.DomainBuilder
             operators = new List<NarrativePlanning.Operator>();
             parse();
         }
+
+        //will not work as doesnt account for private effects and other changes
         public void parse(){
             String[] lines = readFile(filename);
             for (int i = 0; i < lines.Length;++i)
@@ -44,6 +46,7 @@ namespace NarrativePlanning.DomainBuilder
             }
         }
 
+        //will not work as doesnt account for private effects and other changes
         private void parseOperator(String[] op)
         {
             NarrativePlanning.Operator newOperator = new NarrativePlanning.Operator();
@@ -190,6 +193,11 @@ namespace NarrativePlanning.DomainBuilder
                 String l = lit.Replace('(', ' ').Replace(')', ' ').Trim();
                 newOp.effUnsure.Add(l, 1);
             }
+            foreach (string lit in op.PrivateEffects)
+            {
+                String l = lit.Replace('(', ' ').Replace(')', ' ').Trim();
+                newOp.privateEffects.Add(l, 1);
+            }
         }
 
         public static void storeOperators(List<String> grounds, List<NarrativePlanning.Operator> operators, String fileName)
@@ -228,7 +236,6 @@ namespace NarrativePlanning.DomainBuilder
                 newOperator.name = op.Name;
                 newOperator.character = op.Char;
                 newOperator.location = op.Loc;
-                newOperator.isPrivate = op.IsPrivate;
                 newOperator.text = "";
                 //one or more args
                 foreach(JSONDomain.Instance arg in op.Args)

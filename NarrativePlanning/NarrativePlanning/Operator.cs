@@ -12,7 +12,6 @@ namespace NarrativePlanning
     public class Operator : ISerializable
     {
         public String name, character, location;
-        public bool isPrivate;
         public String text;
         public Dictionary<String, TypeNode> args;
         public Hashtable preT
@@ -65,6 +64,11 @@ namespace NarrativePlanning
             get;
             set;
         }
+        public Hashtable privateEffects
+        {
+            get;
+            set;
+        }
 
         //public List<Literal> preT,
                             //preF,
@@ -90,6 +94,7 @@ namespace NarrativePlanning
             effBPlus = new Hashtable();
             effBMinus = new Hashtable();
             effUnsure = new Hashtable();
+            privateEffects = new Hashtable();
         }
 
         public Operator(SerializationInfo info, StreamingContext context){
@@ -109,6 +114,8 @@ namespace NarrativePlanning
             effBPlus = info.GetValue("effBPlus", typeof(Hashtable)) as Hashtable;
             effBMinus = info.GetValue("effBMinus", typeof(Hashtable)) as Hashtable;
             effUnsure = info.GetValue("effUnsure", typeof(Hashtable)) as Hashtable;
+            privateEffects = info.GetValue("privateEffects", typeof(Hashtable)) as Hashtable;
+
         }
 
         //DO NOT GIVE THE GROUNDED VERSIONS!
@@ -281,6 +288,21 @@ namespace NarrativePlanning
                                 op.effUnsure.Remove(l);
                                 op.effUnsure.Add(builder.ToString(), 1);
                             }
+                            tmp = (Hashtable)op.privateEffects.Clone();
+                            foreach (String l in tmp.Keys)
+                            {
+                                String[] terms = l.Split(' ');
+                                StringBuilder builder = new StringBuilder(l);
+                                for (int j = 0; j < terms.Length; ++j)
+                                {
+                                    if (dict.Current.Key.Equals(terms[j]))
+                                    {
+                                        builder.Replace(terms[j], words[i + 1]);
+                                    }
+                                }
+                                op.privateEffects.Remove(l);
+                                op.privateEffects.Add(builder.ToString(), 1);
+                            }
                         }
                         else{
                             Console.WriteLine("there seems to be an instance mismatch!");
@@ -338,6 +360,7 @@ namespace NarrativePlanning
             o.effBPlus = this.effBPlus.Clone() as Hashtable;
             o.effBMinus = this.effBMinus.Clone() as Hashtable;
             o.effUnsure = this.effUnsure.Clone() as Hashtable;
+            o.privateEffects = this.privateEffects.Clone() as Hashtable;
             return o;
         }
 
@@ -358,6 +381,7 @@ namespace NarrativePlanning
             info.AddValue("effBPlus", effBPlus);
             info.AddValue("effBMinus", effBMinus);
             info.AddValue("effUnsure", effUnsure);
+            info.AddValue("privateEffects", privateEffects);
         }
     }
 }
