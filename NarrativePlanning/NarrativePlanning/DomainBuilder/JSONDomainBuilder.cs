@@ -49,9 +49,12 @@ namespace NarrativePlanning.DomainBuilder
             var jsonDomain = JsonDomain.FromJson(json);
             root = TypeTreeBuilder.buildTypeTree(jsonDomain.Types);
             InstanceAdder.addInstances(root, jsonDomain.Instances);
-            operators = OperationBuilder.parseOperators(jsonDomain.Operators, root);
-            DomainBuilder.GroundGenerator gg = new GroundGenerator(root, operators);
-            DomainBuilder.OperationBuilder.storeOperators(gg.grounds, operators, "serialized-ops.txt");
+
+            //////////// UNCOMMENT THIS IF YOU WANT TO RECREATE OR UPDATE DOMAIN //////////////////////
+            //operators = OperationBuilder.parseOperators(jsonDomain.Operators, root);
+            //DomainBuilder.GroundGenerator gg = new GroundGenerator(root, operators);
+            //DomainBuilder.OperationBuilder.storeOperators(gg.grounds, operators, "serialized-ops.txt");
+
             operators = DomainBuilder.OperationBuilder.getStoredOperators("serialized-ops.txt");
 
             initial = StateCreator.getState(jsonDomain.Initial);

@@ -8,21 +8,31 @@ namespace NarrativePlanning
     [Serializable]
     public class PlanningProblem
     {
-        //public WorldFrame wf;
         public WorldState w0;
         public WorldState goal;
         public List<Operator> groundedoperators;
-        //public List<String> gops;
-
+        
+        /// <summary>
+        /// A Planning Problem consists of the initial state, the goal state
+        /// and the operators possible.
+        /// </summary>
+        /// <param name="initial">initial WorldState</param>
+        /// <param name="goal">Goal worldstate</param>
+        /// <param name="operators">List of grounded operators</param>
         public PlanningProblem(WorldState initial, WorldState goal, List<Operator> operators)
         {
             w0 = initial;
             this.goal = goal;
             this.groundedoperators = operators;
-            //this.gops = groundOps;
         }
 
 
+
+        /// <summary>
+        /// DFS didn't run because it would result in infinite plans
+        /// with recursive actions, hence not reaching the goal state.
+        /// </summary>
+        /// <returns>Nothing.</returns>
         //public List<Tuple<String, WorldState>> DFS(WorldState w, List<Tuple<String, WorldState>> steps){
         //    List<Tuple<String, WorldState>> nextStateTuples = w.getPossibleNextStatesTuples(operators, gops);
         //    foreach(Tuple<String,WorldState> next in nextStateTuples){
@@ -34,7 +44,6 @@ namespace NarrativePlanning
         //            steps.AddRange(DFS(next.Item2, new List<Tuple<string, WorldState>>()));
         //            return steps;
         //        }
-                    
         //    }
         //}
 
@@ -98,6 +107,10 @@ namespace NarrativePlanning
             return solutionPlan;
         }
 
+        /// <summary>
+        /// Returns a plan using a FF-based solution.
+        /// </summary>
+        /// <returns> A solution plan</returns>
         public Plan FFSolution(){
             List<Tuple<String, WorldState>> nextStateTuples = w0.getPossibleApparentNextStatesTuples(groundedoperators);
             int depth = 1;
@@ -179,17 +192,6 @@ namespace NarrativePlanning
             }
             return solutionPlan;
         }
-
-        //public static T DeepCopy<T>(T other)
-        //{
-        //    using (MemoryStream ms = new MemoryStream())
-        //    {
-        //        BinaryFormatter formatter = new BinaryFormatter();
-        //        formatter.Serialize(ms, other);
-        //        ms.Position = 0;
-        //        return (T)formatter.Deserialize(ms);
-        //    }
-        //}
 
         public PlanningProblem clone(){
             WorldState i = this.w0.clone();

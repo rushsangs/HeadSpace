@@ -38,9 +38,22 @@ namespace NarrativePlanning
         {
         }
 
+        /// <summary>
+        /// Accessor function for accessing the right hashtable in the object.
+        /// </summary>
+        /// <param name="obj">Basically takes a character or worldstate object</param>
+        /// <returns>Should return the correct hashtable</returns>
         delegate Hashtable del(Object obj);
+
         delegate List<Operator> del2(Object obj);
 
+        /// <summary>
+        /// Computes the relaxed plan graph for a given input
+        /// </summary>
+        /// <param name="operators">Grounded operators</param>
+        /// <param name="initial">Initial world state</param>
+        /// <param name="goal">Goal worldstate</param>
+        /// <returns>Returns the RPG in a Layers form.</returns>
         public static Layers computeRPG(List<Operator> operators, WorldState initial, WorldState goal){
             Layers l = null;
             int t = 0;
@@ -71,6 +84,15 @@ namespace NarrativePlanning
             return l;
         }
 
+        /// <summary>
+        /// Computes the relaxed plan graph but for the character 
+        /// and not the world
+        /// </summary>
+        /// <param name="operators">Lisat of grounded operators</param>
+        /// <param name="initial">Initial worldstate</param>
+        /// <param name="goal">Goal worldstate</param>
+        /// <param name="charactername">Character to compute the RPG for.</param>
+        /// <returns>The RPG in layers form constructed using acitons that the character can perform.</returns>
         public static Layers computeCharacterRPG(List<Operator> operators, WorldState initial, WorldState goal, String charactername)
         {
             Character characteri = initial.characters.Find(x => x.name.Equals(charactername));
@@ -110,6 +132,13 @@ namespace NarrativePlanning
             return l;
         }
 
+        /// <summary>
+        /// Finds the hueristic measure for the RPG.
+        /// </summary>
+        /// <param name="l">The layers</param>
+        /// <param name="g">Goal worldstate</param>
+        /// <param name="operators">List of grounded operators</param>
+        /// <returns> A heuristic number, -1 for failure. Lower number is better.</returns>
         public static int extractRPSize(Layers l, WorldState g, List<Operator> operators){
             int selectedActions = 0;
 
@@ -214,6 +243,14 @@ namespace NarrativePlanning
             return selectedActions;
         }
 
+        /// <summary>
+        /// Finds the hueristic measure for the character RPG
+        /// </summary>
+        /// <param name="l">Layers</param>
+        /// <param name="g">Goal worldstate</param>
+        /// <param name="operators">List of grounded operators</param>
+        /// <param name="charactername"> The character name</param>
+        /// <returns> A heuristic number, -1 for failure. Lower number is better.</returns>
         public static int extractCharacterRPSize(Layers l, WorldState g, List<Operator> operators, String charactername)
 		{
 			int selectedActions = 0;

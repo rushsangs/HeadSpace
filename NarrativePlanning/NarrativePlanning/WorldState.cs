@@ -10,12 +10,18 @@ namespace NarrativePlanning
     [Serializable]
     public class WorldState
     {
-
+        /// <summary>
+        /// set of literals in String form which hold true
+        /// </summary>
         public Hashtable tWorld
         {
             get;
             set;
         }
+
+        /// <summary>
+        /// set of literals in string form which are false in the world
+        /// </summary>
         public Hashtable fWorld
         {
             get;
@@ -23,6 +29,9 @@ namespace NarrativePlanning
         }
         //public List<Literal> tWorld;
         //public List<Literal> fWorld;
+        /// <summary>
+        /// list of characters
+        /// </summary>
         public List<Character> characters
         {
             get;
@@ -37,6 +46,11 @@ namespace NarrativePlanning
             this.characters = characters;
         }
 
+        /// <summary>
+        /// Returns the character object for a queried character name.
+        /// </summary>
+        /// <param name="name">name of character</param>
+        /// <returns>The character object.</returns>
         public Character getCharacter(String name)
         {
             foreach(Character c in this.characters)
@@ -46,6 +60,14 @@ namespace NarrativePlanning
             }
             return null;
         }
+
+        /// <summary>
+        /// Returns a list of possible next world states given a list of operators.
+        /// This function isn't used that much because it doesn't provide the operation
+        /// performed.
+        /// </summary>
+        /// <param name="operators">List of grounded operators</param>
+        /// <returns>A list of possible world states.</returns>
         public List<WorldState> getPossibleNextStates(List<Operator> operators){
             List<WorldState> possibleNextStates = new List<WorldState>();
             foreach(Operator gop in operators){
@@ -55,6 +77,13 @@ namespace NarrativePlanning
             return possibleNextStates;
         }
 
+        /// <summary>
+        /// Returns a list of tuples of possible next states APPARENT to the character.
+        /// This means that it looks plainly at the character's beliefs and returns the set of tuples
+        /// of possible things characters can do.
+        /// </summary>
+        /// <param name="operators">The list of grounded operators</param>
+        /// <returns>A list of tuples. Each tuple contains the operation text and the resulting state.</returns>
         public List<Tuple<String, WorldState>> getPossibleApparentNextStatesTuples(List<Operator> operators)
         {
             List<Tuple<String, WorldState>> possibleNextStateTuples = new List<Tuple<string, WorldState>>();
@@ -67,6 +96,13 @@ namespace NarrativePlanning
             return possibleNextStateTuples;
         }
 
+        /// <summary>
+        /// Checks whether an operation is executable at 
+        /// a given world state.
+        /// </summary>
+        /// <param name="gop">The grounded operator</param>
+        /// <param name="w">The world state</param>
+        /// <returns>True if executable.</returns>
         public static bool isExecutable(Operator gop, WorldState w)
         {
             foreach (String gl in gop.preT.Keys)
@@ -82,6 +118,13 @@ namespace NarrativePlanning
             return true;
         }
 
+        /// <summary>
+        /// Returns the resultant state when an action is applied on 
+        /// a world state
+        /// </summary>
+        /// <param name="current">The current world state</param>
+        /// <param name="ground">Grounded operator to be applied</param>
+        /// <returns>Resultant world state.</returns>
         public static WorldState getNextState(WorldState current, Operator ground){
             WorldState newState = current.clone();
             foreach(String lit in ground.effT.Keys){
@@ -178,52 +221,44 @@ namespace NarrativePlanning
             return newState;
         }
 
+        /// <summary>
+        /// Returns the relaxed next state, i.e. the WorldState when only the
+        /// add effects are applied and not delete effects.
+        /// </summary>
+        /// <param name="current">Current world state</param>
+        /// <param name="ground">Grounded operator to be applied</param>
+        /// <returns>Resulting relaxed world state.</returns>
         public static WorldState getNextRelaxedState(WorldState current, Operator ground)
         {
             WorldState newState = current.clone();
             foreach (String lit in ground.effT.Keys)
             {
-                //if (newState.fWorld.Contains(lit))
-                    //newState.fWorld.Remove(lit);
                 if(!newState.tWorld.Contains(lit))
                     newState.tWorld.Add(lit, 1);
             }
             foreach (String lit in ground.effF.Keys)
             {
-                //if (newState.tWorld.Contains(lit))
-                    //newState.tWorld.Remove(lit);
                 if (!newState.fWorld.Contains(lit))
                 newState.fWorld.Add(lit, 1);
             }
             Character ch = newState.characters.Find(x => x.name.Equals(ground.character));
             foreach (String lit in ground.effBPlus.Keys)
             {
-                //if (c.bMinus.Contains(lit))
-                //    c.bMinus.Remove(lit);
-                //if (c.unsure.Contains(lit))
-                //c.unsure.Remove(lit);
                 if (!ch.bPlus.Contains(lit))
                     ch.bPlus.Add(lit, 1);
             }
             foreach (String lit in ground.effBMinus.Keys)
             {
-                //if (c.bPlus.Contains(lit))
-                //    c.bPlus.Remove(lit);
-                //if (c.unsure.Contains(lit))
-                //c.unsure.Remove(lit);
                 if (!ch.bMinus.Contains(lit))
                     ch.bMinus.Add(lit, 1);
             }
             foreach (String lit in ground.effUnsure.Keys)
             {
-                //if (c.bMinus.Contains(lit))
-                //    c.bMinus.Remove(lit);
-                //if (c.bPlus.Contains(lit))
-                //c.bPlus.Remove(lit);
                 if (!ch.unsure.Contains(lit))
                     ch.unsure.Add(lit, 1);
             }
-            foreach( Character c in newState.characters)
+            ////////////////// OBSERVABILITY ///////////////////////
+            foreach ( Character c in newState.characters)
             {
                 if (c.name.Equals(ground.character))
                     continue;
@@ -264,6 +299,12 @@ namespace NarrativePlanning
             return newState;
         }
 
+        /// <summary>
+        /// Checks whether the world state satisfies the provided goal conditions.
+        /// </summary>
+        /// <param name="goal">Goal, a world state which is a subset of literals
+        /// which should be the goal.</param>
+        /// <returns>True if world state meets goal conditions.</returns>
         public bool isGoalState(WorldState goal){
             foreach(String l in goal.tWorld.Keys){
                 if (!this.tWorld.Contains(l))
@@ -296,16 +337,13 @@ namespace NarrativePlanning
             }
             return true;
         }
-        //public static T DeepCopy<T>(T other)
-        //{
-        //    using (MemoryStream ms = new MemoryStream())
-        //    {
-        //        BinaryFormatter formatter = new BinaryFormatter();
-        //        formatter.Serialize(ms, other);
-        //        ms.Position = 0;
-        //        return (T)formatter.Deserialize(ms);
-        //    }
-        //}
+        
+        /// <summary>
+        /// Returns a deep copied clone for a world state.
+        /// This has been handwritten because C# doesn't have
+        /// a deepcopy by default.
+        /// </summary>
+        /// <returns>A cloned world state instance</returns>
         public WorldState clone(){
             Hashtable t = this.tWorld.Clone() as Hashtable;
             Hashtable f = this.fWorld.Clone() as Hashtable;

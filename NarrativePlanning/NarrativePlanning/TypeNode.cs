@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace NarrativePlanning
 {
+    /// <summary>
+    /// This class is used as a data structure for the type heirarchies.
+    /// </summary>
     [Serializable]
     public class TypeNode
     {
@@ -70,6 +73,7 @@ namespace NarrativePlanning
             }
             return null;
         }
+
 
         public List<Instance> getAllInstances(){
             List<Instance> res = new List<Instance>();

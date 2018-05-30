@@ -44,7 +44,6 @@
     <Compile Include="MasterGoal.cs" />
     <Compile Include="PlanningProblem.cs" />
     <Compile Include="Plan.cs" />
-    <Compile Include="Solution.cs" />
     <Compile Include="TypeNode.cs" />
     <Compile Include="Instance.cs" />
     <Compile Include="DomainBuilder\TypeTreeBuilder.cs" />
