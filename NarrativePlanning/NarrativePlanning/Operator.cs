@@ -119,6 +119,12 @@ namespace NarrativePlanning
         }
 
         //DO NOT GIVE THE GROUNDED VERSIONS!
+        /// <summary>
+        /// Creates an operator object for given string grounded operator
+        /// </summary>
+        /// <param name="operators">List of operators (NOT grounded)</param>
+        /// <param name="ground">String grounded operator</param>
+        /// <returns>The grounded operator object</returns>
         public static Operator getOperator(List<Operator> operators, String ground){
             Operator op = null;
             String[] words = ground.Trim().Split(' ');
@@ -315,6 +321,12 @@ namespace NarrativePlanning
             return op;
         }
 
+        /// <summary>
+        /// Finds the failed version of an operator
+        /// </summary>
+        /// <param name="operators">List of grounded operators</param>
+        /// <param name="trueop">The true operator</param>
+        /// <returns>The failed operator object</returns>
         public static Operator getFailedOperator(List<Operator> operators, Operator trueop)
         {
             String n = trueop.name.Substring(0, trueop.name.IndexOf("true") - 1);
@@ -331,17 +343,7 @@ namespace NarrativePlanning
             }
             throw new Exception("Operator not found!!");
         }
-
-        //public static T DeepCopy<T>(T other)
-        //{
-        //    using (MemoryStream ms = new MemoryStream())
-        //    {
-        //        BinaryFormatter formatter = new BinaryFormatter();
-        //        formatter.Serialize(ms, other);
-        //        ms.Position = 0;
-        //        return (T)formatter.Deserialize(ms);
-        //    }
-        //}
+        
 
         public Operator clone(){
             Operator o = new Operator();

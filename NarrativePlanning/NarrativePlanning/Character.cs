@@ -41,6 +41,14 @@ namespace NarrativePlanning
             this.unsure = unsure;
         }
 
+        /// <summary>
+        /// Creates the characters next relaxed state using
+        /// the belief update effects of the operators. Used
+        /// by the FF algorithm.
+        /// </summary>
+        /// <param name="current">Current character</param>
+        /// <param name="ground">Grounded operator</param>
+        /// <returns>The relaxed beliefs of the character</returns>
         public static Character getNextRelaxedState(Character current, Operator ground)
         {
             Character newState = current.clone();
@@ -68,6 +76,13 @@ namespace NarrativePlanning
             return newState;
         }
 
+        /// <summary>
+        /// Checks whether a character thinks if an action
+        /// is executable.
+        /// </summary>
+        /// <param name="gop">The grounded operator</param>
+        /// <param name="c">The character object</param>
+        /// <returns>True if apparently executable</returns>
         public static bool isApparentlyExecutable(Operator gop, Character c)
         {
             foreach (String gl in gop.preBPlus.Keys)
@@ -88,6 +103,12 @@ namespace NarrativePlanning
             return true;
         }
 
+        /// <summary>
+        /// Checks if a character believes whether they
+        /// have achieved their goal conditions
+        /// </summary>
+        /// <param name="goal">The character object with goal beliefs</param>
+        /// <returns>True if goal achieved</returns>
         public bool isGoalState(Character goal)
         {
             foreach (String l in goal.bPlus.Keys)
