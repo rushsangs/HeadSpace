@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace NarrativePlanning
 {
+    /// <summary>
+    /// The data structure that stores a plan.
+    /// </summary>
     [Serializable]
     public class Plan
     {
