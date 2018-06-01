@@ -41,7 +41,6 @@
     <Compile Include="Operator.cs" />
     <Compile Include="Character.cs" />
     <Compile Include="WorldState.cs" />
-    <Compile Include="MasterGoal.cs" />
     <Compile Include="PlanningProblem.cs" />
     <Compile Include="Plan.cs" />
     <Compile Include="TypeNode.cs" />
