@@ -36,8 +36,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Desire.cs" />
+    <Compile Include="DomainBuilder\DesireBuilder.cs" />
     <Compile Include="DomainBuilder\JSONDomainBuilder.cs" />
-    <Compile Include="EpistemicLiteral.cs" />
     <Compile Include="Intention.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -37,6 +37,12 @@ namespace NarrativePlanning.DomainBuilder
             set;
         }
 
+        public List<NarrativePlanning.Desire> desires
+        {
+            get;
+            set;
+        }
+
         public JSONDomainBuilder(String filename)
         {
             this.filename = filename;
@@ -57,6 +63,7 @@ namespace NarrativePlanning.DomainBuilder
 
             operators = DomainBuilder.OperationBuilder.getStoredOperators("serialized-ops.txt");
 
+            desires = DomainBuilder.DesireBuilder.parseDesires(jsonDomain.Desires);
             initial = StateCreator.getState(jsonDomain.Initial);
             goal = StateCreator.getState(jsonDomain.Final);
             Console.Write("Deserialized JSON file");
@@ -89,6 +96,9 @@ namespace JSONDomain
 
         [JsonProperty("operators")]
         public Operator[] Operators { get; set; }
+
+        [JsonProperty("desires")]
+        public Desire[] Desires { get; set; }
 
         [JsonProperty("initial")]
         public Final Initial { get; set; }
@@ -131,6 +141,18 @@ namespace JSONDomain
 
         [JsonProperty("type")]
         public string Type { get; set; }
+    }
+
+    public partial class Desire
+    {
+        [JsonProperty("character")]
+        public string Character { get; set; }
+
+        [JsonProperty("motivations")]
+        public Character Motivations { get; set; }
+
+        [JsonProperty("goal")]
+        public Character Goal { get; set; }
     }
 
     public partial class Operator

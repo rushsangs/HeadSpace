@@ -8,19 +8,38 @@ namespace NarrativePlanning
 {
     class Desire
     {
-        /// <summary>
-        /// The Character asically stores tyhe name and ONE literal 
-        /// in either the B+, B- or Unsure.
-        /// </summary>
-        Character character
+
+
+        public String character
         {
             get;
             set;
         }
-        List<String> motivations
+
+        /// <summary>
+        /// The Character basically stores the name and ONE literal 
+        /// in either the B+, B- or Unsure.
+        /// </summary>
+        public Character goals
         {
             get;
             set;
+        }
+
+        /// <summary>
+        /// Motivations are also the literals that spur the desire.
+        /// </summary>
+        public Character motivations
+        {
+            get;
+            set;
+        }
+
+        public Desire()
+        {
+            goals = new Character();
+            motivations = new Character();
+            character = "";
         }
     }
 }
