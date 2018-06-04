@@ -13,7 +13,7 @@ namespace NarrativePlanning
         /// Must store the character name and the single literal
         /// which can be either B plus, B minues, or Unsure
         /// </summary>
-        Character character
+        Character goals
         {
             get;
             set;
@@ -28,7 +28,7 @@ namespace NarrativePlanning
             set;
         }
 
-        List<String> motivations
+        Character motivations
         {
             get;
             set;
@@ -42,6 +42,20 @@ namespace NarrativePlanning
         {
             get;
             set;
+        }
+
+        public override bool Equals(object obj)
+        {
+            Intention i = obj as Intention;
+            bool a = this.goals.Equals(i.goals);
+            bool b = this.state.Equals(i.state);
+            bool c = this.motivations.Equals(i.motivations);
+            return a && b && c;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
 
     }

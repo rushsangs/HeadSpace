@@ -24,6 +24,12 @@ namespace NarrativePlanning
             get;
             set;
         }
+        HashSet<Intention> intentions
+        {
+            get;
+            set;
+        }
+
         //public BeliefState bs;
 
         public Character()
@@ -32,6 +38,7 @@ namespace NarrativePlanning
             bPlus = new Hashtable();
             bMinus = new Hashtable();
             unsure = new Hashtable();
+            intentions = new HashSet<Intention>();
         }
 
         public Character(Hashtable bPlus, Hashtable bMinus, Hashtable unsure)
@@ -135,6 +142,7 @@ namespace NarrativePlanning
             res.bPlus = this.bPlus.Clone() as Hashtable;
             res.bMinus = this.bMinus.Clone() as Hashtable;
             res.unsure = this.unsure.Clone() as Hashtable;
+            res.intentions = this.intentions.C
             return res;
         }
 
