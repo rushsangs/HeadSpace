@@ -27,6 +27,7 @@ namespace NarrativePlanning
             get;
             set;
         }
+
         //public List<Literal> tWorld;
         //public List<Literal> fWorld;
         /// <summary>
@@ -38,12 +39,23 @@ namespace NarrativePlanning
             set;
         }
 
+        public List<Intention> intentions
+        {
+            get;
+            set;
+        }
+
         public WorldState(Hashtable tWorld, Hashtable fWorld, List<Character> characters)
         {
             
             this.tWorld = tWorld;
             this.fWorld = fWorld;
             this.characters = characters;
+        }
+
+        public WorldState(Hashtable tWorld, Hashtable fWorld, List<Character> characters, List<Intention> intentions1) : this(tWorld, fWorld, characters)
+        {
+            this.intentions = intentions1;
         }
 
         /// <summary>
@@ -337,6 +349,65 @@ namespace NarrativePlanning
             }
             return true;
         }
+
+        public List<Intention> extractArisingIntentions(List<Desire> desires)
+        {
+            List<Intention> intentions = new List<Intention>();
+            foreach(Desire d in desires)
+            {
+                bool flag = true;
+                Character character = this.getCharacter(d.character);
+                foreach (String lit in d.motivations.bPlus.Keys)
+                {
+                    if (!character.bPlus.ContainsKey(lit))
+                    {
+                        flag = false;
+                        break;
+                    }
+                }
+                foreach (String lit in d.motivations.bMinus.Keys)
+                {
+                    if (!character.bMinus.ContainsKey(lit))
+                    {
+                        flag = false;
+                        break;
+                    }
+                }
+                foreach (String lit in d.motivations.unsure.Keys)
+                {
+                    if (!character.unsure.ContainsKey(lit))
+                    {
+                        flag = false;
+                        break;
+                    }
+                }
+                if (flag)
+                {
+                    //motivations have been satisfied, create intention frame but first check if one exists!
+                    foreach(Intention intention in intentions)
+                    {
+                        if (intention.hasGoal(d.goals))
+                        {
+                            //add the motivations to this intention
+                            intention.motivations.Add(d.motivations);
+                            flag = false;
+                        }
+                    }
+
+                    if (flag)
+                    {
+                        //create new intention frame 
+                        Intention i = new Intention();
+                        i.character = character.name;
+                        i.goals = d.goals;
+                        i.motivations.Add(d.motivations);
+                        i.plan = null;
+                        intentions.Add(i);
+                    }
+                }
+            }
+            return intentions;
+        }
         
         /// <summary>
         /// Returns a deep copied clone for a world state.
@@ -348,10 +419,15 @@ namespace NarrativePlanning
             Hashtable t = this.tWorld.Clone() as Hashtable;
             Hashtable f = this.fWorld.Clone() as Hashtable;
             List<Character> cs = new List<Character>();
+            List<Intention> intentions = new List<Intention>();
             foreach(Character c in this.characters){
                 cs.Add(c.clone());
             }
-            return new WorldState(t, f, cs);
+            foreach(Intention i in this.intentions)
+            {
+                intentions.Add(i.clone());
+            }
+            return new WorldState(t, f, cs, intentions);
         }
 
         public override bool Equals(object obj)
@@ -360,10 +436,15 @@ namespace NarrativePlanning
             bool a = this.tWorld.Cast<DictionaryEntry>().Union(w.tWorld.Cast<DictionaryEntry>()).Count() == this.tWorld.Count && this.tWorld.Count == w.tWorld.Count;
             bool b = this.fWorld.Cast<DictionaryEntry>().Union(w.fWorld.Cast<DictionaryEntry>()).Count() == this.fWorld.Count && this.fWorld.Count == w.fWorld.Count;
             bool c = this.characters.Count() == w.characters.Count();
-            for (int i = 0; i < this.characters.Count(); ++i){
+            bool d = this.intentions.Count() == w.intentions.Count();
+            for (int i = 0; i < this.characters.Count(); ++i) {
                 c = c && this.characters[i].Equals(w.characters[i]);
             }
-            return a && b && c;
+            for (int i = 0; i < this.intentions.Count(); ++i)
+            {
+                d = d && this.intentions[i].Equals(w.intentions[i]);
+            }
+            return a && b && c && d;
         }
 
         public override int GetHashCode()

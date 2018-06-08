@@ -5,8 +5,7 @@ namespace NarrativePlanning.DomainBuilder
 {
     public class GroundGenerator
     {
-        String file;
-        TypeNode root;
+        //TypeNode root;
         List<Operator> operators;
         public List<String> grounds;
         public GroundGenerator(TypeNode root, List<Operator> operators)

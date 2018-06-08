@@ -5,6 +5,11 @@ using System.Linq;
 
 namespace NarrativePlanning
 {
+    /// <summary>
+    /// While this class is used as representration for a character,
+    /// it is also used in multiple places to represent belief states
+    /// in motivations and desires, etc.
+    /// </summary>
     [Serializable]
     public class Character
     {
@@ -24,11 +29,7 @@ namespace NarrativePlanning
             get;
             set;
         }
-        HashSet<Intention> intentions
-        {
-            get;
-            set;
-        }
+        
 
         //public BeliefState bs;
 
@@ -38,7 +39,6 @@ namespace NarrativePlanning
             bPlus = new Hashtable();
             bMinus = new Hashtable();
             unsure = new Hashtable();
-            intentions = new HashSet<Intention>();
         }
 
         public Character(Hashtable bPlus, Hashtable bMinus, Hashtable unsure)
@@ -136,13 +136,48 @@ namespace NarrativePlanning
             return true;
         }
 
+        public bool hasMotivations(List<Character> motivationslist)
+        {
+            bool flag = true;
+            foreach (Character motivations in motivationslist)
+            {
+                foreach (String l in motivations.bPlus.Keys)
+                {
+                    if (!this.bPlus.Contains(l))
+                        flag = false;
+                }
+                foreach (String l in motivations.bMinus.Keys)
+                {
+                    if (!this.bMinus.Contains(l))
+                        flag = false;
+                }
+                foreach (String l in motivations.unsure.Keys)
+                {
+                    if (!this.unsure.Contains(l))
+                        flag = false;
+                }
+                if (flag)
+                    return true;
+            }
+            return false ;
+        }
+
+        public static WorldState createCharacterGoal(Character goal, String name)
+        {
+            WorldState res = new WorldState(new Hashtable(), new Hashtable(), new List<Character>());
+            Character c = goal.clone();
+            c.name = name;
+            res.characters.Add(c);
+            return res;
+        }
+
         public Character clone(){
             Character res = new Character();
             res.name = this.name;
             res.bPlus = this.bPlus.Clone() as Hashtable;
             res.bMinus = this.bMinus.Clone() as Hashtable;
             res.unsure = this.unsure.Clone() as Hashtable;
-            res.intentions = this.intentions.C
+            //res.intentions = this.intentions.C
             return res;
         }
 

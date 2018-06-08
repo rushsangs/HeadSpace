@@ -8,7 +8,7 @@ namespace NarrativePlanning.DomainBuilder
 {
     class DesireBuilder
     {
-        public List<NarrativePlanning.Desire> desires;
+        
         public static List<NarrativePlanning.Desire> parseDesires(JSONDomain.Desire[] desires)
         {
             List<NarrativePlanning.Desire> res = new List<Desire>();
