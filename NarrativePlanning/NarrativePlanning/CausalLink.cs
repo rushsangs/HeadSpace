@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NarrativePlanning
 {
-    class CausalLink
+    public class CausalLink
     {
         public WorldState first
         {
@@ -45,8 +45,10 @@ namespace NarrativePlanning
             this.active = false;
         }
 
-        public void findLinks(Plan p, PlanningProblem pp)
+		public static List<CausalLink> findLinks(Plan p)
         {
+			PlanningProblem pp = p.pp;
+			List<CausalLink> links = new List<CausalLink>();
             //basically go backward from the plan looking at each action's precondition and previous action's post condition
             //and when you find a common literal create a causal link for it.
             
@@ -67,10 +69,45 @@ namespace NarrativePlanning
                     {
                         //create causal links with all the steps that rely on this literal
                         List<int> l = (List<int>)openbplus[lit];
-
+						foreach(int index in l){
+							WorldState first = p.steps[i].Item2;
+							WorldState second = p.steps[index].Item2;
+							CausalLink link = new CausalLink(first, second, lit, "bplus");
+							links.Add(link);
+						}
                     }
                 }
-
+				foreach (String lit in op.effBMinus.Keys)
+                {
+					if (openbminus.ContainsKey(lit))
+                    {
+                        //create causal links with all the steps that rely on this literal
+						List<int> l = (List<int>)openbminus[lit];
+                        foreach (int index in l)
+                        {
+                            WorldState first = p.steps[i].Item2;
+                            WorldState second = p.steps[index].Item2;
+                            CausalLink link = new CausalLink(first, second, lit, "bminus");
+                            links.Add(link);
+                        }
+                    }
+                }
+				foreach (String lit in op.effUnsure.Keys)
+                {
+					if (openunsure.ContainsKey(lit))
+                    {
+                        //create causal links with all the steps that rely on this literal
+						List<int> l = (List<int>)openunsure[lit];
+                        foreach (int index in l)
+                        {
+                            WorldState first = p.steps[i].Item2;
+                            WorldState second = p.steps[index].Item2;
+                            CausalLink link = new CausalLink(first, second, lit, "unsure");
+                            links.Add(link);
+                        }
+                    }
+                }
+    
                 //compose open preconditions
                 foreach (String lit in op.preBPlus.Keys)
                 {
@@ -114,7 +151,7 @@ namespace NarrativePlanning
                
 
             }
-
+			return links;
         }
     }
 }

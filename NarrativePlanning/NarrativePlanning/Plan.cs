@@ -11,11 +11,18 @@ namespace NarrativePlanning
     {
         public PlanningProblem pp;
         public List<Tuple<String, WorldState>> steps;
+        
+		//the below fields have been added in HSX only
+		public List<bool> executed;
+		public List<CausalLink> links;
+
         public Plan(PlanningProblem pp)
         {
             this.pp = pp;
             steps = new List<Tuple<String, WorldState>>();
             steps.Add(new Tuple<String, WorldState>("null", pp.w0));
+			executed = new List<bool>();
+			executed.Add(true);
         }
 
         public String toString(){
@@ -23,6 +30,10 @@ namespace NarrativePlanning
             steps.ForEach(step=>s=s+step.Item1+"\n");
             return s;
         }
+
+		public void computeCLinks(){
+			this.links = CausalLink.findLinks(this);
+		}
 
         public Plan clone(){
             Plan p = new Plan(this.pp.clone());
