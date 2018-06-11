@@ -216,22 +216,22 @@ namespace NarrativePlanning
             return solutionPlan;
         }
 
-        public Plan HeadSpaceXSolution()
-        {
-            List<Tuple<String, WorldState>> nextStateTuples = w0.getPossibleApparentNextStatesTuples(groundedoperators);
-            int depth = 1;
-            int bfactor = 0;
-            int nnodes = 0;
-            Plan solutionPlan = null;
-            Plan current = new Plan(this);
-            //Queue<Plan> queue = new Queue<Plan>();
-            int min = -1;
-            Tuple<String, WorldState> best = null;
+        //public Plan HeadSpaceXSolution()
+        //{
+        //    List<Tuple<String, WorldState>> nextStateTuples = w0.getPossibleApparentNextStatesTuples(groundedoperators);
+        //    int depth = 1;
+        //    int bfactor = 0;
+        //    int nnodes = 0;
+        //    Plan solutionPlan = null;
+        //    Plan current = new Plan(this);
+        //    //Queue<Plan> queue = new Queue<Plan>();
+        //    int min = -1;
+        //    Tuple<String, WorldState> best = null;
 
 
 
-            return solutionPlan;
-        }
+        //    return solutionPlan;
+        //}
 
         public Plan HeadSpaceX(List<Desire> desires, Plan plan, WorldState goal, List<Operator> groundedoperators)
         {

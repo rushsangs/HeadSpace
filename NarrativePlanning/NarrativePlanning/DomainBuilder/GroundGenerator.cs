@@ -5,12 +5,13 @@ namespace NarrativePlanning.DomainBuilder
 {
     public class GroundGenerator
     {
-        //TypeNode root;
+        //String file;
+        TypeNode root;
         List<Operator> operators;
         public List<String> grounds;
         public GroundGenerator(TypeNode root, List<Operator> operators)
         {
-            file = "";
+            //file = "";
             this.root = root;
             this.operators = operators;
             grounds = generateGrounds();

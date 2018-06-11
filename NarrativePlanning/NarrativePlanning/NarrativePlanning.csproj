@@ -35,6 +35,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CausalLink.cs" />
     <Compile Include="Desire.cs" />
     <Compile Include="DomainBuilder\DesireBuilder.cs" />
     <Compile Include="DomainBuilder\JSONDomainBuilder.cs" />
