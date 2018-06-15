@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -35,6 +35,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DomainBuilder\DesireBuilder.cs" />
+    <Compile Include="DomainBuilder\JSONDomainBuilder.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Operator.cs" />
@@ -55,11 +57,10 @@
     <Compile Include="Intention.cs" />
     <Compile Include="Literal.cs" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="DomainBuilder\" />
-    <Folder Include="Text Files\" />
-  </ItemGroup>
-  <ItemGroup>
+    <None Include="beanstalk.json" />
+    <None Include="breakout.json" />
     <None Include="Text Files\types.txt" />
     <None Include="Text Files\instances.txt" />
     <None Include="Text Files\operators.txt" />
@@ -70,6 +71,7 @@
     <None Include="Text Files\beanstalk-types.txt" />
     <None Include="Text Files\beanstalk-goal.txt" />
     <None Include="packages.config" />
+    <None Include="utahpia.json" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

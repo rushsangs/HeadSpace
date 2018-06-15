@@ -72,8 +72,8 @@
       "character": "Dolores",
       "motivations": {
         "bplus": [
-		  "(at Dolores JailCell)"
-        ],
+			"(locked JailDoor)"
+		],
         "bminus": [],
         "unsure": []
       },
@@ -81,7 +81,9 @@
         "bplus": [
           "(at Dolores MainStreet)"
         ],
-        "bminus": [],
+        "bminus": [
+          ""
+        ],
         "unsure": []
       }
     }
@@ -560,7 +562,7 @@
       "(alive Teddy)",
       "(has Dolores Handgun)",
       "(in Floor JailCell)",
-      "(on 9mmBullet Floor)",
+      "(on Floor 9mmBullet)",
       "(locked JailDoor)",
       "(alive Dolores)",
       "(adjacent JailCell MainStreet)",
@@ -584,7 +586,7 @@
           "(at Dolores JailCell)",
           "(has Dolores Handgun)",
           "(in Floor JailCell)",
-          "(on 9mmBullet Floor)",
+          "(on Floor 9mmBullet)",
           "(locked JailDoor)",
           "(alive Dolores)",
           "(adjacent JailCell MainStreet)",
@@ -607,7 +609,7 @@
           "(at Teddy JailCell)",
           "(has Dolores Handgun)",
           "(in Floor JailCell)",
-          "(on 9mmBullet floor)",
+          "(on Floor 9mmBullet)",
           "(locked JailDoor)",
           "(alive Dolores)",
           "(alive Teddy)",
@@ -631,7 +633,8 @@
   },
   "final": {
     "t": [
-      "(at Dolores MainStreet)"
+      "(at Dolores MainStreet)",
+      "(at Teddy MainStreet)"
     ],
     "f": [],
     "characters": [
@@ -644,9 +647,9 @@
         "unsure": []
       },
       {
-        "name": "Dolores",
+        "name": "Teddy",
         "bplus": [
-          "(at Dolores MainStreet)"
+          "(at Teddy MainStreet)"
         ],
         "bminus": [],
         "unsure": []

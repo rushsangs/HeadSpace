@@ -1,0 +1,564 @@
+﻿{
+  "types": [
+    {
+      "name": "Person",
+      "type": "Object"
+    },
+    {
+      "name": "Location",
+      "type": "Object"
+    },
+    {
+      "name": "Thing",
+      "type": "Object"
+    },
+    {
+      "name": "Ammo",
+      "type": "Thing"
+    },
+    {
+      "name": "Weapon",
+      "type": "Thing"
+    },
+    {
+      "name": "Gun",
+      "type": "Weapon"
+    },
+    {
+      "name": "Furniture",
+      "type": "Object"
+    },
+    {
+      "name": "Consumable",
+      "type": "Thing"
+    },
+    {
+      "name": "Door",
+      "type": "Object"
+    }
+  ],
+  "instances": [
+    {
+      "name": "Sheriff",
+      "type": "Person"
+    },
+    {
+      "name": "Jack",
+      "type": "Person"
+    },
+    {
+      "name": "Bandit",
+      "type": "Person"
+    },
+    {
+      "name": "Rifle",
+      "type": "Gun"
+    },
+    {
+      "name": "Handgun",
+      "type": "Gun"
+    },
+    {
+      "name": "9mmBullet",
+      "type": "Ammo"
+    },
+    {
+      "name": "45mmBullet",
+      "type": "Ammo"
+    },
+    {
+      "name": "MainStreet",
+      "type": "Location"
+    },
+    {
+      "name": "SheriffOffice",
+      "type": "Location"
+    },
+    {
+      "name": "Railroad",
+      "type": "Location"
+    },
+    {
+      "name": "BarberShop",
+      "type": "Location"
+    },
+    {
+      "name": "Countertop",
+      "type": "Furniture"
+    },
+    {
+      "name": "Desk",
+      "type": "Furniture"
+    },
+    {
+      "name": "BarTable",
+      "type": "Furniture"
+    },
+    {
+      "name": "Moonshine",
+      "type": "Consumable"
+    },
+    {
+      "name": "VenisonStew",
+      "type": "Consumable"
+    },
+    {
+      "name": "GreenDoor",
+      "type": "Door"
+    }
+  ],
+  "operators": [
+    {
+      "name": "shoot",
+      "args": [
+        {
+          "name": "?shooter",
+          "type": "Person"
+        },
+        {
+          "name": "?victim",
+          "type": "Person"
+        },
+        {
+          "name": "?gun",
+          "type": "Gun"
+        },
+        {
+          "name": "?place",
+          "type": "Location"
+        }
+      ],
+      "char": "?shooter",
+      "loc": "?place",
+      "pre-t": [
+        "(at ?shooter ?place)",
+        "(at ?victim ?place)",
+        "(has ?shooter ?gun)",
+        "(alive ?shooter)",
+        "(alive ?victim)",
+        "(loaded ?gun)"
+      ],
+      "pre-f": [],
+      "eff-t": [],
+      "eff-f": [
+        "(alive ?victim)",
+        "(loaded ?gun)"
+      ],
+      "pre-bplus": [
+        "(at ?shooter ?place)",
+        "(at ?victim ?place)",
+        "(has ?shooter ?gun)",
+        "(alive ?shooter)",
+        "(alive ?victim)",
+        "(loaded ?gun)"
+      ],
+      "pre-bminus": [],
+      "pre-u": [],
+      "eff-bplus": [],
+      "eff-bminus": [
+        "(alive ?victim)",
+        "(loaded ?gun)"
+      ],
+      "eff-u": [],
+      "isPrivate": false
+    },
+    {
+      "name": "load",
+      "args": [
+        {
+          "name": "?person",
+          "type": "Person"
+        },
+        {
+          "name": "?gun",
+          "type": "Gun"
+        },
+        {
+          "name": "?ammo",
+          "type": "Ammo"
+        },
+        {
+          "name": "?place",
+          "type": "Location"
+        }
+      ],
+      "char": "?person",
+      "loc": "?place",
+      "pre-t": [
+        "(at ?person ?place)",
+        "(has ?person ?gun)",
+        "(has ?person ?ammo)",
+        "(alive ?person)"
+      ],
+      "pre-f": [
+        "(loaded ?gun)"
+      ],
+      "eff-t": [
+        "(loaded ?gun)"
+      ],
+      "eff-f": [
+        "(has ?person ?ammo)"
+      ],
+      "pre-bplus": [
+        "(at ?person ?place)",
+        "(has ?person ?gun)",
+        "(has ?person ?ammo)",
+        "(alive ?person)"
+      ],
+      "pre-bminus": [
+        "(loaded ?gun)"
+      ],
+      "pre-u": [],
+      "eff-bplus": [
+        "(loaded ?gun)"
+      ],
+      "eff-bminus": [
+        "(has ?person ?ammo)"
+      ],
+      "eff-u": [],
+      "isPrivate": false
+    },
+    {
+      "name": "unload",
+      "args": [
+        {
+          "name": "?person",
+          "type": "Person"
+        },
+        {
+          "name": "?gun",
+          "type": "Gun"
+        },
+        {
+          "name": "?ammo",
+          "type": "Ammo"
+        },
+        {
+          "name": "?place",
+          "type": "Location"
+        }
+      ],
+      "char": "?person",
+      "loc": "?place",
+      "pre-t": [
+        "(at ?person ?place)",
+        "(loaded ?gun)",
+        "(has ?person ?gun)",
+        "(alive ?person)"
+      ],
+      "pre-f": [],
+      "eff-t": [
+        "(has ?person ?ammo)"
+      ],
+      "eff-f": [
+        "(loaded ?gun)"
+      ],
+      "pre-bplus": [
+        "(at ?person ?place)",
+        "(loaded ?gun)",
+        "(has ?person ?gun)",
+        "(alive ?person)"
+      ],
+      "pre-bminus": [],
+      "pre-u": [],
+      "eff-bplus": [
+       "(has ?person ?ammo)"
+      ],
+      "eff-bminus": [
+        "(loaded ?gun)"
+      ],
+      "eff-u": [],
+      "isPrivate": false
+    },
+    {
+      "name": "goto",
+      "args": [
+        {
+          "name": "?person",
+          "type": "Person"
+        },
+        {
+          "name": "?from",
+          "type": "Location"
+        },
+        {
+          "name": "?to",
+          "type": "Location"
+        }
+      ],
+      "char": "?person",
+      "loc": "?from",
+      "pre-t": [
+        "(at ?person ?from)",
+        "(alive ?person)",
+        "(adjacent ?from ?to)"
+      ],
+      "pre-f": [
+        "(at ?person ?to)"
+        ],
+      "eff-t": [
+        "(at ?person ?to)"
+      ],
+      "eff-f": [
+        "(at ?person ?from)"
+      ],
+      "pre-bplus": [
+        "(at ?person ?from)",
+        "(alive ?person)",
+        "(adjacent ?from ?to)"
+        ],
+      "pre-bminus": [
+         "(at ?person ?to)"
+         ],
+      "pre-u": [],
+      "eff-bplus": [
+       "(at ?person ?to)"
+      ],
+      "eff-bminus": [
+         "(at ?person ?from)"
+      ],
+      "eff-u": [],
+      "isPrivate": false
+    },
+    {
+      "name": "checkgunloaded-true",
+      "args": [
+        {
+          "name": "?person",
+          "type": "Person"
+        },
+        {
+          "name": "?gun",
+          "type": "Gun"
+        },
+        {
+          "name": "?loc",
+          "type": "Location"
+        }
+      ],
+      "char": "?person",
+      "loc": "?loc",
+      "pre-t": [
+        "(has ?person ?gun)",
+        "(alive ?person)",
+        "(at ?person ?loc)",
+        "(loaded ?gun)"
+      ],
+      "pre-f": [],
+      "eff-t": [],
+      "eff-f": [],
+      "pre-bplus": [
+        "(has ?person ?gun)",
+        "(alive ?person)",
+        "(at ?person ?loc)"
+        ],
+      "pre-bminus": [],
+      "pre-u": [
+        "(loaded ?gun)"
+        ],
+      "eff-bplus": [
+       "(loaded ?gun)"
+      ],
+      "eff-bminus": [],
+      "eff-u": [],
+      "isPrivate": false
+    },
+    {
+      "name": "checkgunloaded-false",
+      "args": [
+        {
+          "name": "?person",
+          "type": "Person"
+        },
+        {
+          "name": "?gun",
+          "type": "Gun"
+        },
+        {
+          "name": "?loc",
+          "type": "Location"
+        }
+      ],
+      "char": "?person",
+      "loc": "?loc",
+      "pre-t": [
+        "(has ?person ?gun)",
+        "(alive ?person)",
+        "(at ?person ?loc)"
+      ],
+      "pre-f": [
+        "(loaded ?gun)"
+        ],
+      "eff-t": [],
+      "eff-f": [],
+      "pre-bplus": [
+        "(has ?person ?gun)",
+        "(alive ?person)",
+        "(at ?person ?loc)"
+        ],
+      "pre-bminus": [],
+      "pre-u": [
+        "(loaded ?gun)"
+        ],
+      "eff-bplus": [],
+      "eff-bminus": [
+       "(loaded ?gun)"
+      ],
+      "eff-u": [],
+      "isPrivate": false
+    },
+    {
+      "name": "fireatlock-true",
+      "args": [
+        {
+          "name": "?person",
+          "type": "Person"
+        },
+        {
+          "name": "?gun",
+          "type": "Gun"
+        },
+        {
+          "name": "?loc",
+          "type": "Location"
+        },
+        {
+          "name": "?door",
+          "type": "Door"
+        }
+      ],
+      "char": "?person",
+      "loc": "?loc",
+      "pre-t": [
+        "(has ?person ?gun)",
+        "(alive ?person)",
+        "(at ?person ?loc)"
+      ],
+      "pre-f": [
+        "(loaded ?gun)"
+        ],
+      "eff-t": [],
+      "eff-f": [],
+      "pre-bplus": [
+        "(has ?person ?gun)",
+        "(alive ?person)",
+        "(at ?person ?loc)"
+        ],
+      "pre-bminus": [],
+      "pre-u": [
+        "(loaded ?gun)"
+        ],
+      "eff-bplus": [],
+      "eff-bminus": [
+       "(loaded ?gun)"
+      ],
+      "eff-u": [],
+      "isPrivate": false
+    }
+  ],
+  "initial": {
+    "t": [
+      "(at Jack Home)",
+      "(at Mother Home)",
+      "(at Seller Market)",
+      "(at Giant CloudWorld)",
+      "(has Mother Cow)",
+      "(has Seller GreenBeans)",
+      "(has Giant Hen)",
+      "(equal Cloudworld CloudWorld)"
+    ],
+    "f": [
+      "(at Jack Market)",
+      "(at Jack CloudWorld)",
+      "(at Jack Backyard)",
+      "(at Mother Market)",
+      "(at Mother CloudWorld)",
+      "(at Mother Backyard)",
+      "(at Seller Home)",
+      "(at Seller CloudWorld)",
+      "(at Seller Backyard)",
+      "(at Giant Home)",
+      "(at Giant Market)",
+      "(at Giant Backyard)",
+      "(has Jack Cow)",
+      "(has Jack GreenBeans)",
+      "(has Jack Hen)",
+      "(has Mother GreenBeans)",
+      "(has Mother Hen)",
+      "(has Seller Cow)",
+      "(has Seller Hen)",
+      "(has Giant Cow)",
+      "(has Giant GreenBeans)",
+      "(exists Beanstalk Backyard)",
+      "(exists Beanstalk Home)",
+      "(exists Beanstalk Market)",
+      "(exists Beanstalk Cloudworld)",
+      "(equal Market CloudWorld)",
+      "(equal Home CloudWorld)",
+      "(equal Backyard CloudWorld)"
+    ],
+    "characters": [
+      {
+        "name": "Jack",
+        "bplus": [
+          "(at Jack Home)",
+          "(at Mother Home)",
+          "(at Seller Market)",
+          "(at Giant CloudWorld)",
+          "(has Mother Cow)",
+          "(has Seller GreenBeans)",
+          "(has Giant Hen)",
+          "(equal Cloudworld CloudWorld)"
+        ],
+        "bminus": [
+          "(at Jack Market)",
+          "(at Jack CloudWorld)",
+          "(at Jack Backyard)",
+          "(at Mother Market)",
+          "(at Mother CloudWorld)",
+          "(at Mother Backyard)",
+          "(at Seller Home)",
+          "(at Seller CloudWorld)",
+          "(at Seller Backyard)",
+          "(at Giant Home)",
+          "(at Giant Market)",
+          "(at Giant Backyard)",
+          "(has Jack Cow)",
+          "(has Jack GreenBeans)",
+          "(has Jack Hen)",
+          "(has Mother GreenBeans)",
+          "(has Mother Hen)",
+          "(has Seller Cow)",
+          "(has Seller Hen)",
+          "(has Giant Cow)",
+          "(has Giant GreenBeans)",
+          "(exists Beanstalk Backyard)",
+          "(exists Beanstalk Home)",
+          "(exists Beanstalk Market)",
+          "(exists Beanstalk Cloudworld)",
+          "(equal Market CloudWorld)",
+          "(equal Home CloudWorld)",
+          "(equal Backyard CloudWorld)"
+        ],
+        "unsure": []
+      }
+    ]
+  },
+  "final": {
+    "t": [
+      "(has Seller Cow)",
+      "(exists Beanstalk Backyard)"
+    ],
+    "f": [
+      "(at Jack Home)"
+    ],
+    "characters": [
+      {
+        "name": "Jack",
+        "bplus": [],
+        "bminus": [],
+        "unsure": []
+      }
+    ]
+  }
+}

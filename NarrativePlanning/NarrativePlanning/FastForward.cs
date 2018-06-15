@@ -73,7 +73,7 @@ namespace NarrativePlanning
                 foreach(Operator o in At){
                     l.F[t] = WorldState.getNextRelaxedState(((WorldState)l.F[t]), o);
                 }
-                if ((l.F[t] as WorldState).Equals(l.F[t - 1] as WorldState)){
+                if ((l.F[t] as WorldState).HasChangedFrom(l.F[t - 1] as WorldState)){
                     l.k = t;
                     return l;
                 }
@@ -102,6 +102,12 @@ namespace NarrativePlanning
             l.F.Add(0, characteri);
 
             Character characterf = goal.characters.Find(x => x.name.Equals(charactername));
+            if(characterf == null)
+            {
+                //the character had no goal.
+                l.k = t;
+                return l;
+            }
 
             while (!((Character)l.F[t]).isGoalState(characterf))
             {
@@ -122,6 +128,7 @@ namespace NarrativePlanning
                 }
                 if ((l.F[t] as Character).Equals(l.F[t - 1] as Character))
                 {
+                    //could not reach goal.
                     l.k = t;
                     return l;
                 }
@@ -255,6 +262,11 @@ namespace NarrativePlanning
 		{
 			int selectedActions = 0;
 			Character characterg = g.characters.Find(x => x.name.Equals(charactername));
+            if(characterg == null)
+            {
+                //no goal exists for the character
+                return -1;
+            }
 			if (!((Character)l.F[l.k]).isGoalState(characterg))
 			{
 				//if (l.k == 0)

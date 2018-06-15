@@ -51,6 +51,7 @@ namespace NarrativePlanning
             this.tWorld = tWorld;
             this.fWorld = fWorld;
             this.characters = characters;
+            this.intentions = new List<Intention>();
         }
 
         public WorldState(Hashtable tWorld, Hashtable fWorld, List<Character> characters, List<Intention> intentions1) : this(tWorld, fWorld, characters)
@@ -402,6 +403,7 @@ namespace NarrativePlanning
                         i.goals = d.goals;
                         i.motivations.Add(d.motivations);
                         i.plan = null;
+                        i.state = this;
                         intentions.Add(i);
                     }
                 }
@@ -444,6 +446,24 @@ namespace NarrativePlanning
             {
                 d = d && this.intentions[i].Equals(w.intentions[i]);
             }
+            return a && b && c && d;
+        }
+
+        public bool HasChangedFrom(object obj)
+        {
+            WorldState w = obj as WorldState;
+            bool a = this.tWorld.Cast<DictionaryEntry>().Union(w.tWorld.Cast<DictionaryEntry>()).Count() == this.tWorld.Count && this.tWorld.Count == w.tWorld.Count;
+            bool b = this.fWorld.Cast<DictionaryEntry>().Union(w.fWorld.Cast<DictionaryEntry>()).Count() == this.fWorld.Count && this.fWorld.Count == w.fWorld.Count;
+            bool c = this.characters.Count() == w.characters.Count();
+            bool d = this.intentions.Count() == w.intentions.Count();
+            for (int i = 0; i < this.characters.Count(); ++i)
+            {
+                c = c && this.characters[i].Equals(w.characters[i]);
+            }
+            //for (int i = 0; i < this.intentions.Count(); ++i)
+            //{
+            //    d = d && this.intentions[i].Equals(w.intentions[i]);
+            //}
             return a && b && c && d;
         }
 

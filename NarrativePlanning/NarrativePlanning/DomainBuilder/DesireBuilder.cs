@@ -18,24 +18,35 @@ namespace NarrativePlanning.DomainBuilder
                 d.character = des.Character;
                 foreach(String lit in des.Motivations.Bplus)
                 {
-                    d.motivations.bPlus.Add(lit, 1);
+                    String l = lit.Trim().Trim('(', ')').Trim();
+                    d.motivations.bPlus.Add(l, 1);
                 }
                 foreach (String lit in des.Motivations.Bminus)
                 {
-                    d.motivations.bMinus.Add(lit, 1);
+                    String l = lit.Trim().Trim('(', ')').Trim();
+                    d.motivations.bMinus.Add(l, 1);
                 }
                 foreach (String lit in des.Motivations.Unsure)
                 {
-                    d.motivations.unsure.Add(lit, 1);
+                    String l = lit.Trim().Trim('(', ')').Trim();
+                    d.motivations.unsure.Add(l, 1);
                 }
 
                 if (des.Goal.Bplus.Length > 0)
-                    d.goals.bPlus.Add(des.Goal.Bplus[0], 1);
+                {
+                    String l = des.Goal.Bplus[0].Trim().Trim('(', ')').Trim();
+                    d.goals.bPlus.Add(l, 1);
+                }
                 if (des.Goal.Bminus.Length > 0)
-                    d.goals.bMinus.Add(des.Goal.Bminus[0], 1);
+                {
+                    String l = des.Goal.Bminus[0].Trim().Trim('(', ')').Trim();
+                    d.goals.bMinus.Add(l, 1);
+                }
                 if (des.Goal.Unsure.Length > 0)
-                    d.goals.unsure.Add(des.Goal.Unsure[0], 1);
-
+                {
+                    String l = des.Goal.Unsure[0].Trim().Trim('(', ')').Trim();
+                    d.goals.unsure.Add(l, 1);
+                }
                 res.Add(d);
             }
 

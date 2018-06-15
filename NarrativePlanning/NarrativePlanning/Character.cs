@@ -165,10 +165,36 @@ namespace NarrativePlanning
         public static WorldState createCharacterGoal(Character goal, String name)
         {
             WorldState res = new WorldState(new Hashtable(), new Hashtable(), new List<Character>());
+            if (goal.bPlus.Count > 0)
+            {
+                foreach(String lit in goal.bPlus.Keys)
+                {
+                    res.tWorld.Add(lit, 1);
+                }
+            }
+            if (goal.bMinus.Count > 0)
+            {
+                foreach (String lit in goal.bMinus.Keys)
+                {
+                    res.fWorld.Add(lit, 1);
+                }
+            }
+
             Character c = goal.clone();
             c.name = name;
             res.characters.Add(c);
             return res;
+        }
+
+
+        public static String getGoalBeliefState(Character goals)
+        {
+            if (goals.bPlus.Count > 0)
+                return "bplus";
+            else if (goals.bMinus.Count > 0)
+                return "bminus";
+            return "unsure";
+
         }
 
         public Character clone(){
@@ -187,7 +213,7 @@ namespace NarrativePlanning
             bool a = this.bPlus.Cast<DictionaryEntry>().Union(c.bPlus.Cast<DictionaryEntry>()).Count() == this.bPlus.Count && this.bPlus.Count == c.bPlus.Count;
             bool b = this.bMinus.Cast<DictionaryEntry>().Union(c.bMinus.Cast<DictionaryEntry>()).Count() == this.bMinus.Count && this.bMinus.Count == c.bMinus.Count;
             bool d = this.unsure.Cast<DictionaryEntry>().Union(c.unsure.Cast<DictionaryEntry>()).Count() == this.unsure.Count && this.unsure.Count == c.unsure.Count;
-            bool e = this.name.Equals(c.name);
+            bool e = (this.name == c.name) || this.name.Equals(c.name);
             return a && b && d && e;
         }
 
@@ -195,5 +221,6 @@ namespace NarrativePlanning
         {
             return base.GetHashCode();
         }
+
     }
 }

@@ -28,8 +28,8 @@ namespace NarrativePlanning
             watch.Stop();
             Console.WriteLine("Time taken to prepare everything: " + watch.ElapsedMilliseconds + " milliseconds.");
             watch.Restart();
-            PlanningProblem problem = new PlanningProblem(j.initial, j.goal, j.operators);
-            Console.Write(problem.FFSolution().toString());
+            PlanningProblem problem = new PlanningProblem(j.initial, j.goal, j.operators, j.desires);
+            Console.Write(problem.HeadSpaceXSolution().toString());
             watch.Stop();
             Console.WriteLine("Complete, planning algorithm time = " + watch.ElapsedMilliseconds + " milliseconds.");
         }

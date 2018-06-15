@@ -10,7 +10,7 @@ namespace NarrativePlanning
     {
         public String character;
         /// <summary>
-        /// Must store the character name and the single literal
+        /// Must store the single literal
         /// which can be either B plus, B minues, or Unsure
         /// </summary>
         public Character goals
@@ -38,7 +38,7 @@ namespace NarrativePlanning
         /// The plan that the character can come up with 
         /// to achieve the goal.
         /// </summary>
-        public Plan plan
+        public Microplan plan
         {
             get;
             set;
@@ -107,12 +107,14 @@ namespace NarrativePlanning
             Intention res = new Intention();
             res.character = this.character;
             res.goals = this.goals.clone();
+            res.state = this.state;
             res.plan = this.plan.clone();
-            res.state = this.state.clone();
             foreach (Character m in this.motivations)
             {
                 res.motivations.Add(m.clone());
             }
+            
+
             return res;
         }
         
@@ -121,7 +123,7 @@ namespace NarrativePlanning
             Intention i = obj as Intention;
             bool x = this.character.Equals(i.character);
             bool a = this.goals.Equals(i.goals);
-            bool b = this.state.Equals(i.state);
+            bool b = this.state.HasChangedFrom(i.state);
             bool c = this.motivations.Equals(i.motivations);
             return a && b && c && x;
         }

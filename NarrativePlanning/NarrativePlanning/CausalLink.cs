@@ -9,12 +9,12 @@ namespace NarrativePlanning
 {
     public class CausalLink
     {
-        public WorldState first
+        public int first
         {
             get;
             set;
         }
-        public WorldState second
+        public int second
         {
             get;
             set;
@@ -29,6 +29,11 @@ namespace NarrativePlanning
             get;
             set;
         }
+        public String character
+        {
+            get;
+            set;
+        }
 
         public bool active
         {
@@ -36,18 +41,19 @@ namespace NarrativePlanning
             set;
         }
 
-        public CausalLink(WorldState first, WorldState second, string literal, string bState)
+        public CausalLink(int first, int second, string literal, string bState, string character)
         {
             this.first = first;
             this.second = second;
             this.literal = literal;
             this.bState = bState;
+            this.character = character;
             this.active = false;
         }
 
-		public static List<CausalLink> findLinks(Plan p)
+		public static List<CausalLink> findLinks(Microplan p, List<Operator> groundedoperators)
         {
-			PlanningProblem pp = p.pp;
+			//PlanningProblem pp = p.pp;
 			List<CausalLink> links = new List<CausalLink>();
             //basically go backward from the plan looking at each action's precondition and previous action's post condition
             //and when you find a common literal create a causal link for it.
@@ -59,9 +65,10 @@ namespace NarrativePlanning
 
             for (int i = p.steps.Count - 1; i >= 0; --i)
             {
-                Tuple<String, WorldState> step = p.steps[i];
-                Operator op = pp.groundedoperators.Find(xy => xy.text.Equals(step.Item1));
-
+                String step = p.steps[i];
+                Operator op = groundedoperators.Find(xy => xy.text.Equals(step));
+                if (op == null)
+                    continue;
                 //check if any effects are in the open preconditions
                 foreach(String lit in op.effBPlus.Keys)
                 {
@@ -70,9 +77,9 @@ namespace NarrativePlanning
                         //create causal links with all the steps that rely on this literal
                         List<int> l = (List<int>)openbplus[lit];
 						foreach(int index in l){
-							WorldState first = p.steps[i].Item2;
-							WorldState second = p.steps[index].Item2;
-							CausalLink link = new CausalLink(first, second, lit, "bplus");
+							int first = i;
+							int second = index;
+							CausalLink link = new CausalLink(first, second, lit, "bplus", op.character);
 							links.Add(link);
 						}
                     }
@@ -85,9 +92,9 @@ namespace NarrativePlanning
 						List<int> l = (List<int>)openbminus[lit];
                         foreach (int index in l)
                         {
-                            WorldState first = p.steps[i].Item2;
-                            WorldState second = p.steps[index].Item2;
-                            CausalLink link = new CausalLink(first, second, lit, "bminus");
+                            int first = i;
+                            int second = index;
+                            CausalLink link = new CausalLink(first, second, lit, "bminus", op.character);
                             links.Add(link);
                         }
                     }
@@ -100,9 +107,9 @@ namespace NarrativePlanning
 						List<int> l = (List<int>)openunsure[lit];
                         foreach (int index in l)
                         {
-                            WorldState first = p.steps[i].Item2;
-                            WorldState second = p.steps[index].Item2;
-                            CausalLink link = new CausalLink(first, second, lit, "unsure");
+                            int first = i;
+                            int second = index;
+                            CausalLink link = new CausalLink(first, second, lit, "unsure", op.character);
                             links.Add(link);
                         }
                     }
@@ -152,6 +159,100 @@ namespace NarrativePlanning
 
             }
 			return links;
+        }
+
+        public static bool isLinkThreatened(Microplan p, WorldState w)
+        {
+            //figure out which steps have been executed in the plan
+            int i = 0;
+            for (i =0;  i<p.executed.Count; ++i )
+            {
+                if (!p.executed[i])
+                    break;
+            }
+            
+            //i is the index of step which was not executed,
+            //i-1 is the last executed step
+
+            List<CausalLink> openlinks = new List<CausalLink>();
+
+            foreach(CausalLink link in p.links)
+            {
+                if (link.first < i && link.second >= i)
+                    openlinks.Add(link);
+            }
+
+            //check if the openlinks literal/bstate
+            // are satisfied.
+            foreach(CausalLink link in openlinks)
+            {
+                Character c = w.characters.Find(xy => xy.name.Equals(link.character));
+                if (link.bState.Equals("bplus"))
+                {
+                    if (!c.bPlus.Contains(link.literal))
+                    {
+                        //check if there is another causal link 
+                        bool flag = false;
+                        foreach (CausalLink other in p.links)
+                        {
+                            if (other.character.Equals(link.character)
+                                && other.bState.Equals(link.bState)
+                                && other.literal.Equals(link.literal)
+                                && other.second == link.second
+                                && other.first > link.first)
+                                flag = true;
+                        }
+                        if (!flag)
+                            return true;
+                    }
+                }
+                else if (link.bState.Equals("bminus"))
+                {
+                    if (!c.bMinus.Contains(link.literal))
+                    {
+                        //check if there is another causal link 
+                        bool flag = false;
+                        foreach (CausalLink other in p.links)
+                        {
+                            if (other.character.Equals(link.character)
+                                && other.bState.Equals(link.bState)
+                                && other.literal.Equals(link.literal)
+                                && other.second == link.second
+                                && other.first > link.first)
+                                flag = true;
+                        }
+                        if (!flag)
+                            return true;
+                    }
+                }
+                else if (link.bState.Equals("unsure"))
+                {
+                    if (!c.unsure.Contains(link.literal))
+                    {
+                        //check if there is another causal link 
+                        bool flag = false;
+                        foreach (CausalLink other in p.links)
+                        {
+                            if (other.character.Equals(link.character)
+                                && other.bState.Equals(link.bState)
+                                && other.literal.Equals(link.literal)
+                                && other.second == link.second
+                                && other.first > link.first)
+                                flag = true;
+                        }
+                        if (!flag)
+                            return true;
+                    }
+                }
+
+            }
+            return false;
+        }
+
+        public CausalLink clone()
+        {
+            CausalLink res = new CausalLink(this.first, this.second, this.literal, this.bState, this.character);
+            return res;
         }
     }
 }
