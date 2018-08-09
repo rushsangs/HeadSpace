@@ -51,52 +51,55 @@ namespace NarrativePlanning
         public Microplan()
         {
             this.steps = new List<String>();
-            this.steps.Add("null");
+            //this.steps.Add("null");
             executed = new List<bool>();
-            executed.Add(true);
+            //executed.Add(true);
             links = new List<CausalLink>();
         }
 
         public Microplan(Plan p)
         {
-            this.steps = getStringSteps(p.steps);
+            this.steps = new List<string>();
+            this.steps.Add("null1");
+            this.steps.AddRange(getStringSteps(p.steps));
+            this.steps.Add("null2");
             executed = new List<bool>();
             executed.Add(true);
             links = new List<CausalLink>();
         }
 
-        public Microplan(List<String> steps)
-        {
-            this.steps = steps;
-            executed = new List<bool>();
-            executed.Add(true);
-            links = new List<CausalLink>();
-        }
+        //public Microplan(List<String> steps)
+        //{
+        //    this.steps = steps;
+        //    executed = new List<bool>();
+        //    executed.Add(true);
+        //    links = new List<CausalLink>();
+        //}
 
         public List<String> getStringSteps(List<Tuple<String, WorldState>> steps)
         {
             List<String> res = new List<string>();
 
-            foreach(Tuple<String, WorldState> t in steps)
+            for (int i = 1; i< steps.Count; ++i)
             {
-                res.Add(t.Item1);
+                res.Add(steps[i].Item1);
             }
             return res;
         }
 
-        public void computeCLinks(List<Operator> grounds)
+        public void computeCLinks(List<Operator> grounds, Character initial, Character goal)
         {
-            this.links = CausalLink.findLinks(this, grounds);
+            this.links = CausalLink.findLinks(this, grounds, initial, goal);
         }
 
         public Microplan clone()
         {
             Microplan p = new Microplan();
-            for(int i = 1; i <this.steps.Count; ++i)
+            for(int i = 0; i <this.steps.Count; ++i)
             {
                 p.steps.Add(this.steps[i]);
             }
-            for (int i = 1; i < this.executed.Count; ++i)
+            for (int i = 0; i < this.executed.Count; ++i)
             {
                 p.executed.Add(this.executed[i]);
             }

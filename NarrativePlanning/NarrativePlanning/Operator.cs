@@ -311,7 +311,7 @@ namespace NarrativePlanning
                             }
                         }
                         else{
-                            Console.WriteLine("there seems to be an instance mismatch!");
+                            UnityConsole.WriteLine("there seems to be an instance mismatch!");
                         }
                     }
                     return op;

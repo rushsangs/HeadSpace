@@ -35,6 +35,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CounterAction.cs" />
+    <Compile Include="DomainBuilder\CounteractionBuilder.cs" />
     <Compile Include="DomainBuilder\DesireBuilder.cs" />
     <Compile Include="DomainBuilder\JSONDomainBuilder.cs" />
     <Compile Include="Program.cs" />

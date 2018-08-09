@@ -1,4 +1,4 @@
-﻿{
+{
   "types": [
     {
       "name": "Person",
@@ -126,11 +126,6 @@
       "name": "Vault",
       "type": "Storage",
       "object": "vault"
-    },
-    {
-      "name": "Chair",
-      "type": "Furniture",
-      "object": "chair"
     }
   ],
   "desires": [
@@ -139,66 +134,17 @@
       "motivations": {
         "bplus": [],
         "bminus": [
-		"(at Dolores MainStreet)"
+			"(has Dolores Gold)"
 		],
         "unsure": []
       },
       "goal": {
         "bplus": [
-          "(at Dolores MainStreet)"
+          "(has Dolores Gold)"
         ],
         "bminus": [],
         "unsure": []
       }
-    }
-  ],
-    "counteractions": [
-    {
-      "conditions": {
-        "t": [
-          "(at Dolores Saloon)",
-          "(at Guard Saloon)",
-          "(alive Dolores)",
-          "(alive Guard)",
-          "(has Guard Glass)",
-          "(in BarCabinet Saloon)",
-          "(in Bar Saloon)"
-        ],
-        "f": [
-          "(needsfilled Guard Glass)",
-          "(filled Glass)"
-        ],
-        "characters": [
-          {
-            "name": "Guard",
-            "bplus": [
-              "(at Dolores Saloon)",
-              "(at Guard Saloon)",
-              "(alive Dolores)",
-              "(alive Guard)",
-              "(has Guard Glass)",
-              "(in BarCabinet Saloon)",
-              "(in Bar Saloon)",
-              "(on WineBottle Bar)",
-              "(contains BarCabinet WineBottleSpare)",
-              "(filled WineBottleSpare)"
-            ],
-            "bminus": [
-              "(locked BarCabinet)",
-              "(open BarCabinet)",
-              "(needsfilled Guard Glass)",
-              "(filled Glass)",
-              "(filled WineBottle)",
-              "(has Guard WineBottle)",
-              "(has Guard WineBottleSpare)",
-              "(has Dolores WineBottle)",
-              "(has Dolores WineBottleSpare)"
-            ],
-            "unsure": []
-          }
-        ]
-      },
-      "groundedoperator": "askforrefill Guard Glass Saloon"
     }
   ],
   "operators": [
@@ -261,7 +207,7 @@
     },
     {
       "name": "unload-true",
-      "actionclass": "UnloadTAction",
+      "actionclass": "UnloadActionT",
       "args": [
         {
           "name": "?person",
@@ -314,7 +260,7 @@
     },
     {
       "name": "unload-false",
-      "actionclass": "UnloadFAction",
+      "actionclass": "UnloadActionF",
       "args": [
         {
           "name": "?person",
@@ -368,7 +314,7 @@
     },
     {
       "name": "checkgunloaded-true",
-      "actionclass": "CheckGunTAction",
+      "actionclass": "DropAction",
       "args": [
         {
           "name": "?person",
@@ -414,7 +360,7 @@
     },
     {
       "name": "checkgunloaded-false",
-      "actionclass": "CheckGunFAction",
+      "actionclass": "UnFreezeAction",
       "args": [
         {
           "name": "?person",
@@ -461,7 +407,7 @@
     },
     {
       "name": "fireatlock-true",
-      "actionclass": "FireAtLockTAction",
+      "actionclass": "ShootAction",
       "args": [
         {
           "name": "?person",
@@ -512,7 +458,7 @@
     },
     {
       "name": "fireatlock-false",
-      "actionclass": "FireAtLockFAction",
+      "actionclass": "WaveAction",
       "args": [
         {
           "name": "?person",
@@ -783,65 +729,60 @@
       "private-effects": []
     },
     {
-      "name": "pickupthroughjail",
-      "actionclass": "PickUpThroughJailAction",
+      "name": "take",
+      "actionclass": "TakeAction",
       "args": [
         {
           "name": "?person",
           "type": "Person"
         },
         {
+          "name": "?loc",
+          "type": "Location"
+        },
+        {
           "name": "?item",
           "type": "Thing"
         },
         {
-          "name": "?furn",
-          "type": "Furniture"
-        },
-        {
-          "name": "?loc",
-          "type": "Location"
-        },
-		{
-          "name": "?floc",
-          "type": "Location"
-			
-		}
+          "name": "?storage",
+          "type": "Storage"
+        }
       ],
       "char": "?person",
       "loc": "?loc",
       "pre-t": [
         "(alive ?person)",
         "(at ?person ?loc)",
-        "(in ?furn ?floc)",
-        "(on ?item ?furn)",
-		"(connected ?loc ?floc JailDoor)"
+        "(in ?storage ?loc)",
+        "(contains ?storage ?item)",
+        "(open ?storage)"
       ],
       "pre-f": [
-        "(has ?person ?item)"
+        "(locked ?storage)"
       ],
       "eff-t": [
         "(has ?person ?item)"
       ],
       "eff-f": [
-        "(on ?item ?furn)"
+        "(contains ?storage ?item)"
       ],
       "pre-bplus": [
         "(alive ?person)",
         "(at ?person ?loc)",
-        "(in ?furn ?floc)",
-        "(on ?item ?furn)",
-		"(connected ?loc ?floc JailDoor)"
+        "(in ?storage ?loc)",
+        "(contains ?storage ?item)",
+        "(open ?storage)"
       ],
       "pre-bminus": [
-        "(has ?person ?item)"
+        "(locked ?storage)"
       ],
       "pre-u": [],
       "eff-bplus": [
         "(has ?person ?item)"
       ],
       "eff-bminus": [
-        "(on ?item ?furn)"
+        "(contains ?storage ?item)"
       ],
       "eff-u": [],
       "private-effects": []
@@ -1092,7 +1033,8 @@
       ],
       "pre-f": [
         "(locked ?obj)",
-        "(open ?obj)"
+        "(open ?obj)",
+        "(alive Guard)"
       ],
       "eff-t": [
         "(open ?obj)"
@@ -1105,7 +1047,8 @@
       ],
       "pre-bminus": [
         "(locked ?obj)",
-        "(open ?obj)"
+        "(open ?obj)",
+        "(alive Guard)"
       ],
       "pre-u": [],
       "eff-bplus": [
@@ -1141,7 +1084,8 @@
         "(in ?obj ?loc)"
       ],
       "pre-f": [
-        "(open ?obj)"
+        "(open ?obj)",
+        "(alive Guard)"
       ],
       "eff-t": [],
       "eff-f": [],
@@ -1152,7 +1096,8 @@
       ],
       "pre-bminus": [
         "(locked ?obj)",
-        "(open ?obj)"
+        "(open ?obj)",
+        "(alive Guard)"
       ],
       "pre-u": [],
       "eff-bplus": [
@@ -1165,136 +1110,135 @@
   ],
   "initial": {
     "t": [
-      "(at Dolores JailCell)",
-      "(in Floor JailCell)",
-      "(on 9mmBullet Floor)",
-      "(locked JailDoor)",
+      "(at Dolores MainStreet)",
+      "(at Guard Bank)",
       "(alive Dolores)",
-      "(connected Jail JailCell JailDoor)",
-      "(connected JailCell Jail JailDoor)",
-      "(adjacent Jail MainStreet)",
-	  "(in JailDoor JailCell)",
-	  "(in Chair Jail)",
-		"(on Handgun Chair)"
+      "(alive Guard)",
+      "(has Dolores Handgun)",
+      "(in Vault Bank)",
+      "(in WallHook Bank)",
+	  "(on VaultKey WallHook)",
+	  "(locked Vault)",
+	  "(unlocks VaultKey Vault)",
+      "(contains Vault Gold)",
+      "(adjacent MainStreet Bank)",
+      "(connected Bank MainStreet)",
+      "(loaded Handgun)"
     ],
     "f": [
-      "(at Dolores MainStreet)",
-	  "(at Dolores Jail)",
-      "(has Dolores Handgun)",
-      "(has Dolores 9mmBullet)",
-      "(in Floor MainStreet)",
-	  "(in Floor Jail)",
-	  "(in Chair MainStreet)",
-	  "(in Chair JailCell)",
-      "(in JailDoor MainStreet)",
-	  "(in JailDoor Jail)",
-      "(loaded Handgun)"
+      "(open Vault)",
+      "(at Dolores Bank)",
+      "(at Guard MainStreet)",
+      "(has Guard Handgun)",
+	  "(has Guard Gold)",
+	  "(has Dolores Gold)",
+	  "(has Dolores VaultKey)",
+	  "(in WallHook MainStreet)",
+      "(in Vault MainStreet)"
     ],
     "characters": [
       {
         "name": "Dolores",
         "bplus": [
-          "(at Dolores JailCell)",
-      "(in Floor JailCell)",
-      "(on 9mmBullet Floor)",
-      "(locked JailDoor)",
+      "(at Dolores MainStreet)",
+      "(at Guard Bank)",
       "(alive Dolores)",
-      "(connected Jail JailCell JailDoor)",
-      "(connected JailCell Jail JailDoor)",
-      "(adjacent Jail MainStreet)",
-	  "(in JailDoor JailCell)",
-	  "(in Chair Jail)",
-		"(on Handgun Chair)",
-		"(loaded Handgun)"
-        ],
-        "bminus": [
-          "(at Dolores MainStreet)",
-	  "(at Dolores Jail)",
+      "(alive Guard)",
       "(has Dolores Handgun)",
-      "(has Dolores 9mmBullet)",
-      "(in Floor MainStreet)",
-	  "(in Floor Jail)",
-	  "(in Chair MainStreet)",
-	  "(in Chair JailCell)",
-      "(in JailDoor MainStreet)",
-	  "(in JailDoor Jail)"
-        ],
+      "(in Vault Bank)",
+      "(in WallHook Bank)",
+	  "(on VaultKey WallHook)",
+	  "(unlocks VaultKey Vault)"
+      "(contains Vault Gold)",
+      "(adjacent MainStreet Bank)",
+      "(connected Bank MainStreet)",
+      "(loaded Handgun)"
+    ],
+    "bminus": [
+      "(locked Vault)",
+      "(open Vault)",
+      "(at Dolores Bank)",
+      "(at Guard MainStreet)",
+      "(has Guard Handgun)",
+	  "(has Guard Gold)",
+	  "(has Dolores Gold)",
+	  "(has Dolores VaultKey)",
+      "(in WallHook MainStreet)",
+      "(in Vault MainStreet)"
+    ],
         "unsure": []
       },
       {
         "name": "Teddy",
-        "bplus": [
-          "(at Dolores JailCell)",
-          "(at Teddy JailCell)",
-          "(has Dolores Handgun)",
-          "(in Floor JailCell)",
-          "(on 9mmBullet floor)",
-          "(locked JailDoor)",
-          "(alive Dolores)",
-          "(alive Teddy)",
-          "(connected MainStreet JailCell JailDoor)",
-          "(connected JailCell MainStreet JailDoor)",
-          "(in JailDoor JailCell)",
-          "(loaded Handgun)"
-        ],
-        "bminus": [
-          "(at Dolores MainStreet)",
-          "(at Teddy MainStreet)",
-          "(has Teddy Handgun)",
-          "(has Dolores 9mmBullet)",
-          "(has Teddy 9mmBullet)",
-          "(in Floor MainStreet)",
-          "(in JailDoor MainStreet)"
-        ],
+          "bplus": [
+      "(at Dolores MainStreet)",
+      "(at Guard Bank)",
+      "(alive Dolores)",
+      "(alive Guard)",
+      "(has Dolores Handgun)",
+      "(in Vault Bank)",
+      "(in WallHook Bank)",
+	  "(on VaultKey WallHook)",
+      "(contains Vault Gold)",
+      "(adjacent MainStreet Bank)",
+      "(connected Bank MainStreet)",
+      "(loaded Handgun)"
+    ],
+    "bminus": [
+      "(locked Vault)",
+      "(open Vault)",
+      "(at Dolores Bank)",
+      "(at Guard MainStreet)",
+      "(has Guard Handgun)",
+	  "(has Guard Gold)",
+	  "(has Dolores Gold)",
+	  "(has Dolores VaultKey)",
+      "(in WallHook MainStreet)",
+      "(in Vault MainStreet)"
+    ],
         "unsure": []
       },
       {
         "name": "Guard",
         "bplus": [
-          "(at Dolores JailCell)",
-          "(at Teddy JailCell)",
-          "(has Dolores Handgun)",
-          "(in Floor JailCell)",
-          "(on 9mmBullet floor)",
-          "(locked JailDoor)",
-          "(alive Dolores)",
-          "(alive Teddy)",
-          "(connected MainStreet JailCell JailDoor)",
-          "(connected JailCell MainStreet JailDoor)",
-          "(in JailDoor JailCell)",
-          "(loaded Handgun)"
-        ],
-        "bminus": [
-          "(at Dolores MainStreet)",
-          "(at Teddy MainStreet)",
-          "(has Teddy Handgun)",
-          "(has Dolores 9mmBullet)",
-          "(has Teddy 9mmBullet)",
-          "(in Floor MainStreet)",
-          "(in JailDoor MainStreet)"
-        ],
+      "(at Dolores MainStreet)",
+      "(at Guard Bank)",
+      "(alive Dolores)",
+      "(alive Guard)",
+      "(has Dolores Handgun)",
+      "(in Vault Bank)",
+      "(in WallHook Bank)",
+	  "(on VaultKey WallHook)",
+      "(contains Vault Gold)",
+      "(adjacent MainStreet Bank)",
+      "(connected Bank MainStreet)",
+      "(loaded Handgun)"
+    ],
+    "bminus": [
+      "(locked Vault)",
+      "(open Vault)",
+      "(at Dolores Bank)",
+      "(at Guard MainStreet)",
+      "(has Guard Handgun)",
+	  "(has Guard Gold)",
+	  "(has Dolores Gold)",
+      "(in WallHook MainStreet)",
+      "(in Vault MainStreet)"
+    ],
         "unsure": []
       }
     ]
   },
   "final": {
     "t": [
-      "(at Dolores MainStreet)"
+      "(has Dolores Gold)"
     ],
     "f": [],
     "characters": [
       {
         "name": "Dolores",
         "bplus": [
-          "(at Dolores MainStreet)"
-        ],
-        "bminus": [],
-        "unsure": []
-      },
-      {
-        "name": "Dolores",
-        "bplus": [
-          "(at Dolores MainStreet)"
+          "(has Dolores Gold)"
         ],
         "bminus": [],
         "unsure": []

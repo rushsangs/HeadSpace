@@ -354,6 +354,7 @@ namespace NarrativePlanning
         public List<Intention> extractArisingIntentions(List<Desire> desires)
         {
             List<Intention> intentions = new List<Intention>();
+            //UnityEngine.Debug.Break();
             foreach(Desire d in desires)
             {
                 bool flag = true;

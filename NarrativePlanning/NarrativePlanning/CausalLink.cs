@@ -51,7 +51,7 @@ namespace NarrativePlanning
             this.active = false;
         }
 
-		public static List<CausalLink> findLinks(Microplan p, List<Operator> groundedoperators)
+		public static List<CausalLink> findLinks(Microplan p, List<Operator> groundedoperators, Character initial, Character goal)
         {
 			//PlanningProblem pp = p.pp;
 			List<CausalLink> links = new List<CausalLink>();
@@ -66,6 +66,101 @@ namespace NarrativePlanning
             for (int i = p.steps.Count - 1; i >= 0; --i)
             {
                 String step = p.steps[i];
+
+                if(step.Equals("null1"))
+                {
+                    //this is representing the first step, all its literals are technically open preconditions
+
+                    foreach (String lit in initial.bPlus.Keys)
+                    {
+                        if (openbplus.ContainsKey(lit))
+                        {
+                            //create causal links with all the steps that rely on this literal
+                            List<int> l = (List<int>)openbplus[lit];
+                            foreach (int index in l)
+                            {
+                                int first = i;
+                                int second = index;
+                                CausalLink link = new CausalLink(first, second, lit, "bplus", initial.name);
+                                links.Add(link);
+                            }
+                        }
+                    }
+                    foreach (String lit in initial.bMinus.Keys)
+                    {
+                        if (openbminus.ContainsKey(lit))
+                        {
+                            //create causal links with all the steps that rely on this literal
+                            List<int> l = (List<int>)openbminus[lit];
+                            foreach (int index in l)
+                            {
+                                int first = i;
+                                int second = index;
+                                CausalLink link = new CausalLink(first, second, lit, "bminus", initial.name);
+                                links.Add(link);
+                            }
+                        }
+                    }
+                    foreach (String lit in initial.unsure.Keys)
+                    {
+                        if (openunsure.ContainsKey(lit))
+                        {
+                            //create causal links with all the steps that rely on this literal
+                            List<int> l = (List<int>)openunsure[lit];
+                            foreach (int index in l)
+                            {
+                                int first = i;
+                                int second = index;
+                                CausalLink link = new CausalLink(first, second, lit, "unsure", initial.name);
+                                links.Add(link);
+                            }
+                        }
+                    }
+                }
+                if(step.Equals("null2"))
+                {
+                    //this is the last step, all of the literals in this should become open conditions
+                    foreach (String lit in goal.bPlus.Keys)
+                    {
+                        if (!openbplus.ContainsKey(lit))
+                        {
+                            List<int> l = new List<int>();
+                            l.Add(i);
+                            openbplus.Add(lit, l);
+                        }
+                        else
+                        {
+                            ((List<int>)openbplus[lit]).Add(i);
+                        }
+                    }
+                    foreach (String lit in goal.bMinus.Keys)
+                    {
+                        if (!openbminus.ContainsKey(lit))
+                        {
+                            List<int> l = new List<int>();
+                            l.Add(i);
+                            openbminus.Add(lit, l);
+                        }
+                        else
+                        {
+                            ((List<int>)openbminus[lit]).Add(i);
+                        }
+                    }
+                    foreach (String lit in goal.unsure.Keys)
+                    {
+                        if (!openunsure.ContainsKey(lit))
+                        {
+                            List<int> l = new List<int>();
+                            l.Add(i);
+                            openunsure.Add(lit, l);
+                        }
+                        else
+                        {
+                            ((List<int>)openunsure[lit]).Add(i);
+                        }
+                    }
+                }
+
                 Operator op = groundedoperators.Find(xy => xy.text.Equals(step));
                 if (op == null)
                     continue;

@@ -23,9 +23,9 @@ namespace NarrativePlanning
         public void addNode(String parent, String child){
             TypeNode n = getSubTree(parent);
             TypeNode newNode = new TypeNode(child);
-            Console.WriteLine("Will attempt to add " + child + " to " + parent);
+            UnityConsole.WriteLine("Will attempt to add " + child + " to " + parent);
             addNode(newNode, n);
-            Console.WriteLine("Added " + child + " to " + parent);
+            UnityConsole.WriteLine("Added " + child + " to " + parent);
         }
 
         public void addNode(TypeNode child, TypeNode parent)

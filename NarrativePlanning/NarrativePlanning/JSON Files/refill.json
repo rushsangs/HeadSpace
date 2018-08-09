@@ -1,8 +1,12 @@
-﻿{
+{
   "types": [
     {
       "name": "Person",
       "type": "Object"
+    },
+    {
+      "name": "AIPerson",
+      "type": "Person"
     },
     {
       "name": "Location",
@@ -39,6 +43,10 @@
     {
       "name": "Storage",
       "type": "Furniture"
+    },
+    {
+      "name": "Container",
+      "type": "Thing"
     }
   ],
   "instances": [
@@ -49,7 +57,7 @@
     },
     {
       "name": "Dolores",
-      "type": "Person",
+      "type": "AIPerson",
       "object": "FRED"
     },
     {
@@ -71,6 +79,11 @@
       "name": "JailCell",
       "type": "Location",
       "object": "OTHERPLACE"
+    },
+    {
+      "name": "Saloon",
+      "type": "Location",
+      "object": "saloon"
     },
     {
       "name": "JailDoor",
@@ -128,19 +141,56 @@
       "object": "vault"
     },
     {
-      "name": "Chair",
-      "type": "Furniture",
-      "object": "chair"
+      "name": "BarCabinet",
+      "type": "Storage",
+      "object": "barcabin"
+    },
+    {
+      "name": "Bar",
+      "type": "Storage",
+      "object": "bar"
+    },
+    {
+      "name": "WineBottle",
+      "type": "Container",
+      "object": "bottle1"
+    },
+    {
+      "name": "WineBottleSpare",
+      "type": "Container",
+      "object": "bottle2"
+    },
+    {
+      "name": "Glass",
+      "type": "Container",
+      "object": "glass"
     }
   ],
   "desires": [
     {
       "character": "Dolores",
       "motivations": {
-        "bplus": [],
-        "bminus": [
-		"(at Dolores MainStreet)"
-		],
+        "bplus": [
+          "(needsfilled Guard Glass)"
+        ],
+        "bminus": [],
+        "unsure": []
+      },
+      "goal": {
+        "bplus": [
+          "(filled Glass)"
+        ],
+        "bminus": [],
+        "unsure": []
+      }
+    },
+    {
+      "character": "Dolores",
+      "motivations": {
+        "bplus": [
+          "(at Dolores JailCell)"
+        ],
+        "bminus": [],
         "unsure": []
       },
       "goal": {
@@ -152,7 +202,7 @@
       }
     }
   ],
-    "counteractions": [
+  "counteractions": [
     {
       "conditions": {
         "t": [
@@ -261,7 +311,7 @@
     },
     {
       "name": "unload-true",
-      "actionclass": "UnloadTAction",
+      "actionclass": "UnloadActionT",
       "args": [
         {
           "name": "?person",
@@ -314,7 +364,7 @@
     },
     {
       "name": "unload-false",
-      "actionclass": "UnloadFAction",
+      "actionclass": "UnloadActionF",
       "args": [
         {
           "name": "?person",
@@ -368,7 +418,7 @@
     },
     {
       "name": "checkgunloaded-true",
-      "actionclass": "CheckGunTAction",
+      "actionclass": "DropAction",
       "args": [
         {
           "name": "?person",
@@ -414,7 +464,7 @@
     },
     {
       "name": "checkgunloaded-false",
-      "actionclass": "CheckGunFAction",
+      "actionclass": "UnFreezeAction",
       "args": [
         {
           "name": "?person",
@@ -461,7 +511,7 @@
     },
     {
       "name": "fireatlock-true",
-      "actionclass": "FireAtLockTAction",
+      "actionclass": "ShootAction",
       "args": [
         {
           "name": "?person",
@@ -512,7 +562,7 @@
     },
     {
       "name": "fireatlock-false",
-      "actionclass": "FireAtLockFAction",
+      "actionclass": "WaveAction",
       "args": [
         {
           "name": "?person",
@@ -783,65 +833,60 @@
       "private-effects": []
     },
     {
-      "name": "pickupthroughjail",
-      "actionclass": "PickUpThroughJailAction",
+      "name": "take",
+      "actionclass": "TakeAction",
       "args": [
         {
           "name": "?person",
           "type": "Person"
         },
         {
+          "name": "?loc",
+          "type": "Location"
+        },
+        {
           "name": "?item",
           "type": "Thing"
         },
         {
-          "name": "?furn",
-          "type": "Furniture"
-        },
-        {
-          "name": "?loc",
-          "type": "Location"
-        },
-		{
-          "name": "?floc",
-          "type": "Location"
-			
-		}
+          "name": "?storage",
+          "type": "Storage"
+        }
       ],
       "char": "?person",
       "loc": "?loc",
       "pre-t": [
         "(alive ?person)",
         "(at ?person ?loc)",
-        "(in ?furn ?floc)",
-        "(on ?item ?furn)",
-		"(connected ?loc ?floc JailDoor)"
+        "(in ?storage ?loc)",
+        "(contains ?storage ?item)",
+        "(open ?storage)"
       ],
       "pre-f": [
-        "(has ?person ?item)"
+        "(locked ?storage)"
       ],
       "eff-t": [
         "(has ?person ?item)"
       ],
       "eff-f": [
-        "(on ?item ?furn)"
+        "(contains ?storage ?item)"
       ],
       "pre-bplus": [
         "(alive ?person)",
         "(at ?person ?loc)",
-        "(in ?furn ?floc)",
-        "(on ?item ?furn)",
-		"(connected ?loc ?floc JailDoor)"
+        "(in ?storage ?loc)",
+        "(contains ?storage ?item)",
+        "(open ?storage)"
       ],
       "pre-bminus": [
-        "(has ?person ?item)"
+        "(locked ?storage)"
       ],
       "pre-u": [],
       "eff-bplus": [
         "(has ?person ?item)"
       ],
       "eff-bminus": [
-        "(on ?item ?furn)"
+        "(contains ?storage ?item)"
       ],
       "eff-u": [],
       "private-effects": []
@@ -1161,117 +1206,392 @@
       "eff-bminus": [],
       "eff-u": [],
       "private-effects": []
+    },
+    {
+      "name": "openstealth-true",
+      "actionclass": "OpenAction",
+      "args": [
+        {
+          "name": "?person",
+          "type": "Person"
+        },
+        {
+          "name": "?obj",
+          "type": "Storage"
+        },
+        {
+          "name": "?loc",
+          "type": "Location"
+        }
+      ],
+      "char": "?person",
+      "loc": "?loc",
+      "pre-t": [
+        "(alive ?person)",
+        "(at ?person ?loc)",
+        "(in ?obj ?loc)"
+      ],
+      "pre-f": [
+        "(locked ?obj)",
+        "(open ?obj)",
+        "(alive Guard)"
+      ],
+      "eff-t": [
+        "(open ?obj)"
+      ],
+      "eff-f": [],
+      "pre-bplus": [
+        "(alive ?person)",
+        "(at ?person ?loc)",
+        "(in ?obj ?loc)"
+      ],
+      "pre-bminus": [
+        "(locked ?obj)",
+        "(open ?obj)",
+        "(alive Guard)"
+      ],
+      "pre-u": [],
+      "eff-bplus": [
+        "(open ?obj)"
+      ],
+      "eff-bminus": [],
+      "eff-u": [],
+      "private-effects": []
+    },
+    {
+      "name": "openstealth-false",
+      "actionclass": "Open2Action",
+      "args": [
+        {
+          "name": "?person",
+          "type": "Person"
+        },
+        {
+          "name": "?obj",
+          "type": "Storage"
+        },
+        {
+          "name": "?loc",
+          "type": "Location"
+        }
+      ],
+      "char": "?person",
+      "loc": "?loc",
+      "pre-t": [
+        "(alive ?person)",
+        "(at ?person ?loc)",
+        "(locked ?obj)",
+        "(in ?obj ?loc)"
+      ],
+      "pre-f": [
+        "(open ?obj)",
+        "(alive Guard)"
+      ],
+      "eff-t": [],
+      "eff-f": [],
+      "pre-bplus": [
+        "(alive ?person)",
+        "(at ?person ?loc)",
+        "(in ?obj ?loc)"
+      ],
+      "pre-bminus": [
+        "(locked ?obj)",
+        "(open ?obj)",
+        "(alive Guard)"
+      ],
+      "pre-u": [],
+      "eff-bplus": [
+        "(locked ?obj)"
+      ],
+      "eff-bminus": [],
+      "eff-u": [],
+      "private-effects": []
+    },
+    {
+      "name": "askforrefill",
+      "actionclass": "AskAction",
+      "args": [
+        {
+          "name": "?person",
+          "type": "Person"
+        },
+        {
+          "name": "?container",
+          "type": "Container"
+        },
+        {
+          "name": "?loc",
+          "type": "Location"
+        }
+      ],
+      "char": "?person",
+      "loc": "?loc",
+      "pre-t": [
+        "(alive ?person)",
+        "(at ?person ?loc)",
+        "(has ?person ?container)"
+      ],
+      "pre-f": [
+        "(filled ?container)"
+      ],
+      "eff-t": [
+        "(needsfilled ?person ?container)"
+      ],
+      "eff-f": [],
+      "pre-bplus": [
+        "(alive ?person)",
+        "(at ?person ?loc)",
+        "(has ?person ?container)"
+      ],
+      "pre-bminus": [
+        "(filled ?container)"
+      ],
+      "pre-u": [],
+      "eff-bplus": [
+        "(needsfilled ?person ?container)"
+      ],
+      "eff-bminus": [],
+      "eff-u": [],
+      "private-effects": []
+    },
+    {
+      "name": "filldrink-false",
+      "actionclass": "FillDrinkFalseAction",
+      "args": [
+        {
+          "name": "?p1",
+          "type": "Person"
+        },
+        {
+          "name": "?loc",
+          "type": "Location"
+        },
+        {
+          "name": "?from",
+          "type": "Container"
+        },
+        {
+          "name": "?to",
+          "type": "Container"
+        },
+        {
+          "name": "?p2",
+          "type": "Person"
+        }
+      ],
+      "char": "?p1",
+      "loc": "?loc",
+      "pre-t": [
+        "(alive ?p1)",
+        "(alive ?p2)",
+        "(at ?p1 ?loc)",
+        "(at ?p2 ?loc)",
+        "(has ?p1 ?from)",
+        "(has ?p2 ?to)",
+        "(needsfilled ?p2 ?to)"
+      ],
+      "pre-f": [
+        "(filled ?from)",
+        "(filled ?to)"
+      ],
+      "eff-t": [],
+      "eff-f": [],
+      "pre-bplus": [
+        "(alive ?p1)",
+        "(alive ?p2)",
+        "(at ?p1 ?loc)",
+        "(at ?p2 ?loc)",
+        "(has ?p1 ?from)",
+        "(has ?p2 ?to)",
+        "(needsfilled ?p2 ?to)",
+        "(filled ?from)"
+      ],
+      "pre-bminus": [
+        "(filled ?to)"
+      ],
+      "pre-u": [],
+      "eff-bplus": [],
+      "eff-bminus": [
+        "(filled ?from)"
+      ],
+      "eff-u": [],
+      "private-effects": []
+    },
+    {
+      "name": "filldrink-true",
+      "actionclass": "FillDrinkTrueAction",
+      "args": [
+        {
+          "name": "?p1",
+          "type": "Person"
+        },
+        {
+          "name": "?loc",
+          "type": "Location"
+        },
+        {
+          "name": "?from",
+          "type": "Container"
+        },
+        {
+          "name": "?to",
+          "type": "Container"
+        },
+        {
+          "name": "?p2",
+          "type": "Person"
+        }
+      ],
+      "char": "?p1",
+      "loc": "?loc",
+      "pre-t": [
+        "(alive ?p1)",
+        "(alive ?p2)",
+        "(at ?p1 ?loc)",
+        "(at ?p2 ?loc)",
+        "(has ?p1 ?from)",
+        "(has ?p2 ?to)",
+        "(needsfilled ?p2 ?to)",
+        "(filled ?from)"
+      ],
+      "pre-f": [
+        "(filled ?to)"
+      ],
+      "eff-t": [
+        "(filled ?to)"
+      ],
+      "eff-f": [
+        "(filled ?from)",
+        "(needsfilled ?p2 ?to)"
+      ],
+      "pre-bplus": [
+        "(alive ?p1)",
+        "(alive ?p2)",
+        "(at ?p1 ?loc)",
+        "(at ?p2 ?loc)",
+        "(has ?p1 ?from)",
+        "(has ?p2 ?to)",
+        "(needsfilled ?p2 ?to)",
+        "(filled ?from)"
+      ],
+      "pre-bminus": [
+        "(filled ?to)"
+      ],
+      "pre-u": [],
+      "eff-bplus": [
+        "(filled ?to)"
+      ],
+      "eff-bminus": [
+        "(filled ?from)",
+        "(needsfilled ?p2 ?to)"
+      ],
+      "eff-u": [],
+      "private-effects": []
     }
   ],
   "initial": {
     "t": [
-      "(at Dolores JailCell)",
-      "(in Floor JailCell)",
-      "(on 9mmBullet Floor)",
-      "(locked JailDoor)",
+      "(at Dolores Saloon)",
+      "(at Guard Saloon)",
       "(alive Dolores)",
-      "(connected Jail JailCell JailDoor)",
-      "(connected JailCell Jail JailDoor)",
-      "(adjacent Jail MainStreet)",
-	  "(in JailDoor JailCell)",
-	  "(in Chair Jail)",
-		"(on Handgun Chair)"
+      "(alive Guard)",
+      "(has Guard Glass)",
+      "(in BarCabinet Saloon)",
+      "(in Bar Saloon)",
+      "(on WineBottle Bar)",
+      "(contains BarCabinet WineBottleSpare)",
+      "(filled WineBottleSpare)"
     ],
     "f": [
-      "(at Dolores MainStreet)",
-	  "(at Dolores Jail)",
-      "(has Dolores Handgun)",
-      "(has Dolores 9mmBullet)",
-      "(in Floor MainStreet)",
-	  "(in Floor Jail)",
-	  "(in Chair MainStreet)",
-	  "(in Chair JailCell)",
-      "(in JailDoor MainStreet)",
-	  "(in JailDoor Jail)",
-      "(loaded Handgun)"
+      "(locked BarCabinet)",
+      "(open BarCabinet)",
+      "(needsfilled Guard Glass)",
+      "(filled Glass)",
+      "(has Guard WineBottle)",
+      "(has Guard WineBottleSpare)",
+      "(has Dolores WineBottle)",
+      "(has Dolores WineBottleSpare)",
+      "(filled WineBottle)"
     ],
     "characters": [
       {
         "name": "Dolores",
         "bplus": [
-          "(at Dolores JailCell)",
-      "(in Floor JailCell)",
-      "(on 9mmBullet Floor)",
-      "(locked JailDoor)",
-      "(alive Dolores)",
-      "(connected Jail JailCell JailDoor)",
-      "(connected JailCell Jail JailDoor)",
-      "(adjacent Jail MainStreet)",
-	  "(in JailDoor JailCell)",
-	  "(in Chair Jail)",
-		"(on Handgun Chair)",
-		"(loaded Handgun)"
+          "(at Dolores Saloon)",
+          "(at Guard Saloon)",
+          "(alive Dolores)",
+          "(alive Guard)",
+          "(has Guard Glass)",
+          "(in BarCabinet Saloon)",
+          "(in Bar Saloon)",
+          "(on WineBottle Bar)",
+          "(contains BarCabinet WineBottleSpare)",
+          "(filled WineBottle)",
+          "(filled WineBottleSpare)"
         ],
         "bminus": [
-          "(at Dolores MainStreet)",
-	  "(at Dolores Jail)",
-      "(has Dolores Handgun)",
-      "(has Dolores 9mmBullet)",
-      "(in Floor MainStreet)",
-	  "(in Floor Jail)",
-	  "(in Chair MainStreet)",
-	  "(in Chair JailCell)",
-      "(in JailDoor MainStreet)",
-	  "(in JailDoor Jail)"
+          "(locked BarCabinet)",
+          "(open BarCabinet)",
+          "(needsfilled Guard Glass)",
+          "(filled Glass)",
+          "(has Guard WineBottle)",
+          "(has Guard WineBottleSpare)",
+          "(has Dolores WineBottle)",
+          "(has Dolores WineBottleSpare)"
         ],
         "unsure": []
       },
       {
         "name": "Teddy",
         "bplus": [
-          "(at Dolores JailCell)",
-          "(at Teddy JailCell)",
-          "(has Dolores Handgun)",
-          "(in Floor JailCell)",
-          "(on 9mmBullet floor)",
-          "(locked JailDoor)",
+          "(at Dolores Saloon)",
+          "(at Guard Saloon)",
           "(alive Dolores)",
-          "(alive Teddy)",
-          "(connected MainStreet JailCell JailDoor)",
-          "(connected JailCell MainStreet JailDoor)",
-          "(in JailDoor JailCell)",
-          "(loaded Handgun)"
+          "(alive Guard)",
+          "(has Guard Glass)",
+          "(in BarCabinet Saloon)",
+          "(in Bar Saloon)",
+          "(on WineBottle Bar)",
+          "(contains BarCabinet WineBottleSpare)",
+          "(filled WineBottleSpare)"
         ],
         "bminus": [
-          "(at Dolores MainStreet)",
-          "(at Teddy MainStreet)",
-          "(has Teddy Handgun)",
-          "(has Dolores 9mmBullet)",
-          "(has Teddy 9mmBullet)",
-          "(in Floor MainStreet)",
-          "(in JailDoor MainStreet)"
+          "(locked BarCabinet)",
+          "(open BarCabinet)",
+          "(needsfilled Guard Glass)",
+          "(filled Glass)",
+          "(filled WineBottle)",
+          "(has Guard WineBottle)",
+          "(has Guard WineBottleSpare)",
+          "(has Dolores WineBottle)",
+          "(has Dolores WineBottleSpare)"
         ],
         "unsure": []
       },
       {
         "name": "Guard",
         "bplus": [
-          "(at Dolores JailCell)",
-          "(at Teddy JailCell)",
-          "(has Dolores Handgun)",
-          "(in Floor JailCell)",
-          "(on 9mmBullet floor)",
-          "(locked JailDoor)",
+          "(at Dolores Saloon)",
+          "(at Guard Saloon)",
           "(alive Dolores)",
-          "(alive Teddy)",
-          "(connected MainStreet JailCell JailDoor)",
-          "(connected JailCell MainStreet JailDoor)",
-          "(in JailDoor JailCell)",
-          "(loaded Handgun)"
+          "(alive Guard)",
+          "(has Guard Glass)",
+          "(in BarCabinet Saloon)",
+          "(in Bar Saloon)",
+          "(on WineBottle Bar)",
+          "(contains BarCabinet WineBottleSpare)",
+          "(filled WineBottleSpare)"
         ],
         "bminus": [
-          "(at Dolores MainStreet)",
-          "(at Teddy MainStreet)",
-          "(has Teddy Handgun)",
-          "(has Dolores 9mmBullet)",
-          "(has Teddy 9mmBullet)",
-          "(in Floor MainStreet)",
-          "(in JailDoor MainStreet)"
+          "(locked BarCabinet)",
+          "(open BarCabinet)",
+          "(needsfilled Guard Glass)",
+          "(filled Glass)",
+          "(filled WineBottle)",
+          "(has Guard WineBottle)",
+          "(has Guard WineBottleSpare)",
+          "(has Dolores WineBottle)",
+          "(has Dolores WineBottleSpare)"
         ],
         "unsure": []
       }
@@ -1279,22 +1599,14 @@
   },
   "final": {
     "t": [
-      "(at Dolores MainStreet)"
+      "(filled Glass)"
     ],
     "f": [],
     "characters": [
       {
         "name": "Dolores",
         "bplus": [
-          "(at Dolores MainStreet)"
-        ],
-        "bminus": [],
-        "unsure": []
-      },
-      {
-        "name": "Dolores",
-        "bplus": [
-          "(at Dolores MainStreet)"
+          "(filled Glass)"
         ],
         "bminus": [],
         "unsure": []

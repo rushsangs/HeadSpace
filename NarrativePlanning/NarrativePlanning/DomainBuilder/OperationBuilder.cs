@@ -120,7 +120,7 @@ namespace NarrativePlanning.DomainBuilder
             }
             if (index == -1)
             {
-                Console.WriteLine("Some error has occured, cannot read the " + v + " in the operation file");
+                UnityConsole.WriteLine("Some error has occured, cannot read the " + v + " in the operation file");
                 return;
             }
 

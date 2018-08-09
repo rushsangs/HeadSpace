@@ -56,7 +56,7 @@ namespace NarrativePlanning.DomainBuilder
 
                 //simply print out the queue
                 foreach(List<String> item in queue){
-                    Console.WriteLine(prettyPrint(item));
+                    UnityConsole.WriteLine(prettyPrint(item));
                     grounds.Add(prettyPrint(item));
                 }
             }
