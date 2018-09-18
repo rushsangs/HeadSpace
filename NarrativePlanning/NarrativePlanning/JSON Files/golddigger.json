@@ -1,0 +1,1916 @@
+{
+  "types": [
+    {
+      "name": "Person",
+      "type": "Object"
+    },
+    {
+      "name": "AIPerson",
+      "type": "Person"
+    },
+    {
+      "name": "Location",
+      "type": "Object"
+    },
+    {
+      "name": "Thing",
+      "type": "Object"
+    },
+    {
+      "name": "Ammo",
+      "type": "Thing"
+    },
+    {
+      "name": "Weapon",
+      "type": "Thing"
+    },
+    {
+      "name": "Gun",
+      "type": "Weapon"
+    },
+    {
+      "name": "Furniture",
+      "type": "Object"
+    },
+    {
+      "name": "Door",
+      "type": "Object"
+    },
+    {
+      "name": "Key",
+      "type": "Thing"
+    },
+    {
+      "name": "Storage",
+      "type": "Furniture"
+    },
+    {
+      "name": "Container",
+      "type": "Thing"
+    },
+    {
+      "name": "SubLocation",
+      "type": "Location"
+    }
+  ],
+  "instances": [
+    {
+      "name": "Teddy",
+      "type": "Person",
+      "object": "Cowboy1"
+    },
+    {
+      "name": "Dolores",
+      "type": "AIPerson",
+      "object": "FRED"
+    },
+    {
+      "name": "Handgun",
+      "type": "Gun",
+      "object": "Gun1"
+    },
+    {
+      "name": "9mmBullet",
+      "type": "Ammo",
+      "object": "Bullet1"
+    },
+    {
+      "name": "MainStreet",
+      "type": "Location",
+      "object": "HOME"
+    },
+    {
+      "name": "JailCell",
+      "type": "Location",
+      "object": "OTHERPLACE"
+    },
+    {
+      "name": "Saloon",
+      "type": "Location",
+      "object": "saloon"
+    },
+    {
+      "name": "JailDoor",
+      "type": "Door",
+      "object": "Door1"
+    },
+    {
+      "name": "Floor",
+      "type": "Furniture",
+      "object": "Floor1"
+    },
+    {
+      "name": "WallHook",
+      "type": "Furniture",
+      "object": "Hook1"
+    },
+    {
+      "name": "Rifle",
+      "type": "Gun",
+      "object": "rifle"
+    },
+    {
+      "name": "JailKey",
+      "type": "Key",
+      "object": "key1"
+    },
+    {
+      "name": "Guard",
+      "type": "Person",
+      "object": "person1"
+    },
+    {
+      "name": "Jail",
+      "type": "Location",
+      "object": "jail"
+    },
+    {
+      "name": "Gold",
+      "type": "Thing",
+      "object": "goldbar"
+    },
+    {
+      "name": "Bank",
+      "type": "Location",
+      "object": "bank"
+    },
+    {
+      "name": "VaultKey",
+      "type": "Key",
+      "object": "key2"
+    },
+    {
+      "name": "Vault",
+      "type": "Storage",
+      "object": "vault"
+    },
+    {
+      "name": "BarCabinet",
+      "type": "Storage",
+      "object": "barcabin"
+    },
+    {
+      "name": "Bar",
+      "type": "Storage",
+      "object": "bar"
+    },
+    {
+      "name": "WineBottle",
+      "type": "Container",
+      "object": "bottle1"
+    },
+    {
+      "name": "WineBottleSpare",
+      "type": "Container",
+      "object": "bottle2"
+    },
+    {
+      "name": "Glass",
+      "type": "Container",
+      "object": "glass"
+    },
+    {
+      "name": "StationStreet",
+      "type": "Location",
+      "object": "street2"
+    },
+    {
+      "name": "Entrance",
+      "type": "SubLocation",
+      "object": "entrance"
+    },
+    {
+      "name": "Tracks",
+      "type": "SubLocation",
+      "object": "tracks"
+    },
+    {
+      "name": "Knife",
+      "type": "Weapon",
+      "object": "knife"
+    },
+    {
+      "name": "Lockbox",
+      "type": "Storage",
+      "object": "lockbox"
+    },
+    {
+      "name": "Loot",
+      "type": "Thing",
+      "object": "lootbag"
+    },
+    {
+      "name": "Wreckage",
+      "type": "Location",
+      "object": "wreckage"
+    }
+  ],
+  "desires": [
+    {
+      "character": "Dolores",
+      "motivations": {
+        "bplus": [
+          "(needsfilled Guard Glass)"
+        ],
+        "bminus": [],
+        "unsure": []
+      },
+      "goal": {
+        "bplus": [
+          "(filled Glass)"
+        ],
+        "bminus": [],
+        "unsure": []
+      }
+    },
+    {
+      "character": "Dolores",
+      "motivations": {
+        "bplus": [
+          "(at Dolores JailCell)"
+        ],
+        "bminus": [],
+        "unsure": []
+      },
+      "goal": {
+        "bplus": [
+          "(at Dolores MainStreet)"
+        ],
+        "bminus": [],
+        "unsure": []
+      }
+    },
+    {
+      "character": "Dolores",
+      "motivations": {
+        "bplus": [
+          "(contains Lockbox Loot)",
+          "(on Lockbox Floor)",
+          "(in Floor Wreckage)"
+        ],
+        "bminus": [],
+        "unsure": []
+      },
+      "goal": {
+        "bplus": [
+          "(has Dolores Loot)"
+        ],
+        "bminus": [],
+        "unsure": []
+      }
+    },
+    {
+      "character": "Guard",
+      "motivations": {
+        "bplus": [
+          "(needshelp Teddy)"
+        ],
+        "bminus": [],
+        "unsure": []
+      },
+      "goal": {
+        "bplus": [],
+        "bminus": [
+          "(needshelp Teddy)"
+        ],
+        "unsure": []
+      }
+    }
+  ],
+  "counteractions": [
+    {
+      "conditions": {
+        "t": [
+          "(at Dolores Saloon)",
+          "(at Guard Saloon)",
+          "(alive Dolores)",
+          "(alive Guard)",
+          "(has Guard Glass)",
+          "(in BarCabinet Saloon)",
+          "(in Bar Saloon)"
+        ],
+        "f": [
+          "(needsfilled Guard Glass)",
+          "(filled Glass)"
+        ],
+        "characters": [
+          {
+            "name": "Guard",
+            "bplus": [
+              "(at Dolores Saloon)",
+              "(at Guard Saloon)",
+              "(alive Dolores)",
+              "(alive Guard)",
+              "(has Guard Glass)",
+              "(in BarCabinet Saloon)",
+              "(in Bar Saloon)",
+              "(on WineBottle Bar)",
+              "(contains BarCabinet WineBottleSpare)",
+              "(filled WineBottleSpare)"
+            ],
+            "bminus": [
+              "(locked BarCabinet)",
+              "(open BarCabinet)",
+              "(needsfilled Guard Glass)",
+              "(filled Glass)",
+              "(filled WineBottle)",
+              "(has Guard WineBottle)",
+              "(has Guard WineBottleSpare)",
+              "(has Dolores WineBottle)",
+              "(has Dolores WineBottleSpare)"
+            ],
+            "unsure": []
+          }
+        ]
+      },
+      "groundedoperator": "askforrefill Guard Glass Saloon"
+    },
+    {
+      "conditions": {
+        "t": [
+          "(tied Teddy)",
+          "(at Guard StationStreet)"
+        ],
+        "f": [
+          "(needshelp Teddy)"
+        ],
+        "characters": [
+          {
+            "name": "Teddy",
+            "bplus": [
+              "(tied Teddy)",
+              "(at Guard StationStreet)"
+            ],
+            "bminus": [
+              "(needshelp Teddy)"
+            ],
+            "unsure": []
+          }
+        ]
+      },
+      "groundedoperator": "callforhelp Teddy StationStreet"
+    },
+    {
+      "conditions": {
+        "t": [
+          "(tied Teddy)",
+          "(at Guard StationStreet)",
+          "(by Guard Tracks)",
+          "(needshelp Teddy)",
+		  "(alive Dolores)"
+        ],
+        "f": [
+		"(threatened Guard)"
+		],
+        "characters": [
+          {
+            "name": "Dolores",
+            "bplus": [
+              "(tied Teddy)",
+              "(at Guard StationStreet)",
+              "(by Guard Tracks)",
+              "(needshelp Teddy)",
+			  "(alive Dolores)"
+            ],
+            "bminus": [],
+            "unsure": []
+          }
+        ]
+      },
+      "groundedoperator": "threaten Dolores Guard StationStreet Knife"
+    }
+  ],
+  "operators": [
+    {
+      "name": "load",
+      "actionclass": "LoadAction",
+      "args": [
+        {
+          "name": "?person",
+          "type": "Person"
+        },
+        {
+          "name": "?gun",
+          "type": "Gun"
+        },
+        {
+          "name": "?ammo",
+          "type": "Ammo"
+        },
+        {
+          "name": "?place",
+          "type": "Location"
+        }
+      ],
+      "char": "?person",
+      "loc": "?place",
+      "pre-t": [
+        "(at ?person ?place)",
+        "(has ?person ?gun)",
+        "(has ?person ?ammo)",
+        "(alive ?person)"
+      ],
+      "pre-f": [
+        "(loaded ?gun)"
+      ],
+      "eff-t": [
+        "(loaded ?gun)"
+      ],
+      "eff-f": [
+        "(has ?person ?ammo)"
+      ],
+      "pre-bplus": [
+        "(at ?person ?place)",
+        "(has ?person ?gun)",
+        "(has ?person ?ammo)",
+        "(alive ?person)"
+      ],
+      "pre-bminus": [
+        "(loaded ?gun)"
+      ],
+      "pre-u": [],
+      "eff-bplus": [
+        "(loaded ?gun)"
+      ],
+      "eff-bminus": [
+        "(has ?person ?ammo)"
+      ],
+      "eff-u": [],
+      "private-effects": []
+    },
+    {
+      "name": "unload-true",
+      "actionclass": "UnloadActionT",
+      "args": [
+        {
+          "name": "?person",
+          "type": "Person"
+        },
+        {
+          "name": "?gun",
+          "type": "Gun"
+        },
+        {
+          "name": "?ammo",
+          "type": "Ammo"
+        },
+        {
+          "name": "?place",
+          "type": "Location"
+        }
+      ],
+      "char": "?person",
+      "loc": "?place",
+      "pre-t": [
+        "(at ?person ?place)",
+        "(loaded ?gun)",
+        "(has ?person ?gun)",
+        "(alive ?person)"
+      ],
+      "pre-f": [],
+      "eff-t": [
+        "(has ?person ?ammo)"
+      ],
+      "eff-f": [
+        "(loaded ?gun)"
+      ],
+      "pre-bplus": [
+        "(at ?person ?place)",
+        "(loaded ?gun)",
+        "(has ?person ?gun)",
+        "(alive ?person)"
+      ],
+      "pre-bminus": [],
+      "pre-u": [],
+      "eff-bplus": [
+        "(has ?person ?ammo)"
+      ],
+      "eff-bminus": [
+        "(loaded ?gun)"
+      ],
+      "eff-u": [],
+      "private-effects": []
+    },
+    {
+      "name": "unload-false",
+      "actionclass": "UnloadActionF",
+      "args": [
+        {
+          "name": "?person",
+          "type": "Person"
+        },
+        {
+          "name": "?gun",
+          "type": "Gun"
+        },
+        {
+          "name": "?ammo",
+          "type": "Ammo"
+        },
+        {
+          "name": "?place",
+          "type": "Location"
+        }
+      ],
+      "char": "?person",
+      "loc": "?place",
+      "pre-t": [
+        "(at ?person ?place)",
+        "(has ?person ?gun)",
+        "(alive ?person)"
+      ],
+      "pre-f": [
+        "(loaded ?gun)"
+      ],
+      "eff-t": [
+        "(has ?person ?ammo)"
+      ],
+      "eff-f": [
+        "(loaded ?gun)"
+      ],
+      "pre-bplus": [
+        "(at ?person ?place)",
+        "(loaded ?gun)",
+        "(has ?person ?gun)",
+        "(alive ?person)"
+      ],
+      "pre-bminus": [],
+      "pre-u": [],
+      "eff-bplus": [
+        "(has ?person ?ammo)"
+      ],
+      "eff-bminus": [
+        "(loaded ?gun)"
+      ],
+      "eff-u": [],
+      "private-effects": []
+    },
+    {
+      "name": "checkgunloaded-true",
+      "actionclass": "DropAction",
+      "args": [
+        {
+          "name": "?person",
+          "type": "Person"
+        },
+        {
+          "name": "?gun",
+          "type": "Gun"
+        },
+        {
+          "name": "?loc",
+          "type": "Location"
+        }
+      ],
+      "char": "?person",
+      "loc": "?loc",
+      "pre-t": [
+        "(has ?person ?gun)",
+        "(alive ?person)",
+        "(at ?person ?loc)",
+        "(loaded ?gun)"
+      ],
+      "pre-f": [],
+      "eff-t": [],
+      "eff-f": [],
+      "pre-bplus": [
+        "(has ?person ?gun)",
+        "(alive ?person)",
+        "(at ?person ?loc)"
+      ],
+      "pre-bminus": [],
+      "pre-u": [
+        "(loaded ?gun)"
+      ],
+      "eff-bplus": [
+        "(loaded ?gun)"
+      ],
+      "eff-bminus": [],
+      "eff-u": [],
+      "private-effects": [
+        "(loaded ?gun)"
+      ]
+    },
+    {
+      "name": "checkgunloaded-false",
+      "actionclass": "UnFreezeAction",
+      "args": [
+        {
+          "name": "?person",
+          "type": "Person"
+        },
+        {
+          "name": "?gun",
+          "type": "Gun"
+        },
+        {
+          "name": "?loc",
+          "type": "Location"
+        }
+      ],
+      "char": "?person",
+      "loc": "?loc",
+      "pre-t": [
+        "(has ?person ?gun)",
+        "(alive ?person)",
+        "(at ?person ?loc)"
+      ],
+      "pre-f": [
+        "(loaded ?gun)"
+      ],
+      "eff-t": [],
+      "eff-f": [],
+      "pre-bplus": [
+        "(has ?person ?gun)",
+        "(alive ?person)",
+        "(at ?person ?loc)"
+      ],
+      "pre-bminus": [],
+      "pre-u": [
+        "(loaded ?gun)"
+      ],
+      "eff-bplus": [],
+      "eff-bminus": [
+        "(loaded ?gun)"
+      ],
+      "eff-u": [],
+      "private-effects": [
+        "(loaded ?gun)"
+      ]
+    },
+    {
+      "name": "fireatlock-true",
+      "actionclass": "ShootAction",
+      "args": [
+        {
+          "name": "?person",
+          "type": "Person"
+        },
+        {
+          "name": "?gun",
+          "type": "Gun"
+        },
+        {
+          "name": "?loc",
+          "type": "Location"
+        },
+        {
+          "name": "?obj",
+          "type": "Object"
+        }
+      ],
+      "char": "?person",
+      "loc": "?loc",
+      "pre-t": [
+        "(has ?person ?gun)",
+        "(alive ?person)",
+        "(at ?person ?loc)",
+        "(in ?obj ?loc)",
+        "(loaded ?gun)"
+      ],
+      "pre-f": [],
+      "eff-t": [],
+      "eff-f": [
+        "(locked ?obj)"
+      ],
+      "pre-bplus": [
+        "(has ?person ?gun)",
+        "(alive ?person)",
+        "(at ?person ?loc)",
+        "(in ?obj ?loc)",
+        "(loaded ?gun)"
+      ],
+      "pre-bminus": [],
+      "pre-u": [],
+      "eff-bplus": [],
+      "eff-bminus": [
+        "(locked ?obj)"
+      ],
+      "eff-u": [],
+      "private-effects": []
+    },
+    {
+      "name": "fireatlock-false",
+      "actionclass": "WaveAction",
+      "args": [
+        {
+          "name": "?person",
+          "type": "Person"
+        },
+        {
+          "name": "?gun",
+          "type": "Gun"
+        },
+        {
+          "name": "?loc",
+          "type": "Location"
+        },
+        {
+          "name": "?obj",
+          "type": "Object"
+        }
+      ],
+      "char": "?person",
+      "loc": "?loc",
+      "pre-t": [
+        "(has ?person ?gun)",
+        "(alive ?person)",
+        "(at ?person ?loc)",
+        "(in ?obj ?loc)"
+      ],
+      "pre-f": [
+        "(loaded ?gun)"
+      ],
+      "eff-t": [],
+      "eff-f": [],
+      "pre-bplus": [
+        "(has ?person ?gun)",
+        "(alive ?person)",
+        "(at ?person ?loc)",
+        "(in ?obj ?loc)",
+        "(loaded ?gun)"
+      ],
+      "pre-bminus": [],
+      "pre-u": [],
+      "eff-bplus": [],
+      "eff-bminus": [],
+      "eff-u": [
+        "(loaded ?gun)"
+      ],
+      "private-effects": []
+    },
+    {
+      "name": "shoot",
+      "actionclass": "Shoot2Action",
+      "args": [
+        {
+          "name": "?p1",
+          "type": "Person"
+        },
+        {
+          "name": "?p2",
+          "type": "Person"
+        },
+        {
+          "name": "?loc",
+          "type": "Location"
+        },
+        {
+          "name": "?gun",
+          "type": "Gun"
+        }
+      ],
+      "char": "?p1",
+      "loc": "?loc",
+      "pre-t": [
+        "(has ?p1 ?gun)",
+        "(alive ?p1)",
+        "(alive ?p2)",
+        "(at ?p1 ?loc)",
+        "(at ?p2 ?loc)",
+        "(loaded ?gun)"
+      ],
+      "pre-f": [],
+      "eff-t": [],
+      "eff-f": [
+        "(loaded ?gun)",
+        "(alive ?p2)",
+		"(threatened ?p1)"
+      ],
+      "pre-bplus": [
+        "(has ?p1 ?gun)",
+        "(alive ?p1)",
+        "(alive ?p2)",
+        "(at ?p1 ?loc)",
+        "(at ?p2 ?loc)",
+        "(loaded ?gun)"
+      ],
+      "pre-bminus": [],
+      "pre-u": [],
+      "eff-bplus": [],
+      "eff-bminus": [
+        "(loaded ?gun)",
+        "(alive ?p2)",
+		"(threatened ?p1)"
+      ],
+      "eff-u": [],
+      "private-effects": []
+    },
+    {
+      "name": "traverse",
+      "actionclass": "WalkAction",
+      "args": [
+        {
+          "name": "?person",
+          "type": "Person"
+        },
+        {
+          "name": "?from",
+          "type": "Location"
+        },
+        {
+          "name": "?to",
+          "type": "Location"
+        },
+        {
+          "name": "?door",
+          "type": "Door"
+        }
+      ],
+      "char": "?person",
+      "loc": "?from",
+      "pre-t": [
+        "(alive ?person)",
+        "(at ?person ?from)",
+        "(in ?door ?from)",
+        "(connected ?from ?to ?door)"
+      ],
+      "pre-f": [
+        "(locked ?door)",
+        "(at ?person ?to)"
+      ],
+      "eff-t": [
+        "(at ?person ?to)"
+      ],
+      "eff-f": [
+        "(at ?person ?from)"
+      ],
+      "pre-bplus": [
+        "(alive ?person)",
+        "(at ?person ?from)",
+        "(in ?door ?from)",
+        "(connected ?from ?to ?door)"
+      ],
+      "pre-bminus": [
+        "(locked ?door)",
+        "(at ?person ?to)"
+      ],
+      "pre-u": [],
+      "eff-bplus": [
+        "(at ?person ?to)"
+      ],
+      "eff-bminus": [
+        "(at ?person ?from)"
+      ],
+      "eff-u": [],
+      "private-effects": []
+    },
+    {
+      "name": "goto",
+      "actionclass": "WalkAction2",
+      "args": [
+        {
+          "name": "?person",
+          "type": "Person"
+        },
+        {
+          "name": "?from",
+          "type": "Location"
+        },
+        {
+          "name": "?to",
+          "type": "Location"
+        }
+      ],
+      "char": "?person",
+      "loc": "?from",
+      "pre-t": [
+        "(alive ?person)",
+        "(at ?person ?from)",
+        "(adjacent ?from ?to)"
+      ],
+      "pre-f": [
+        "(at ?person ?to)"
+      ],
+      "eff-t": [
+        "(at ?person ?to)"
+      ],
+      "eff-f": [
+        "(at ?person ?from)"
+      ],
+      "pre-bplus": [
+        "(alive ?person)",
+        "(at ?person ?from)",
+        "(adjacent ?from ?to)"
+      ],
+      "pre-bminus": [
+        "(at ?person ?to)"
+      ],
+      "pre-u": [],
+      "eff-bplus": [
+        "(at ?person ?to)"
+      ],
+      "eff-bminus": [
+        "(at ?person ?from)"
+      ],
+      "eff-u": [],
+      "private-effects": []
+    },
+    {
+      "name": "move-within",
+      "actionclass": "WalkAction2",
+      "args": [
+        {
+          "name": "?person",
+          "type": "Person"
+        },
+        {
+          "name": "?loc",
+          "type": "Location"
+        },
+        {
+          "name": "?from",
+          "type": "SubLocation"
+        },
+        {
+          "name": "?to",
+          "type": "SubLocation"
+        }
+      ],
+      "char": "?person",
+      "loc": "?loc",
+      "pre-t": [
+        "(alive ?person)",
+        "(at ?person ?loc)",
+        "(by ?person ?from)",
+        "(in ?from ?loc)",
+        "(in ?to ?loc)"
+      ],
+      "pre-f": [
+        "(by ?person ?to)"
+      ],
+      "eff-t": [
+        "(by ?person ?to)"
+      ],
+      "eff-f": [
+        "(by ?person ?from)"
+      ],
+      "pre-bplus": [
+        "(alive ?person)",
+        "(at ?person ?loc)",
+        "(by ?person ?from)",
+        "(in ?from ?loc)",
+        "(in ?to ?loc)"
+      ],
+      "pre-bminus": [
+        "(by ?person ?to)"
+      ],
+      "pre-u": [],
+      "eff-bplus": [
+        "(by ?person ?to)"
+      ],
+      "eff-bminus": [
+        "(by ?person ?from)"
+      ],
+      "eff-u": [],
+      "private-effects": []
+    },
+    {
+      "name": "pickup",
+      "actionclass": "PickUpAction",
+      "args": [
+        {
+          "name": "?person",
+          "type": "Person"
+        },
+        {
+          "name": "?item",
+          "type": "Thing"
+        },
+        {
+          "name": "?furn",
+          "type": "Furniture"
+        },
+        {
+          "name": "?loc",
+          "type": "Location"
+        }
+      ],
+      "char": "?person",
+      "loc": "?loc",
+      "pre-t": [
+        "(alive ?person)",
+        "(at ?person ?loc)",
+        "(in ?furn ?loc)",
+        "(on ?item ?furn)"
+      ],
+      "pre-f": [
+        "(has ?person ?item)"
+      ],
+      "eff-t": [
+        "(has ?person ?item)"
+      ],
+      "eff-f": [
+        "(on ?item ?furn)"
+      ],
+      "pre-bplus": [
+        "(alive ?person)",
+        "(at ?person ?loc)",
+        "(in ?furn ?loc)",
+        "(on ?item ?furn)"
+      ],
+      "pre-bminus": [
+        "(has ?person ?item)"
+      ],
+      "pre-u": [],
+      "eff-bplus": [
+        "(has ?person ?item)"
+      ],
+      "eff-bminus": [
+        "(on ?item ?furn)"
+      ],
+      "eff-u": [],
+      "private-effects": []
+    },
+    {
+      "name": "take",
+      "actionclass": "TakeAction",
+      "args": [
+        {
+          "name": "?person",
+          "type": "Person"
+        },
+        {
+          "name": "?loc",
+          "type": "Location"
+        },
+        {
+          "name": "?item",
+          "type": "Thing"
+        },
+        {
+          "name": "?storage",
+          "type": "Storage"
+        }
+      ],
+      "char": "?person",
+      "loc": "?loc",
+      "pre-t": [
+        "(alive ?person)",
+        "(at ?person ?loc)",
+        "(in ?storage ?loc)",
+        "(contains ?storage ?item)",
+        "(open ?storage)"
+      ],
+      "pre-f": [
+        "(locked ?storage)"
+      ],
+      "eff-t": [
+        "(has ?person ?item)"
+      ],
+      "eff-f": [
+        "(contains ?storage ?item)"
+      ],
+      "pre-bplus": [
+        "(alive ?person)",
+        "(at ?person ?loc)",
+        "(in ?storage ?loc)",
+        "(contains ?storage ?item)",
+        "(open ?storage)"
+      ],
+      "pre-bminus": [
+        "(locked ?storage)"
+      ],
+      "pre-u": [],
+      "eff-bplus": [
+        "(has ?person ?item)"
+      ],
+      "eff-bminus": [
+        "(contains ?storage ?item)"
+      ],
+      "eff-u": [],
+      "private-effects": []
+    },
+    {
+      "name": "unlockdoor",
+      "actionclass": "UnlockAction",
+      "args": [
+        {
+          "name": "?person",
+          "type": "Person"
+        },
+        {
+          "name": "?loc",
+          "type": "Location"
+        },
+        {
+          "name": "?door",
+          "type": "Door"
+        },
+        {
+          "name": "?key",
+          "type": "Key"
+        }
+      ],
+      "char": "?person",
+      "loc": "?loc",
+      "pre-t": [
+        "(alive ?person)",
+        "(at ?person ?loc)",
+        "(in ?door ?loc)",
+        "(has ?person ?key)",
+        "(locked ?door)",
+        "(unlocks ?key ?door)"
+      ],
+      "pre-f": [],
+      "eff-t": [],
+      "eff-f": [
+        "(locked ?door)"
+      ],
+      "pre-bplus": [
+        "(alive ?person)",
+        "(at ?person ?loc)",
+        "(in ?door ?loc)",
+        "(has ?person ?key)",
+        "(locked ?door)",
+        "(unlocks ?key ?door)"
+      ],
+      "pre-bminus": [],
+      "pre-u": [],
+      "eff-bplus": [],
+      "eff-bminus": [
+        "(locked ?door)"
+      ],
+      "eff-u": [],
+      "private-effects": []
+    },
+    {
+      "name": "unlockobject",
+      "actionclass": "Unlock2Action",
+      "args": [
+        {
+          "name": "?person",
+          "type": "Person"
+        },
+        {
+          "name": "?loc",
+          "type": "Location"
+        },
+        {
+          "name": "?obj",
+          "type": "Storage"
+        },
+        {
+          "name": "?key",
+          "type": "Key"
+        }
+      ],
+      "char": "?person",
+      "loc": "?loc",
+      "pre-t": [
+        "(alive ?person)",
+        "(at ?person ?loc)",
+        "(in ?obj ?loc)",
+        "(has ?person ?key)",
+        "(locked ?obj)",
+        "(unlocks ?key ?obj)"
+      ],
+      "pre-f": [
+        "(open ?obj)"
+      ],
+      "eff-t": [],
+      "eff-f": [
+        "(locked ?obj)"
+      ],
+      "pre-bplus": [
+        "(alive ?person)",
+        "(at ?person ?loc)",
+        "(in ?obj ?loc)",
+        "(has ?person ?key)",
+        "(locked ?obj)",
+        "(unlocks ?key ?obj)"
+      ],
+      "pre-bminus": [],
+      "pre-u": [],
+      "eff-bplus": [],
+      "eff-bminus": [
+        "(locked ?obj)"
+      ],
+      "eff-u": [],
+      "private-effects": []
+    },
+    {
+      "name": "threaten",
+      "actionclass": "ThreatenAction",
+      "args": [
+        {
+          "name": "?person1",
+          "type": "Person"
+        },
+        {
+          "name": "?person2",
+          "type": "Person"
+        },
+        {
+          "name": "?loc",
+          "type": "Location"
+        },
+        {
+          "name": "?weapon",
+          "type": "Weapon"
+        }
+      ],
+      "char": "?person1",
+      "loc": "?loc",
+      "pre-t": [
+        "(alive ?person1)",
+        "(at ?person1 ?loc)",
+        "(alive ?person2)",
+        "(at ?person2 ?loc)",
+        "(has ?person1 ?weapon)"
+      ],
+      "pre-f": [
+        "(threatened ?person1)",
+        "(threatened ?person2)"
+      ],
+      "eff-t": [
+        "(threatened ?person2)"
+      ],
+      "eff-f": [],
+      "pre-bplus": [
+        "(alive ?person1)",
+        "(at ?person1 ?loc)",
+        "(alive ?person2)",
+        "(at ?person2 ?loc)",
+        "(has ?person1 ?weapon)"
+      ],
+      "pre-bminus": [
+        "(threatened ?person1)",
+        "(threatened ?person2)"
+      ],
+      "pre-u": [],
+      "eff-bplus": [
+        "(threatened ?person2)"
+      ],
+      "eff-bminus": [],
+      "eff-u": [],
+      "private-effects": []
+    },
+    {
+      "name": "runaway",
+      "actionclass": "RunAction",
+      "args": [
+        {
+          "name": "?person",
+          "type": "Person"
+        },
+        {
+          "name": "?from",
+          "type": "Location"
+        },
+        {
+          "name": "?to",
+          "type": "Location"
+        }
+      ],
+      "char": "?person",
+      "loc": "?from",
+      "pre-t": [
+        "(alive ?person)",
+        "(at ?person ?from)",
+        "(adjacent ?from ?to)",
+        "(threatened ?person)"
+      ],
+      "pre-f": [
+        "(at ?person ?to)"
+      ],
+      "eff-t": [
+        "(at ?person ?to)"
+      ],
+      "eff-f": [
+        "(at ?person ?from)",
+        "(threatened ?person)"
+      ],
+      "pre-bplus": [
+        "(alive ?person)",
+        "(at ?person ?from)",
+        "(adjacent ?from ?to)",
+        "(threatened ?person)"
+      ],
+      "pre-bminus": [
+        "(at ?person ?to)"
+      ],
+      "pre-u": [],
+      "eff-bplus": [
+        "(at ?person ?to)"
+      ],
+      "eff-bminus": [
+        "(at ?person ?from)",
+        "(threatened ?person)"
+      ],
+      "eff-u": [],
+      "private-effects": []
+    },
+    {
+      "name": "open-true",
+      "actionclass": "OpenAction",
+      "args": [
+        {
+          "name": "?person",
+          "type": "Person"
+        },
+        {
+          "name": "?obj",
+          "type": "Storage"
+        },
+        {
+          "name": "?loc",
+          "type": "Location"
+        }
+      ],
+      "char": "?person",
+      "loc": "?loc",
+      "pre-t": [
+        "(alive ?person)",
+        "(at ?person ?loc)",
+        "(in ?obj ?loc)"
+      ],
+      "pre-f": [
+        "(locked ?obj)",
+        "(open ?obj)"
+      ],
+      "eff-t": [
+        "(open ?obj)"
+      ],
+      "eff-f": [],
+      "pre-bplus": [
+        "(alive ?person)",
+        "(at ?person ?loc)",
+        "(in ?obj ?loc)"
+      ],
+      "pre-bminus": [
+        "(locked ?obj)",
+        "(open ?obj)"
+      ],
+      "pre-u": [],
+      "eff-bplus": [
+        "(open ?obj)"
+      ],
+      "eff-bminus": [],
+      "eff-u": [],
+      "private-effects": []
+    },
+    {
+      "name": "open-false",
+      "actionclass": "Open2Action",
+      "args": [
+        {
+          "name": "?person",
+          "type": "Person"
+        },
+        {
+          "name": "?obj",
+          "type": "Storage"
+        },
+        {
+          "name": "?loc",
+          "type": "Location"
+        }
+      ],
+      "char": "?person",
+      "loc": "?loc",
+      "pre-t": [
+        "(alive ?person)",
+        "(at ?person ?loc)",
+        "(locked ?obj)",
+        "(in ?obj ?loc)"
+      ],
+      "pre-f": [
+        "(open ?obj)"
+      ],
+      "eff-t": [],
+      "eff-f": [],
+      "pre-bplus": [
+        "(alive ?person)",
+        "(at ?person ?loc)",
+        "(in ?obj ?loc)"
+      ],
+      "pre-bminus": [
+        "(locked ?obj)",
+        "(open ?obj)"
+      ],
+      "pre-u": [],
+      "eff-bplus": [
+        "(locked ?obj)"
+      ],
+      "eff-bminus": [],
+      "eff-u": [],
+      "private-effects": []
+    },
+    {
+      "name": "openstealth-true",
+      "actionclass": "OpenAction",
+      "args": [
+        {
+          "name": "?person",
+          "type": "Person"
+        },
+        {
+          "name": "?obj",
+          "type": "Storage"
+        },
+        {
+          "name": "?loc",
+          "type": "Location"
+        }
+      ],
+      "char": "?person",
+      "loc": "?loc",
+      "pre-t": [
+        "(alive ?person)",
+        "(at ?person ?loc)",
+        "(in ?obj ?loc)"
+      ],
+      "pre-f": [
+        "(locked ?obj)",
+        "(open ?obj)",
+        "(alive Guard)"
+      ],
+      "eff-t": [
+        "(open ?obj)"
+      ],
+      "eff-f": [],
+      "pre-bplus": [
+        "(alive ?person)",
+        "(at ?person ?loc)",
+        "(in ?obj ?loc)"
+      ],
+      "pre-bminus": [
+        "(locked ?obj)",
+        "(open ?obj)",
+        "(alive Guard)"
+      ],
+      "pre-u": [],
+      "eff-bplus": [
+        "(open ?obj)"
+      ],
+      "eff-bminus": [],
+      "eff-u": [],
+      "private-effects": []
+    },
+    {
+      "name": "openstealth-false",
+      "actionclass": "Open2Action",
+      "args": [
+        {
+          "name": "?person",
+          "type": "Person"
+        },
+        {
+          "name": "?obj",
+          "type": "Storage"
+        },
+        {
+          "name": "?loc",
+          "type": "Location"
+        }
+      ],
+      "char": "?person",
+      "loc": "?loc",
+      "pre-t": [
+        "(alive ?person)",
+        "(at ?person ?loc)",
+        "(locked ?obj)",
+        "(in ?obj ?loc)"
+      ],
+      "pre-f": [
+        "(open ?obj)",
+        "(alive Guard)"
+      ],
+      "eff-t": [],
+      "eff-f": [],
+      "pre-bplus": [
+        "(alive ?person)",
+        "(at ?person ?loc)",
+        "(in ?obj ?loc)"
+      ],
+      "pre-bminus": [
+        "(locked ?obj)",
+        "(open ?obj)",
+        "(alive Guard)"
+      ],
+      "pre-u": [],
+      "eff-bplus": [
+        "(locked ?obj)"
+      ],
+      "eff-bminus": [],
+      "eff-u": [],
+      "private-effects": []
+    },
+    {
+      "name": "askforrefill",
+      "actionclass": "AskAction",
+      "args": [
+        {
+          "name": "?person",
+          "type": "Person"
+        },
+        {
+          "name": "?container",
+          "type": "Container"
+        },
+        {
+          "name": "?loc",
+          "type": "Location"
+        }
+      ],
+      "char": "?person",
+      "loc": "?loc",
+      "pre-t": [
+        "(alive ?person)",
+        "(at ?person ?loc)",
+        "(has ?person ?container)"
+      ],
+      "pre-f": [
+        "(filled ?container)"
+      ],
+      "eff-t": [
+        "(needsfilled ?person ?container)"
+      ],
+      "eff-f": [],
+      "pre-bplus": [
+        "(alive ?person)",
+        "(at ?person ?loc)",
+        "(has ?person ?container)"
+      ],
+      "pre-bminus": [
+        "(filled ?container)"
+      ],
+      "pre-u": [],
+      "eff-bplus": [
+        "(needsfilled ?person ?container)"
+      ],
+      "eff-bminus": [],
+      "eff-u": [],
+      "private-effects": []
+    },
+    {
+      "name": "filldrink-false",
+      "actionclass": "FillDrinkFalseAction",
+      "args": [
+        {
+          "name": "?p1",
+          "type": "Person"
+        },
+        {
+          "name": "?loc",
+          "type": "Location"
+        },
+        {
+          "name": "?from",
+          "type": "Container"
+        },
+        {
+          "name": "?to",
+          "type": "Container"
+        },
+        {
+          "name": "?p2",
+          "type": "Person"
+        }
+      ],
+      "char": "?p1",
+      "loc": "?loc",
+      "pre-t": [
+        "(alive ?p1)",
+        "(alive ?p2)",
+        "(at ?p1 ?loc)",
+        "(at ?p2 ?loc)",
+        "(has ?p1 ?from)",
+        "(has ?p2 ?to)",
+        "(needsfilled ?p2 ?to)"
+      ],
+      "pre-f": [
+        "(filled ?from)",
+        "(filled ?to)"
+      ],
+      "eff-t": [],
+      "eff-f": [],
+      "pre-bplus": [
+        "(alive ?p1)",
+        "(alive ?p2)",
+        "(at ?p1 ?loc)",
+        "(at ?p2 ?loc)",
+        "(has ?p1 ?from)",
+        "(has ?p2 ?to)",
+        "(needsfilled ?p2 ?to)",
+        "(filled ?from)"
+      ],
+      "pre-bminus": [
+        "(filled ?to)"
+      ],
+      "pre-u": [],
+      "eff-bplus": [],
+      "eff-bminus": [
+        "(filled ?from)"
+      ],
+      "eff-u": [],
+      "private-effects": []
+    },
+    {
+      "name": "filldrink-true",
+      "actionclass": "FillDrinkTrueAction",
+      "args": [
+        {
+          "name": "?p1",
+          "type": "Person"
+        },
+        {
+          "name": "?loc",
+          "type": "Location"
+        },
+        {
+          "name": "?from",
+          "type": "Container"
+        },
+        {
+          "name": "?to",
+          "type": "Container"
+        },
+        {
+          "name": "?p2",
+          "type": "Person"
+        }
+      ],
+      "char": "?p1",
+      "loc": "?loc",
+      "pre-t": [
+        "(alive ?p1)",
+        "(alive ?p2)",
+        "(at ?p1 ?loc)",
+        "(at ?p2 ?loc)",
+        "(has ?p1 ?from)",
+        "(has ?p2 ?to)",
+        "(needsfilled ?p2 ?to)",
+        "(filled ?from)"
+      ],
+      "pre-f": [
+        "(filled ?to)"
+      ],
+      "eff-t": [
+        "(filled ?to)"
+      ],
+      "eff-f": [
+        "(filled ?from)",
+        "(needsfilled ?p2 ?to)"
+      ],
+      "pre-bplus": [
+        "(alive ?p1)",
+        "(alive ?p2)",
+        "(at ?p1 ?loc)",
+        "(at ?p2 ?loc)",
+        "(has ?p1 ?from)",
+        "(has ?p2 ?to)",
+        "(needsfilled ?p2 ?to)",
+        "(filled ?from)"
+      ],
+      "pre-bminus": [
+        "(filled ?to)"
+      ],
+      "pre-u": [],
+      "eff-bplus": [
+        "(filled ?to)"
+      ],
+      "eff-bminus": [
+        "(filled ?from)",
+        "(needsfilled ?p2 ?to)"
+      ],
+      "eff-u": [],
+      "private-effects": []
+    },
+    {
+      "name": "callforhelp",
+      "actionclass": "CallHelpAction",
+      "args": [
+        {
+          "name": "?person",
+          "type": "Person"
+        },
+        {
+          "name": "?loc",
+          "type": "Location"
+        }
+      ],
+      "char": "?person",
+      "loc": "?loc",
+      "pre-t": [
+        "(alive ?person)",
+        "(at ?person ?loc)",
+        "(tied ?person)"
+      ],
+      "pre-f": [],
+      "eff-t": [
+        "(needshelp ?person)"
+      ],
+      "eff-f": [],
+      "pre-bplus": [
+        "(alive ?person)",
+        "(at ?person ?loc)",
+        "(tied ?person)"
+      ],
+      "pre-bminus": [],
+      "pre-u": [],
+      "eff-bplus": [
+        "(needshelp ?person)"
+      ],
+      "eff-bminus": [],
+      "eff-u": [],
+      "private-effects": []
+    },
+    {
+      "name": "cutloose",
+      "actionclass": "CutLooseAction",
+      "args": [
+        {
+          "name": "?p1",
+          "type": "Person"
+        },
+        {
+          "name": "?p2",
+          "type": "Person"
+        },
+        {
+          "name": "?loc",
+          "type": "Location"
+        },
+        {
+          "name": "?byloc",
+          "type": "SubLocation"
+        }
+      ],
+      "char": "?p1",
+      "loc": "?loc",
+      "pre-t": [
+        "(alive ?p1)",
+        "(alive ?p2)",
+        "(at ?p1 ?loc)",
+        "(at ?p2 ?loc)",
+        "(by ?p1 ?byloc)",
+        "(by ?p2 ?byloc)",
+        "(tied ?p2)",
+        "(needshelp ?p2)"
+      ],
+      "pre-f": [
+        "(threatened ?p1)"
+      ],
+      "eff-t": [],
+      "eff-f": [
+        "(needshelp ?p2)",
+        "(tied ?p2)"
+      ],
+      "pre-bplus": [
+        "(alive ?p1)",
+        "(alive ?p2)",
+        "(at ?p1 ?loc)",
+        "(at ?p2 ?loc)",
+        "(by ?p1 ?byloc)",
+        "(by ?p2 ?byloc)",
+        "(tied ?p2)",
+        "(needshelp ?p2)"
+      ],
+      "pre-bminus": [
+        "(threatened ?p1)"
+      ],
+      "pre-u": [],
+      "eff-bplus": [],
+      "eff-bminus": [
+        "(needshelp ?p2)",
+        "(tied ?p2)"
+      ],
+      "eff-u": [],
+      "private-effects": []
+    }
+  ],
+  "initial": {
+    "t": [
+      "(at Dolores StationStreet)",
+      "(alive Dolores)",
+      "(in Floor Wreckage)",
+      "(on Lockbox Floor)",
+      "(in Lockbox Wreckage)",
+      "(adjacent StationStreet Wreckage)",
+      "(contains Lockbox Loot)",
+      "(has Dolores Handgun)",
+      "(loaded Handgun)",
+      "(locked Lockbox)"
+    ],
+    "f": [
+      "(at Dolores Wreckage)",
+      "(in Floor StationStreet)",
+      "(has Dolores Loot)",
+      "(open Lockbox)"
+    ],
+    "characters": [
+      {
+        "name": "Dolores",
+        "bplus": [
+          "(at Dolores StationStreet)",
+      "(alive Dolores)",
+      "(in Floor Wreckage)",
+      "(on Lockbox Floor)",
+      "(in Lockbox Wreckage)",
+      "(adjacent StationStreet Wreckage)",
+      "(contains Lockbox Loot)",
+      "(has Dolores Handgun)",
+      "(loaded Handgun)"
+        ],
+        "bminus": [
+         "(at Dolores Wreckage)",
+      "(in Floor StationStreet)",
+      "(locked Lockbox)",
+      "(has Dolores Loot)",
+      "(open Lockbox)"
+        ],
+        "unsure": []
+      },
+      {
+        "name": "Teddy",
+        "bplus": [
+          "(at Guard StationStreet)",
+          "(at Teddy StationStreet)",
+          "(by Guard Entrance)",
+          "(by Teddy Tracks)",
+          "(alive Teddy)",
+          "(alive Guard)",
+          "(alive Dolores)",
+          "(tied Teddy)",
+          "(in Tracks StationStreet)",
+          "(in Entrance StationStreet)",
+          "(at Dolores StationStreet)",
+          "(by Dolores Tracks)",
+          "(has Guard Handgun)",
+		  "(loaded Handgun)",
+          "(has Dolores Knife)",
+          "(threatened Teddy)"
+        ],
+        "bminus": [
+          "(by Teddy Entrance)",
+          "(by Guard Tracks)",
+          "(by Dolores Entrance)",
+          "(needshelp Teddy)",
+          "(threatened Guard)",
+          "(needshelp Guard)",
+          "(tied Guard)",
+          "(has Teddy Knife)",
+          "(has Teddy Handgun)",
+          "(has Guard Knife)",
+          "(has Dolores Handgun)",
+          "(threatened Dolores)"
+        ],
+        "unsure": []
+      },
+      {
+        "name": "Guard",
+        "bplus": [
+          "(at Guard StationStreet)",
+          "(at Teddy StationStreet)",
+          "(by Guard Entrance)",
+          "(by Teddy Tracks)",
+          "(alive Teddy)",
+          "(alive Guard)",
+          "(tied Teddy)",
+          "(in Tracks StationStreet)",
+          "(in Entrance StationStreet)",
+          "(at Dolores StationStreet)",
+          "(by Dolores Tracks)",
+          "(has Guard Handgun)",
+		  "(loaded Handgun)",
+		  "(alive Dolores)"
+        ],
+        "bminus": [
+          "(by Teddy Entrance)",
+          "(by Guard Tracks)",
+          "(by Dolores Entrance)",
+          "(needshelp Teddy)",
+          "(threatened Guard)",
+          "(needshelp Guard)",
+          "(tied Guard)",
+          "(has Teddy Knife)",
+          "(has Teddy Handgun)",
+          "(has Guard Knife)",
+          "(has Dolores Handgun)",
+          "(threatened Dolores)",
+          "(has Dolores Knife)",
+          "(threatened Teddy)"
+        ],
+        "unsure": []
+      }
+    ]
+  },
+  "final": {
+    "t": [
+      "(has Dolores Loot)"
+    ],
+    "f": [],
+    "characters": [
+      {
+        "name": "Dolores",
+        "bplus": [
+          "(has Dolores Loot)"
+        ],
+        "bminus": [],
+        "unsure": []
+      }
+    ]
+  }
+}
