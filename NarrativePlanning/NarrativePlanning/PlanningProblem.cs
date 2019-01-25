@@ -407,8 +407,6 @@ namespace NarrativePlanning
                 }
                        
             }
-            foreach (Intention r in rmv)
-                w.intentions.Remove(r);
             if (possibleSteps.Count > 0)
             {
                 //TODO: Come up with a better way to choose an action!! Future Work
