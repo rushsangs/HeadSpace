@@ -139,6 +139,68 @@ namespace NarrativePlanning
             return l;
         }
 
+		/// <summary>
+		/// Computes the relaxed plan graph but takes all goals (char and author)
+		///  into consideration
+		/// and also applies effects of failing and succeeeding operator
+        /// </summary>
+        /// <param name="operators">List of grounded operators</param>
+        /// <param name="current">Initial worldstate</param>
+        /// <param name="goal">Goal worldstate</param>
+        /// <returns>The RPG in layers form constructed using acitons that the character can perform.</returns>
+		public static Layers computeCompleteRPG(List<Operator> operators, WorldState current, WorldState goal)
+        {
+            Layers l = null;
+            int t = 0;
+            l = new Layers();
+			//add everything to layer 0
+			l.F.Add(0, current);
+            
+            //if (characterf == null)
+            //{
+            //    //the character had no goal.
+            //    l.k = t;
+            //    return l;
+            //}
+
+			while (!(((WorldState)l.F[t]).isGoalState(goal)  && ((WorldState)l.F[t]).intentionsSatisfied()))
+            {
+                t++;
+                List<Operator> At = new List<Operator>();
+                //change this to next actions in intention plan
+                foreach (Operator o in operators)
+                {
+					Character character = ((WorldState)(l.F[t - 1])).characters.Find(x => x.name.Equals(o.character));
+					if (Character.isApparentlyExecutable(o, character))
+                    {
+                        At.Add(o);
+                    }
+                }
+                l.A.Add(t, At);
+				l.F.Add(t, ((WorldState)l.F[t - 1]).clone());
+                foreach (Operator o in At)
+                {
+					if(o.name.Contains("-false"))
+					{
+						NarrativePlanning.Operator failedop = NarrativePlanning.Operator.getFailedOperator(operators, o);
+						l.F[t] = WorldState.getNextRelaxedState((WorldState)l.F[t], failedop);
+
+					}
+					l.F[t] = WorldState.getNextRelaxedState((WorldState)l.F[t], o);
+                }
+				if ((l.F[t] as WorldState).Equals(l.F[t - 1] as WorldState))
+                {
+                    //could not reach goal.
+                    l.k = t;
+                    return l;
+                }
+
+
+            }
+            l.k = t;
+            return l;
+        }
+
         /// <summary>
         /// Finds the hueristic measure for the RPG.
         /// </summary>
