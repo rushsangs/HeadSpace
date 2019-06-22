@@ -235,13 +235,28 @@ namespace NarrativePlanning
         }
 
         /// <summary>
-        /// Returns the relaxed next state, i.e. the WorldState when only the
-        /// add effects are applied and not delete effects.
+        /// this should basically check if intentions in the world state are satisfied
         /// </summary>
-        /// <param name="current">Current world state</param>
-        /// <param name="ground">Grounded operator to be applied</param>
-        /// <returns>Resulting relaxed world state.</returns>
-        public static WorldState getNextRelaxedState(WorldState current, Operator ground)
+        /// <returns><c>true</c>, if satisfied was intentionsed, <c>false</c> otherwise.</returns>
+		internal bool intentionsSatisfied()
+		{
+			foreach(Intention i in this.intentions)
+			{
+				Character character = this.characters.Find(x => x.name.Equals(i.character));
+				if (!character.isGoalState(i.goals))
+					return false;
+			}
+			return true;
+		}
+
+		/// <summary>
+		/// Returns the relaxed next state, i.e. the WorldState when only the
+		/// add effects are applied and not delete effects.
+		/// </summary>
+		/// <param name="current">Current world state</param>
+		/// <param name="ground">Grounded operator to be applied</param>
+		/// <returns>Resulting relaxed world state.</returns>
+		public static WorldState getNextRelaxedState(WorldState current, Operator ground)
         {
             WorldState newState = current.clone();
             foreach (String lit in ground.effT.Keys)

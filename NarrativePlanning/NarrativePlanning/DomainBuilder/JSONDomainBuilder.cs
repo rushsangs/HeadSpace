@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Newtonsoft;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
@@ -69,8 +70,8 @@ namespace NarrativePlanning.DomainBuilder
         private void create()
         {
             StreamReader r = new StreamReader(filename);
-            string json = r.ReadToEnd();
-            var jsonDomain = JsonDomain.FromJson(json);
+            string json = r.ReadToEnd();    
+			var jsonDomain = JsonDomain.FromJson("{}");
             root = TypeTreeBuilder.buildTypeTree(jsonDomain.Types);
             instancesJSON = jsonDomain.Instances;
             operatorsJSON = jsonDomain.Operators;

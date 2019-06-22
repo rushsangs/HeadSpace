@@ -31,7 +31,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -72,8 +73,18 @@
     <None Include="Text Files\beanstalk-operators.txt" />
     <None Include="Text Files\beanstalk-types.txt" />
     <None Include="Text Files\beanstalk-goal.txt" />
-    <None Include="packages.config" />
     <None Include="utahpia.json" />
+    <None Include="Text Files\breakout.json" />
+    <None Include="JSON Files\balconyrescue.json" />
+    <None Include="JSON Files\bankheist.json" />
+    <None Include="JSON Files\beanstalk.json" />
+    <None Include="JSON Files\breakout.json" />
+    <None Include="JSON Files\freetheprisoners.json" />
+    <None Include="JSON Files\golddigger.json" />
+    <None Include="JSON Files\refill.json" />
+    <None Include="JSON Files\traintrackrescue.json" />
+    <None Include="JSON Files\utahpia.json" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
