@@ -8,7 +8,8 @@ namespace NarrativePlanning
     /// <summary>
     /// While this class is used as representration for a character,
     /// it is also used in multiple places to represent belief states
-    /// in motivations and desires, etc.
+    /// in motivations and desires, etc. Basically, it's used to 
+	/// represent a tuple of B+,B= and U.
     /// </summary>
     [Serializable]
     public class Character
@@ -64,21 +65,21 @@ namespace NarrativePlanning
                 //if (newState.fWorld.Contains(lit))
                 //newState.fWorld.Remove(lit);
                 if (!newState.bPlus.Contains(lit))
-                    newState.bPlus.Add(lit, 1);
+					newState.bPlus.Add(lit, 1);
             }
             foreach (String lit in ground.effBMinus.Keys)
             {
                 //if (newState.tWorld.Contains(lit))
                 //newState.tWorld.Remove(lit);
                 if (!newState.bMinus.Contains(lit))
-                    newState.bMinus.Add(lit, 1);
+					newState.bMinus.Add(lit, 1);
             }
             foreach (String lit in ground.effUnsure.Keys)
             {
                 //if (newState.tWorld.Contains(lit))
                 //newState.tWorld.Remove(lit);
                 if (!newState.unsure.Contains(lit))
-                    newState.unsure.Add(lit, 1);
+					newState.unsure.Add(lit, 1);
             }
             return newState;
         }
@@ -200,13 +201,20 @@ namespace NarrativePlanning
         public Character clone(){
             Character res = new Character();
             res.name = this.name;
-            res.bPlus = this.bPlus.Clone() as Hashtable;
-            res.bMinus = this.bMinus.Clone() as Hashtable;
-            res.unsure = this.unsure.Clone() as Hashtable;
+			res.bPlus = Operator.DeepClone<Hashtable>(this.bPlus);
+			res.bMinus = Operator.DeepClone<Hashtable>(this.bMinus);
+			res.unsure = Operator.DeepClone<Hashtable>(this.unsure);
             //res.intentions = this.intentions.C
             return res;
         }
 
+        /// <summary>
+        /// Determines whether the specified <see cref="object"/> is equal to the current <see cref="T:NarrativePlanning.Character"/>.
+		/// Note: i dont think it checks equality for observability parts of the belief effect stuff
+		///  </summary>
+        /// <param name="obj">The <see cref="object"/> to compare with the current <see cref="T:NarrativePlanning.Character"/>.</param>
+        /// <returns><c>true</c> if the specified <see cref="object"/> is equal to the current
+        /// <see cref="T:NarrativePlanning.Character"/>; otherwise, <c>false</c>.</returns>
         public override bool Equals(object obj)
         {
             Character c = obj as Character;

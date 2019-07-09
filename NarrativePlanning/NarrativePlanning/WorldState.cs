@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Linq;
+using System.Reflection;
 
 namespace NarrativePlanning
 {
@@ -138,187 +139,268 @@ namespace NarrativePlanning
         /// <param name="current">The current world state</param>
         /// <param name="ground">Grounded operator to be applied</param>
         /// <returns>Resultant world state.</returns>
-        public static WorldState getNextState(WorldState current, Operator ground){
-            WorldState newState = current.clone();
-            foreach(String lit in ground.effT.Keys){
-                if (newState.fWorld.Contains(lit))
-                    newState.fWorld.Remove(lit);
-                if(!newState.tWorld.Contains(lit))
-                    newState.tWorld.Add(lit, 1);
-            }
-            foreach (String lit in ground.effF.Keys)
-            {
-                if (newState.tWorld.Contains(lit))
-                    newState.tWorld.Remove(lit);
-                if (!newState.fWorld.Contains(lit))
-                    newState.fWorld.Add(lit, 1);
-            }
-            foreach(Character c in newState.characters){
-                if(c.name.Equals(ground.character)){
-                    foreach(String lit in ground.effBPlus.Keys){
-                        if (c.bMinus.Contains(lit))
-                            c.bMinus.Remove(lit);
-                        if (c.unsure.Contains(lit))
-                            c.unsure.Remove(lit);
-                        if(!c.bPlus.ContainsKey(lit))
-                            c.bPlus.Add(lit, 1);
-                    }
-                    foreach (String lit in ground.effBMinus.Keys)
-                    {
-                        if (c.bPlus.Contains(lit))
-                            c.bPlus.Remove(lit);
-                        if (c.unsure.Contains(lit))
-                            c.unsure.Remove(lit);
-                        if (!c.bMinus.ContainsKey(lit))
-                            c.bMinus.Add(lit, 1);
-                    }
-                    foreach (String lit in ground.effUnsure.Keys)
-                    {
-                        if (c.bMinus.Contains(lit))
-                            c.bMinus.Remove(lit);
-                        if (c.bPlus.Contains(lit))
-                            c.bPlus.Remove(lit);
-                        if (!c.unsure.ContainsKey(lit))
-                            c.unsure.Add(lit, 1);
-                    }
-                }
-                ////////////////// OBSERVABILITY ///////////////////////
-                else
+        public static WorldState getNextState(WorldState current, Operator ground)
+		{
+			WorldState newState = current.clone();
+			foreach (String lit in ground.effT.Keys)
+			{
+				if (newState.fWorld.Contains(lit))
+					newState.fWorld.Remove(lit);
+				if (!newState.tWorld.Contains(lit))
+					newState.tWorld.Add(lit, 1);
+			}
+			foreach (String lit in ground.effF.Keys)
+			{
+				if (newState.tWorld.Contains(lit))
+					newState.tWorld.Remove(lit);
+				if (!newState.fWorld.Contains(lit))
+					newState.fWorld.Add(lit, 1);
+			}
+			Character c = newState.getCharacter(ground.character);
+
+			foreach (String lit in ground.effBPlus.Keys)
+			{
+				List<String> chars = getCharactersThatObserveThis(current, ground, ground.effBPlus[lit] as EffectTuple);
+                foreach (String ch in chars)
                 {
-                    foreach(String literal in c.bPlus.Keys)
-                    {
-                        if(literal.Trim().StartsWith("at ") && literal.Contains(c.name) && literal.Contains(ground.location))
-                        {
-                            //character was in same location, apply effects.
-                            foreach(String lit in ground.effBPlus.Keys)
-                            {
-                                if (!ground.privateEffects.ContainsKey(lit))
-                                {
-                                    if (c.bMinus.Contains(lit))
-                                        c.bMinus.Remove(lit);
-                                    if (c.unsure.Contains(lit))
-                                        c.unsure.Remove(lit);
-                                    if (!c.bPlus.ContainsKey(lit))
-                                        c.bPlus.Add(lit, 1);
-                                }
-                            }
-                            foreach (String lit in ground.effBMinus.Keys)
-                            {
-                                if (!ground.privateEffects.ContainsKey(lit))
-                                {
-                                    if (c.bPlus.Contains(lit))
-                                        c.bPlus.Remove(lit);
-                                    if (c.unsure.Contains(lit))
-                                        c.unsure.Remove(lit);
-                                    if (!c.bMinus.ContainsKey(lit))
-                                        c.bMinus.Add(lit, 1);
-                                }
-                            }
-                            foreach (String lit in ground.effUnsure.Keys)
-                            {
-                                if (!ground.privateEffects.ContainsKey(lit))
-                                {
-                                    if (c.bMinus.Contains(lit))
-                                        c.bMinus.Remove(lit);
-                                    if (c.bPlus.Contains(lit))
-                                        c.bPlus.Remove(lit);
-                                    if (!c.unsure.ContainsKey(lit))
-                                        c.unsure.Add(lit, 1);
-                                }
-                            }
-                            break;
-                        } 
-                    }
+					Character character = newState.getCharacter(ch);
+					if (character.bMinus.Contains(lit))
+						character.bMinus.Remove(lit);
+                    if (character.unsure.Contains(lit))
+                        character.unsure.Remove(lit);
+					if (!character.bPlus.Contains(lit))
+                        character.bPlus.Add(lit, 1);
                 }
-            }
-            return newState;
-        }
-
-        /// <summary>
-        /// Returns the relaxed next state, i.e. the WorldState when only the
-        /// add effects are applied and not delete effects.
-        /// </summary>
-        /// <param name="current">Current world state</param>
-        /// <param name="ground">Grounded operator to be applied</param>
-        /// <returns>Resulting relaxed world state.</returns>
-        public static WorldState getNextRelaxedState(WorldState current, Operator ground)
-        {
-            WorldState newState = current.clone();
-            foreach (String lit in ground.effT.Keys)
-            {
-                if(!newState.tWorld.Contains(lit))
-                    newState.tWorld.Add(lit, 1);
-            }
-            foreach (String lit in ground.effF.Keys)
-            {
-                if (!newState.fWorld.Contains(lit))
-                newState.fWorld.Add(lit, 1);
-            }
-            Character ch = newState.characters.Find(x => x.name.Equals(ground.character));
-            foreach (String lit in ground.effBPlus.Keys)
-            {
-                if (!ch.bPlus.Contains(lit))
-                    ch.bPlus.Add(lit, 1);
-            }
-            foreach (String lit in ground.effBMinus.Keys)
-            {
-                if (!ch.bMinus.Contains(lit))
-                    ch.bMinus.Add(lit, 1);
-            }
-            foreach (String lit in ground.effUnsure.Keys)
-            {
-                if (!ch.unsure.Contains(lit))
-                    ch.unsure.Add(lit, 1);
-            }
-            ////////////////// OBSERVABILITY ///////////////////////
-            foreach ( Character c in newState.characters)
-            {
-                if (c.name.Equals(ground.character))
-                    continue;
-                foreach (String literal in c.bPlus.Keys)
+				if (c.bMinus.Contains(lit))
+					c.bMinus.Remove(lit);
+				if (c.unsure.Contains(lit))
+					c.unsure.Remove(lit);
+				if (!c.bPlus.ContainsKey(lit))
+					c.bPlus.Add(lit, 1);
+			}
+			foreach (String lit in ground.effBMinus.Keys)
+			{
+				List<String> chars = getCharactersThatObserveThis(current, ground, ground.effBMinus[lit] as EffectTuple);
+                foreach (String ch in chars)
                 {
-                    if (literal.Trim().StartsWith("at ") && literal.Contains(c.name) && literal.Contains(ground.location))
-                    {
-                        //character was in same location, apply effects.
-                        foreach (String lit in ground.effBPlus.Keys)
-                        {
-                            if (!ground.privateEffects.ContainsKey(lit))
-                            {
-                                if (!c.bPlus.ContainsKey(lit))
-                                    c.bPlus.Add(lit, 1);
-                            }
-                        }
-                        foreach (String lit in ground.effBMinus.Keys)
-                        {
-                            if (!ground.privateEffects.ContainsKey(lit))
-                            {
-                                if (!c.bMinus.ContainsKey(lit))
-                                    c.bMinus.Add(lit, 1);
-                            }
-                        }
-                        foreach (String lit in ground.effUnsure.Keys)
-                        {
-                            if (!ground.privateEffects.ContainsKey(lit))
-                            {
-                                if (!c.unsure.ContainsKey(lit))
-                                    c.unsure.Add(lit, 1);
-                            }
-                        }
-                        break;
-                    }
+                    Character character = newState.getCharacter(ch);
+                    if (character.bPlus.Contains(lit))
+                        character.bPlus.Remove(lit);
+                    if (character.unsure.Contains(lit))
+                        character.unsure.Remove(lit);
+                    if (!character.bMinus.Contains(lit))
+                        character.bMinus.Add(lit, 1);
                 }
-            }
+				if (c.bPlus.Contains(lit))
+					c.bPlus.Remove(lit);
+				if (c.unsure.Contains(lit))
+					c.unsure.Remove(lit);
+				if (!c.bMinus.ContainsKey(lit))
+					c.bMinus.Add(lit, 1);
+			}
+			foreach (String lit in ground.effUnsure.Keys)
+			{
+				List<String> chars = getCharactersThatObserveThis(current, ground, ground.effUnsure[lit] as EffectTuple);
+                foreach (String ch in chars)
+                {
+                    Character character = newState.getCharacter(ch);
+                    if (character.bMinus.Contains(lit))
+                        character.bMinus.Remove(lit);
+					if (character.bPlus.Contains(lit))
+						character.bPlus.Remove(lit);
+                    if (!character.unsure.Contains(lit))
+                        character.unsure.Add(lit, 1);
+                }
+				if (c.bMinus.Contains(lit))
+					c.bMinus.Remove(lit);
+				if (c.bPlus.Contains(lit))
+					c.bPlus.Remove(lit);
+				if (!c.unsure.ContainsKey(lit))
+					c.unsure.Add(lit, 1);
+			}
 
-            return newState;
-        }
+            // old observabilility stuff
 
-        /// <summary>
-        /// Checks whether the world state satisfies the provided goal conditions.
-        /// </summary>
-        /// <param name="goal">Goal, a world state which is a subset of literals
-        /// which should be the goal.</param>
-        /// <returns>True if world state meets goal conditions.</returns>
-        public bool isGoalState(WorldState goal){
+           
+			//foreach(String literal in c.bPlus.Keys)
+			//{
+			//    if(literal.Trim().StartsWith("at ") && literal.Contains(c.name) && literal.Contains(ground.location))
+			//    {
+			//        //character was in same location, apply effects.
+			//        foreach(String lit in ground.effBPlus.Keys)
+			//        {
+			//            if (!ground.privateEffects.ContainsKey(lit))
+			//            {
+			//                if (c.bMinus.Contains(lit))
+			//                    c.bMinus.Remove(lit);
+			//                if (c.unsure.Contains(lit))
+			//                    c.unsure.Remove(lit);
+			//                if (!c.bPlus.ContainsKey(lit))
+			//                    c.bPlus.Add(lit, 1);
+			//            }
+			//        }
+			//        foreach (String lit in ground.effBMinus.Keys)
+			//        {
+			//            if (!ground.privateEffects.ContainsKey(lit))
+			//            {
+			//                if (c.bPlus.Contains(lit))
+			//                    c.bPlus.Remove(lit);
+			//                if (c.unsure.Contains(lit))
+			//                    c.unsure.Remove(lit);
+			//                if (!c.bMinus.ContainsKey(lit))
+			//                    c.bMinus.Add(lit, 1);
+			//            }
+			//        }
+			//        foreach (String lit in ground.effUnsure.Keys)
+			//        {
+			//            if (!ground.privateEffects.ContainsKey(lit))
+			//            {
+			//                if (c.bMinus.Contains(lit))
+			//                    c.bMinus.Remove(lit);
+			//                if (c.bPlus.Contains(lit))
+			//                    c.bPlus.Remove(lit);
+			//                if (!c.unsure.ContainsKey(lit))
+			//                    c.unsure.Add(lit, 1);
+			//            }
+			//        }
+			//        break;
+			//    } 
+			//}
+
+			return newState;
+		}
+
+		/// <summary>
+		/// Returns the relaxed next state, i.e. the WorldState when only the
+		/// add effects are applied and not delete effects.
+		/// </summary>
+		/// <param name="current">Current world state</param>
+		/// <param name="ground">Grounded operator to be applied</param>
+		/// <returns>Resulting relaxed world state.</returns>
+		public static WorldState getNextRelaxedState(WorldState current, Operator ground)
+		{
+			WorldState newState = current.clone();
+			foreach (String lit in ground.effT.Keys)
+			{
+				if (!newState.tWorld.Contains(lit))
+					newState.tWorld.Add(lit, 1);
+			}
+			foreach (String lit in ground.effF.Keys)
+			{
+				if (!newState.fWorld.Contains(lit))
+					newState.fWorld.Add(lit, 1);
+			}
+			Character ch = newState.getCharacter(ground.character);
+			foreach (String lit in ground.effBPlus.Keys)
+			{
+				List<String> chars = getCharactersThatObserveThis(current, ground, ground.effBPlus[lit] as EffectTuple);
+				foreach(String c in chars){
+					Character character = newState.getCharacter(c);
+					if (!character.bPlus.Contains(lit))
+                        character.bPlus.Add(lit, 1);
+				}
+				if (!ch.bPlus.Contains(lit))
+					ch.bPlus.Add(lit, 1);
+				
+			}
+			foreach (String lit in ground.effBMinus.Keys)
+			{
+				List<String> chars = getCharactersThatObserveThis(current, ground, ground.effBMinus[lit] as EffectTuple);
+                foreach (String c in chars)
+                {
+					Character character = newState.getCharacter(c);
+					if (!character.bMinus.Contains(lit))
+						character.bMinus.Add(lit, 1);
+                }
+				if (!ch.bMinus.Contains(lit))
+					ch.bMinus.Add(lit, 1);
+			}
+			foreach (String lit in ground.effUnsure.Keys)
+			{
+				List<String> chars = getCharactersThatObserveThis(current, ground, ground.effUnsure[lit] as EffectTuple);
+                foreach (String c in chars)
+                {
+                    Character character = newState.characters.Find(x => x.name.Equals(c));
+					if (!character.unsure.Contains(lit))
+						character.unsure.Add(lit, 1);
+                }
+				if (!ch.unsure.Contains(lit))
+					ch.unsure.Add(lit, 1);
+			}
+          
+			/// old observability, not used anymore
+			//foreach ( Character c in newState.characters)
+			//{
+			//    if (c.name.Equals(ground.character))
+			//        continue;
+			//    foreach (String literal in c.bPlus.Keys)
+			//    {
+			//        if (literal.Trim().StartsWith("at ") && literal.Contains(c.name) && literal.Contains(ground.location))
+			//        {
+			//            //character was in same location, apply effects.
+			//            foreach (String lit in ground.effBPlus.Keys)
+			//            {
+			//                if (!ground.privateEffects.ContainsKey(lit))
+			//                {
+			//                    if (!c.bPlus.ContainsKey(lit))
+			//                        c.bPlus.Add(lit, 1);
+			//                }
+			//            }
+			//            foreach (String lit in ground.effBMinus.Keys)
+			//            {
+			//                if (!ground.privateEffects.ContainsKey(lit))
+			//                {
+			//                    if (!c.bMinus.ContainsKey(lit))
+			//                        c.bMinus.Add(lit, 1);
+			//                }
+			//            }
+			//            foreach (String lit in ground.effUnsure.Keys)
+			//            {
+			//                if (!ground.privateEffects.ContainsKey(lit))
+			//                {
+			//                    if (!c.unsure.ContainsKey(lit))
+			//                        c.unsure.Add(lit, 1);
+			//                }
+			//            }
+			//            break;
+			//        }
+			//    }
+			//}
+
+			return newState;
+		}
+
+		private static List<string> getCharactersThatObserveThis(WorldState world, Operator ground, EffectTuple effect)
+		{
+			//run the function specified in the effect tuple observability and send the correct args
+            
+
+			HashSet<String> characters = new HashSet<string>();
+			foreach(ObservabilityRule rule in effect.observabilityrules)
+			{
+				String fname = rule.fName;
+				List<string> args = rule.args;
+
+
+				Type type = typeof(Observabilities);
+				Observabilities  o= new Observabilities();
+				MethodInfo theMethod = type.GetMethod(fname);
+				Object[] a = { world ,args };
+				List<Character> res = theMethod.Invoke(o, a) as List<Character>;
+				foreach(Character c in res){
+					characters.Add(c.name);
+				} 
+			}
+			return characters.ToList<String>();
+		}
+
+		/// <summary>
+		/// Checks whether the world state satisfies the provided goal conditions.
+		/// </summary>
+		/// <param name="goal">Goal, a world state which is a subset of literals
+		/// which should be the goal.</param>
+		/// <returns>True if world state meets goal conditions.</returns>
+		public bool isGoalState(WorldState goal){
             foreach(String l in goal.tWorld.Keys){
                 if (!this.tWorld.Contains(l))
                     return false;

@@ -58,6 +58,8 @@
     <Compile Include="Desire.cs" />
     <Compile Include="Intention.cs" />
     <Compile Include="Literal.cs" />
+    <Compile Include="EffectTuple.cs" />
+    <Compile Include="Observabilities.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

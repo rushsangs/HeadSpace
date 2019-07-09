@@ -163,7 +163,7 @@ namespace NarrativePlanning
             //    return l;
             //}
 
-			while (!(((WorldState)l.F[t]).isGoalState(goal)  && ((WorldState)l.F[t]).intentionsSatisfied()))
+			while (!(((WorldState)l.F[t]).isGoalState(goal)  ))
             {
                 t++;
                 List<Operator> At = new List<Operator>();

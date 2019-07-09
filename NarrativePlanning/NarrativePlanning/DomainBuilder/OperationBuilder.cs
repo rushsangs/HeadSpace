@@ -19,7 +19,7 @@ namespace NarrativePlanning.DomainBuilder
             parse();
         }
 
-        //will not work as doesnt account for private effects and other changes
+        //will not work as doesnt account for private effects and other changes, including new observability
         public void parse(){
             String[] lines = readFile(filename);
             for (int i = 0; i < lines.Length;++i)
@@ -46,7 +46,7 @@ namespace NarrativePlanning.DomainBuilder
             }
         }
 
-        //will not work as doesnt account for private effects and other changes
+        //will not work as doesnt account for private effects and other changes, including new observability
         private void parseOperator(String[] op)
         {
             NarrativePlanning.Operator newOperator = new NarrativePlanning.Operator();
@@ -178,26 +178,54 @@ namespace NarrativePlanning.DomainBuilder
                 String l = lit.Replace('(', ' ').Replace(')', ' ').Trim();
                 newOp.effF.Add(l, 1);
             }
-            foreach (string lit in op.EffBplus)
+			foreach(JSONDomain.EffectTuple etup in op.EffBplus)
+			{
+                List<String> obslist = new List<string>(etup.Observability);
+				List<ObservabilityRule> rules = new List<ObservabilityRule>();
+				foreach(String obsrule in obslist)
+				{
+					String fname = obsrule.Substring(0, obsrule.IndexOf("("));
+					String args = obsrule.Substring(obsrule.IndexOf("(")+1, obsrule.IndexOf(")")-obsrule.IndexOf("(")-1);
+					List<String> actualargs = new List<string>(args.Split('\''));
+					ObservabilityRule rule = new ObservabilityRule(fname, actualargs);
+					rules.Add(rule);
+				}
+				String l = etup.Effect.Replace('(', ' ').Replace(')', ' ').Trim();
+				NarrativePlanning.EffectTuple effectTuple = new NarrativePlanning.EffectTuple(l, rules);
+                newOp.effBPlus.Add(l, effectTuple);
+			}
+			foreach (JSONDomain.EffectTuple etup in op.EffBminus)
             {
-                String l = lit.Replace('(', ' ').Replace(')', ' ').Trim();
-                newOp.effBPlus.Add(l, 1);
+				List<String> obslist = new List<string>(etup.Observability);
+                List<ObservabilityRule> rules = new List<ObservabilityRule>();
+                foreach (String obsrule in obslist)
+                {
+                    String fname = obsrule.Substring(0, obsrule.IndexOf("("));
+					String args = obsrule.Substring(obsrule.IndexOf("(")+1, obsrule.IndexOf(")")-obsrule.IndexOf("(")-1);
+                    List<String> actualargs = new List<string>(args.Split('\''));
+                    ObservabilityRule rule = new ObservabilityRule(fname, actualargs);
+                    rules.Add(rule);
+                }
+                String l = etup.Effect.Replace('(', ' ').Replace(')', ' ').Trim();
+                NarrativePlanning.EffectTuple effectTuple = new NarrativePlanning.EffectTuple(l, rules);
+				newOp.effBMinus.Add(l, effectTuple);
             }
-            foreach (string lit in op.EffBminus)
-            {
-                String l = lit.Replace('(', ' ').Replace(')', ' ').Trim();
-                newOp.effBMinus.Add(l, 1);
-            }
-            foreach (string lit in op.EffU)
-            {
-                String l = lit.Replace('(', ' ').Replace(')', ' ').Trim();
-                newOp.effUnsure.Add(l, 1);
-            }
-            foreach (string lit in op.PrivateEffects)
-            {
-                String l = lit.Replace('(', ' ').Replace(')', ' ').Trim();
-                newOp.privateEffects.Add(l, 1);
-            }
+			foreach (JSONDomain.EffectTuple etup in op.EffU)
+			{
+				List<String> obslist = new List<string>(etup.Observability);
+                List<ObservabilityRule> rules = new List<ObservabilityRule>();
+                foreach (String obsrule in obslist)
+                {
+					String fname = obsrule.Substring(0, obsrule.IndexOf("("));
+					String args = obsrule.Substring(obsrule.IndexOf("(")+1, obsrule.IndexOf(")")-obsrule.IndexOf("(")-1);
+                    List<String> actualargs = new List<string>(args.Split('\''));
+                    ObservabilityRule rule = new ObservabilityRule(fname, actualargs);
+                    rules.Add(rule);
+                }
+                String l = etup.Effect.Replace('(', ' ').Replace(')', ' ').Trim();
+                NarrativePlanning.EffectTuple effectTuple = new NarrativePlanning.EffectTuple(l, rules);
+				newOp.effUnsure.Add(l, effectTuple);
+			}
         }
 
         public static void storeOperators(List<String> grounds, List<NarrativePlanning.Operator> operators, String fileName)

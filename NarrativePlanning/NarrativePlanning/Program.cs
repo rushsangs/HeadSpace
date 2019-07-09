@@ -21,9 +21,9 @@ namespace NarrativePlanning
             //DomainBuilder.OperationBuilder.storeOperators(gg.grounds, opb.operators, "serialized-ops.txt");
 
             //DomainBuilder.JSONDomainBuilder j = new DomainBuilder.JSONDomainBuilder("../../JSON Files/breakout.json");
-            ////List<NarrativePlanning.Operator> o = DomainBuilder.OperationBuilder.getStoredOperators("serialized-ops.txt");
-            ////WorldState initial = DomainBuilder.StateCreator.getState("../../Text Files/beanstalk-initial.txt");
-            ////WorldState goal = DomainBuilder.StateCreator.getState("../../Text Files/beanstalk-goal.txt");
+            //List<NarrativePlanning.Operator> o = DomainBuilder.OperationBuilder.getStoredOperators("serialized-ops.txt");
+            //WorldState initial = DomainBuilder.StateCreator.getState("../../Text Files/beanstalk-initial.txt");
+            //WorldState goal = DomainBuilder.StateCreator.getState("../../Text Files/beanstalk-goal.txt");
 
             //watch.Stop();
             //UnityConsole.WriteLine("Time taken to prepare everything: " + watch.ElapsedMilliseconds + " milliseconds.");
@@ -37,7 +37,7 @@ namespace NarrativePlanning
 
 
             ////////////////////////////////////////////////////////
-            DomainBuilder.JSONDomainBuilder j = new NarrativePlanning.DomainBuilder.JSONDomainBuilder("../../JSON Files/breakout.json");
+            DomainBuilder.JSONDomainBuilder j = new NarrativePlanning.DomainBuilder.JSONDomainBuilder("../../JSON Files/observability_test1.json");
 
 
             // UNCOMMENT THIS IF YOU WANT TO RECREATE OR UPDATE DOMAIN
