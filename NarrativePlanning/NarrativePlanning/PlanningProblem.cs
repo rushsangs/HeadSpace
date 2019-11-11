@@ -11,7 +11,7 @@ namespace NarrativePlanning
         public WorldState w0;
         public WorldState goal;
         public List<Operator> groundedoperators;
-        
+
         /// <summary>
         /// A Planning Problem consists of the initial state, the goal state
         /// and the operators possible.
@@ -47,14 +47,15 @@ namespace NarrativePlanning
         //    }
         //}
 
-        public Plan BFSSolution(){
+        public Plan BFSSolution()
+        {
             List<Tuple<String, WorldState>> nextStateTuples = w0.getPossibleApparentNextStatesTuples(groundedoperators);
             int depth = 1;
             int bfactor = 0;
             int nnodes = 0;
             Plan solutionPlan = null;
             Queue<Plan> queue = new Queue<Plan>();
-            while (solutionPlan==null)
+            while (solutionPlan == null)
             {
                 //if first time do not look at queue
                 if (depth == 1)
@@ -66,11 +67,11 @@ namespace NarrativePlanning
                         Plan p = new Plan(this);
                         p.steps.Add(next);
                         queue.Enqueue(p);
-                        if(next.Item2.isGoalState(this.goal))
+                        if (next.Item2.isGoalState(this.goal))
                         {
                             //solution found!
                             solutionPlan = p;
-                            Console.Write("\n Number of nodes = " + nnodes + " and branching factor = "+bfactor);
+                            Console.Write("\n Number of nodes = " + nnodes + " and branching factor = " + bfactor);
                             return solutionPlan;
                         }
 
@@ -94,7 +95,7 @@ namespace NarrativePlanning
                             {
                                 //solution found!
                                 solutionPlan = q;
-                                Console.Write("\n Number of nodes = " + nnodes + " and branching factor = " + Math.Max(bfactor, x) +".");
+                                Console.Write("\n Number of nodes = " + nnodes + " and branching factor = " + Math.Max(bfactor, x) + ".");
                                 return solutionPlan;
                             }
                         }
@@ -111,10 +112,12 @@ namespace NarrativePlanning
         /// Returns a plan using a FF-based solution.
         /// </summary>
         /// <returns> A solution plan</returns>
-        public Plan FFSolution(){
+        public Plan FFSolution()
+        {
             List<Tuple<String, WorldState>> nextStateTuples = w0.getPossibleApparentNextStatesTuples(groundedoperators);
             int depth = 1;
             int bfactor = 0;
+            int avg_branching_factor = 0;
             int nnodes = 0;
             Plan solutionPlan = null;
             Plan current = new Plan(this);
@@ -126,6 +129,7 @@ namespace NarrativePlanning
                 min = 100;
                 WorldState w = current.steps[current.steps.Count - 1].Item2;
                 int tmp = 0;
+
                 //check every node in the frontier    
                 foreach (Tuple<String, WorldState> next in w.getPossibleApparentNextStatesTuples(groundedoperators))
                 {
@@ -137,7 +141,7 @@ namespace NarrativePlanning
                     //queue.Enqueue(p);
                     Operator op = groundedoperators.Find(xy => xy.text.Equals(next.Item1));
                     int x;
-                    
+
                     String charactername = op.character;
                     int y = FastForward.extractCharacterRPSize(FastForward.computeCharacterRPG(groundedoperators, next.Item2, this.goal, charactername), this.goal, groundedoperators, charactername);
 
@@ -156,26 +160,31 @@ namespace NarrativePlanning
                         p.steps.Add(next);
                         x = FastForward.extractRPSize(FastForward.computeRPG(groundedoperators, next.Item2, this.goal), this.goal, groundedoperators);
                     }
-                    
-					Console.Write("Possible apparent next step " + next.Item1 + ", but actual step " + res.Item1+  " with global hueristic of " + x + " and character heuristic of " + y + "\n") ;
-                    if (y < min && y!=-1)
+
+                    Console.Write("Possible apparent next step " + next.Item1 + ", but actual step " + res.Item1 + " with global hueristic of " + x + " and character heuristic of " + y + "\n");
+                    if (y < min && y != -1)
                     {
                         best = res;
                         min = y;
                     }
 
-                    if(res.Item2.isGoalState(this.goal))
+                    if (res.Item2.isGoalState(this.goal))
                     {
                         //solution found!
                         current.steps.Add(res);
                         solutionPlan = current;
-                        Console.Write("\n Number of nodes = " + nnodes + " and branching factor = " + bfactor);
+                        avg_branching_factor = avg_branching_factor / depth;
+                        Console.Write("\n Number of nodes = " + nnodes
+                                      + ", max branching factor = " + bfactor
+                                      + ", avg branching factor = " + avg_branching_factor);
                         return solutionPlan;
                     }
                 }
 
-                Console.Write("STEP SELECTED: " + best.Item1+ "\n");
+
+                Console.Write("STEP SELECTED: " + best.Item1 + "\n");
                 Console.Write("----------\n");
+                avg_branching_factor += tmp;
                 if (tmp > bfactor)
                     bfactor = tmp;
 
@@ -193,11 +202,13 @@ namespace NarrativePlanning
             return solutionPlan;
         }
 
-        public PlanningProblem clone(){
+        public PlanningProblem clone()
+        {
             WorldState i = this.w0.clone();
             WorldState g = this.goal.clone();
             List<Operator> o = new List<Operator>();
-            foreach(Operator oper in this.groundedoperators){
+            foreach (Operator oper in this.groundedoperators)
+            {
                 o.Add(oper.clone());
             }
             //List<String> gs = new List<string>();
