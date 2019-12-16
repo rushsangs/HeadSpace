@@ -69,11 +69,13 @@ namespace NarrativePlanning
     {
         public static void WriteLine(String str)
         {
-            Console.WriteLine(str);
+            //Console.WriteLine(str);
+            UnityEngine.Debug.Log(str);
         }
         public static void Write(String str)
         {
-            Console.WriteLine(str);
+            UnityEngine.Debug.Log(str);
+            //Console.WriteLine(str);
         }
     }
 }

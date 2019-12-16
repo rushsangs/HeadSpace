@@ -21,11 +21,11 @@ namespace NarrativePlanning
         /// <param name="initial">initial WorldState</param>
         /// <param name="goal">Goal worldstate</param>
         /// <param name="operators">List of grounded operators</param>
-        public PlanningProblem(WorldState initial, WorldState goal, List<Operator> operators)
+        /// <param name="desires">List of desires</param>
+        /// <param name="counteractions">List of counteractions</param>
+        public PlanningProblem(WorldState initial, WorldState goal, List<Operator> operators, List<Desire> desires, List<CounterAction> counteractions)
         {
-            w0 = initial;
-            this.goal = goal;
-            this.groundedoperators = operators;
+            initialize(initial, goal, operators, desires, counteractions);
         }
 
         /// <summary>
@@ -38,10 +38,8 @@ namespace NarrativePlanning
         /// <param name="desires">List of desires</param>
         public PlanningProblem(WorldState initial, WorldState goal, List<Operator> operators, List<Desire> desires)
         {
-            w0 = initial;
-            this.goal = goal;
-            this.groundedoperators = operators;
-            this.desires = desires;
+            List<CounterAction> counters = new List<CounterAction>();
+            initialize(initial, goal, operators, desires, counters);
         }
 
         /// <summary>
@@ -51,9 +49,14 @@ namespace NarrativePlanning
         /// <param name="initial">initial WorldState</param>
         /// <param name="goal">Goal worldstate</param>
         /// <param name="operators">List of grounded operators</param>
-        /// <param name="desires">List of desires</param>
-        /// <param name="counteractions">List of counteractions</param>
-        public PlanningProblem(WorldState initial, WorldState goal, List<Operator> operators, List<Desire> desires, List<CounterAction> counteractions)
+        public PlanningProblem(WorldState initial, WorldState goal, List<Operator> operators)
+        {
+            List<Desire> desires = new List<Desire>();
+            List<CounterAction> counters = new List<CounterAction>();
+            initialize(initial, goal, operators, desires, counters);
+        }
+
+        public void initialize(WorldState initial, WorldState goal, List<Operator> operators, List<Desire> desires, List<CounterAction> counteractions)
         {
             w0 = initial;
             this.goal = goal;
@@ -61,6 +64,9 @@ namespace NarrativePlanning
             this.desires = desires;
             this.counteractions = counteractions;
         }
+        
+
+       
 
 
 
