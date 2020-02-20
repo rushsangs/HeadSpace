@@ -256,6 +256,154 @@ namespace NarrativePlanning
 			return links;
         }
 
+        //this version is for non-intention plan causal links. Not used by HeadSpace itself
+        public static List<CausalLink> findLinks(Microplan p, List<Operator> groundedoperators, WorldState initial, WorldState goal)
+        {
+            //PlanningProblem pp = p.pp;
+            List<CausalLink> links = new List<CausalLink>();
+            //basically go backward from the plan looking at each action's precondition and previous action's post condition
+            //and when you find a common literal create a causal link for it.
+
+            //keys of hashtable is the string, value is a list of step indexes
+            Hashtable opent = new Hashtable();
+            Hashtable openf = new Hashtable();
+
+            for (int i = p.steps.Count - 1; i >= 0; --i)
+            {
+                String step = p.steps[i];
+
+                if (step.Equals("null1"))
+                {
+                    //this is representing the first step, all its literals are technically open preconditions
+
+                    foreach (String lit in initial.tWorld.Keys)
+                    {
+                        if (opent.ContainsKey(lit))
+                        {
+                            //create causal links with all the steps that rely on this literal
+                            List<int> l = (List<int>)opent[lit];
+                            foreach (int index in l)
+                            {
+                                int first = i;
+                                int second = index;
+                                CausalLink link = new CausalLink(first, second, lit, "t", "");
+                                links.Add(link);
+                            }
+                        }
+                    }
+                    foreach (String lit in initial.fWorld.Keys)
+                    {
+                        if (openf.ContainsKey(lit))
+                        {
+                            //create causal links with all the steps that rely on this literal
+                            List<int> l = (List<int>)openf[lit];
+                            foreach (int index in l)
+                            {
+                                int first = i;
+                                int second = index;
+                                CausalLink link = new CausalLink(first, second, lit, "f", "");
+                                links.Add(link);
+                            }
+                        }
+                    }
+                }
+                if (step.Equals("null2"))
+                {
+                    //this is the last step, all of the literals in this should become open conditions
+                    foreach (String lit in goal.tWorld.Keys)
+                    {
+                        if (!opent.ContainsKey(lit))
+                        {
+                            List<int> l = new List<int>();
+                            l.Add(i);
+                            opent.Add(lit, l);
+                        }
+                        else
+                        {
+                            ((List<int>)opent[lit]).Add(i);
+                        }
+                    }
+                    foreach (String lit in goal.fWorld.Keys)
+                    {
+                        if (!openf.ContainsKey(lit))
+                        {
+                            List<int> l = new List<int>();
+                            l.Add(i);
+                            openf.Add(lit, l);
+                        }
+                        else
+                        {
+                            ((List<int>)openf[lit]).Add(i);
+                        }
+                    }
+                }
+
+                Operator op = groundedoperators.Find(xy => xy.text.Equals(step));
+                if (op == null)
+                    continue;
+                //check if any effects are in the open preconditions
+                foreach (String lit in op.effT.Keys)
+                {
+                    if (opent.ContainsKey(lit))
+                    {
+                        //create causal links with all the steps that rely on this literal
+                        List<int> l = (List<int>)opent[lit];
+                        foreach (int index in l)
+                        {
+                            int first = i;
+                            int second = index;
+                            CausalLink link = new CausalLink(first, second, lit, "t", "");
+                            links.Add(link);
+                        }
+                    }
+                }
+                foreach (String lit in op.effF.Keys)
+                {
+                    if (openf.ContainsKey(lit))
+                    {
+                        //create causal links with all the steps that rely on this literal
+                        List<int> l = (List<int>)openf[lit];
+                        foreach (int index in l)
+                        {
+                            int first = i;
+                            int second = index;
+                            CausalLink link = new CausalLink(first, second, lit, "f", "");
+                            links.Add(link);
+                        }
+                    }
+                }
+
+                //compose open preconditions
+                foreach (String lit in op.preT.Keys)
+                {
+                    if (!opent.ContainsKey(lit))
+                    {
+                        List<int> l = new List<int>();
+                        l.Add(i);
+                        opent.Add(lit, l);
+                    }
+                    else
+                    {
+                        ((List<int>)opent[lit]).Add(i);
+                    }
+                }
+                foreach (String lit in op.preF.Keys)
+                {
+                    if (!openf.ContainsKey(lit))
+                    {
+                        List<int> l = new List<int>();
+                        l.Add(i);
+                        openf.Add(lit, l);
+                    }
+                    else
+                    {
+                        ((List<int>)openf[lit]).Add(i);
+                    }
+                }
+            }
+            return links;
+        }
+
         public static bool isLinkThreatened(Microplan p, WorldState w)
         {
             //figure out which steps have been executed in the plan
