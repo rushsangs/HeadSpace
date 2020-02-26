@@ -492,6 +492,75 @@ namespace NarrativePlanning
             return false;
         }
 
+        //created for ShowRunner
+        public static bool isMaterialLinkThreatened(Microplan p, WorldState w)
+        {
+            //figure out which steps have been executed in the plan
+            int i = 0;
+            for (i = 0; i < p.executed.Count; ++i)
+            {
+                if (!p.executed[i])
+                    break;
+            }
+
+            //i is the index of step which was not executed,
+            //i-1 is the last executed step
+
+            List<CausalLink> openlinks = new List<CausalLink>();
+
+            foreach (CausalLink link in p.links)
+            {
+                if (link.first < i && link.second >= i)
+                    openlinks.Add(link);
+            }
+
+            //check if the openlinks literal/bstate
+            // are satisfied.
+            foreach (CausalLink link in openlinks)
+            {
+                
+                if (link.bState.Equals("t"))
+                {
+                    if (!w.tWorld.Contains(link.literal))
+                    {
+                        //check if there is another causal link 
+                        bool flag = false;
+                        foreach (CausalLink other in p.links)
+                        {
+                            if (other.character.Equals(link.character)
+                                && other.bState.Equals(link.bState)
+                                && other.literal.Equals(link.literal)
+                                && other.second == link.second
+                                && other.first > link.first)
+                                flag = true;
+                        }
+                        if (!flag)
+                            return true;
+                    }
+                }
+                else if (link.bState.Equals("f"))
+                {
+                    if (!w.fWorld.Contains(link.literal))
+                    {
+                        //check if there is another causal link 
+                        bool flag = false;
+                        foreach (CausalLink other in p.links)
+                        {
+                            if (other.character.Equals(link.character)
+                                && other.bState.Equals(link.bState)
+                                && other.literal.Equals(link.literal)
+                                && other.second == link.second
+                                && other.first > link.first)
+                                flag = true;
+                        }
+                        if (!flag)
+                            return true;
+                    }
+                }
+            }
+            return false;
+        }
+
         public CausalLink clone()
         {
             CausalLink res = new CausalLink(this.first, this.second, this.literal, this.bState, this.character);
