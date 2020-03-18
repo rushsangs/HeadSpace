@@ -16,7 +16,7 @@ namespace NarrativePlanning.DomainBuilder
             foreach(String line in lines){
                 tree.addInstance(getLeftTerm(line), getRightTerm(line));
             }
-            Console.WriteLine("added instances!");
+            UnityConsole.WriteLine("added instances!");
         }
         public String[] readFile(String file)
         {

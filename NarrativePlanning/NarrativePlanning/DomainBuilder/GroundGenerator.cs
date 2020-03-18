@@ -5,13 +5,13 @@ namespace NarrativePlanning.DomainBuilder
 {
     public class GroundGenerator
     {
-        String file;
+        //String file;
         TypeNode root;
         List<Operator> operators;
         public List<String> grounds;
         public GroundGenerator(TypeNode root, List<Operator> operators)
         {
-            file = "";
+            //file = "";
             this.root = root;
             this.operators = operators;
             grounds = generateGrounds();
@@ -56,7 +56,7 @@ namespace NarrativePlanning.DomainBuilder
 
                 //simply print out the queue
                 foreach(List<String> item in queue){
-                    Console.WriteLine(prettyPrint(item));
+                    UnityConsole.WriteLine(prettyPrint(item));
                     grounds.Add(prettyPrint(item));
                 }
             }

@@ -37,6 +37,30 @@ namespace NarrativePlanning.DomainBuilder
             set;
         }
 
+        public List<NarrativePlanning.Desire> desires
+        {
+            get;
+            set;
+        }
+
+        public List<NarrativePlanning.CounterAction> counterActions
+        {
+            get;
+            set;
+        }
+
+        public Instance[] instancesJSON
+        {
+            get;
+            set;
+        }
+
+        public Operator[] operatorsJSON
+        {
+            get;
+            set;
+        }
+
         public JSONDomainBuilder(String filename)
         {
             this.filename = filename;
@@ -48,18 +72,21 @@ namespace NarrativePlanning.DomainBuilder
             string json = r.ReadToEnd();
             var jsonDomain = JsonDomain.FromJson(json);
             root = TypeTreeBuilder.buildTypeTree(jsonDomain.Types);
+            instancesJSON = jsonDomain.Instances;
+            operatorsJSON = jsonDomain.Operators;
             InstanceAdder.addInstances(root, jsonDomain.Instances);
 
             //////////// UNCOMMENT THIS IF YOU WANT TO RECREATE OR UPDATE DOMAIN //////////////////////
-            //operators = OperationBuilder.parseOperators(jsonDomain.Operators, root);
-            //DomainBuilder.GroundGenerator gg = new GroundGenerator(root, operators);
-            //DomainBuilder.OperationBuilder.storeOperators(gg.grounds, operators, "serialized-ops.txt");
+            operators = OperationBuilder.parseOperators(jsonDomain.Operators, root);
+            DomainBuilder.GroundGenerator gg = new GroundGenerator(root, operators);
+            DomainBuilder.OperationBuilder.storeOperators(gg.grounds, operators, "serialized-ops.txt");
 
             operators = DomainBuilder.OperationBuilder.getStoredOperators("serialized-ops.txt");
-
+            counterActions = DomainBuilder.CounteractionBuilder.parseCounteractions(jsonDomain.Counteractions);
+            desires = DomainBuilder.DesireBuilder.parseDesires(jsonDomain.Desires);
             initial = StateCreator.getState(jsonDomain.Initial);
             goal = StateCreator.getState(jsonDomain.Final);
-            Console.Write("Deserialized JSON file");
+            UnityConsole.Write("Deserialized JSON file");
         }
     }
 
@@ -82,13 +109,19 @@ namespace JSONDomain
     public partial class JsonDomain
     {
         [JsonProperty("types")]
-        public Instance[] Types { get; set; }
+        public TypeElement[] Types { get; set; }
 
         [JsonProperty("instances")]
         public Instance[] Instances { get; set; }
 
         [JsonProperty("operators")]
         public Operator[] Operators { get; set; }
+
+        [JsonProperty("desires")]
+        public Desire[] Desires { get; set; }
+        
+        [JsonProperty("counteractions")]
+        public Counteraction[] Counteractions { get; set; }
 
         [JsonProperty("initial")]
         public Final Initial { get; set; }
@@ -131,12 +164,48 @@ namespace JSONDomain
 
         [JsonProperty("type")]
         public string Type { get; set; }
+
+        [JsonProperty("object")]
+        public string Object { get; set; }
+    }
+
+    public partial class Desire
+    {
+        [JsonProperty("character")]
+        public string Character { get; set; }
+
+        [JsonProperty("motivations")]
+        public Character Motivations { get; set; }
+
+        [JsonProperty("goal")]
+        public Character Goal { get; set; }
+    }
+
+    public partial class Counteraction
+    {
+        [JsonProperty("conditions")]
+        public Final Conditions { get; set; }
+
+        [JsonProperty("groundedoperator")]
+        public string Groundedoperator { get; set; }
+    }
+
+	public partial class EffectTuple
+    {
+        [JsonProperty("effect")]
+        public string Effect { get; set; }
+
+        [JsonProperty("observability")]
+        public string[] Observability { get; set; }
     }
 
     public partial class Operator
     {
         [JsonProperty("name")]
         public string Name { get; set; }
+
+        [JsonProperty("actionclass")]
+        public string Actionclass { get; set; }
 
         [JsonProperty("args")]
         public Instance[] Args { get; set; }
@@ -169,16 +238,22 @@ namespace JSONDomain
         public string[] PreU { get; set; }
 
         [JsonProperty("eff-bplus")]
-        public string[] EffBplus { get; set; }
+        public EffectTuple[] EffBplus { get; set; }
 
         [JsonProperty("eff-bminus")]
-        public string[] EffBminus { get; set; }
+		public EffectTuple[] EffBminus { get; set; }
 
         [JsonProperty("eff-u")]
-        public string[] EffU { get; set; }
+		public EffectTuple[] EffU { get; set; }
+  }
 
-        [JsonProperty("private-effects")]
-        public string[] PrivateEffects { get; set; }
+    public partial class TypeElement
+    {
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        [JsonProperty("type")]
+        public string Type { get; set; }
     }
 
     public partial class JsonDomain

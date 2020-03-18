@@ -1,4 +1,5 @@
-﻿{
+//WONT WORK
+{
   "types": [
     {
       "name": "Person",
@@ -35,10 +36,6 @@
     {
       "name": "Key",
       "type": "Thing"
-    },
-    {
-      "name": "Storage",
-      "type": "Furniture"
     }
   ],
   "instances": [
@@ -106,31 +103,6 @@
       "name": "Jail",
       "type": "Location",
       "object": "jail"
-    },
-    {
-      "name": "Gold",
-      "type": "Thing",
-      "object": "goldbar"
-    },
-    {
-      "name": "Bank",
-      "type": "Location",
-      "object": "bank"
-    },
-    {
-      "name": "VaultKey",
-      "type": "Key",
-      "object": "key2"
-    },
-    {
-      "name": "Vault",
-      "type": "Storage",
-      "object": "vault"
-    },
-    {
-      "name": "Chair",
-      "type": "Furniture",
-      "object": "chair"
     }
   ],
   "desires": [
@@ -139,8 +111,8 @@
       "motivations": {
         "bplus": [],
         "bminus": [
-    "(at Dolores MainStreet)"
-    ],
+          "(at Dolores MainStreet)"
+          ],
         "unsure": []
       },
       "goal": {
@@ -150,55 +122,41 @@
         "bminus": [],
         "unsure": []
       }
-    }
-  ],
-    "counteractions": [
+    },
     {
-      "conditions": {
-        "t": [
-          "(at Dolores Saloon)",
-          "(at Guard Saloon)",
-          "(alive Dolores)",
-          "(alive Guard)",
-          "(has Guard Glass)",
-          "(in BarCabinet Saloon)",
-          "(in Bar Saloon)"
-        ],
-        "f": [
-          "(needsfilled Guard Glass)",
-          "(filled Glass)"
-        ],
-        "characters": [
-          {
-            "name": "Guard",
-            "bplus": [
-              "(at Dolores Saloon)",
-              "(at Guard Saloon)",
-              "(alive Dolores)",
-              "(alive Guard)",
-              "(has Guard Glass)",
-              "(in BarCabinet Saloon)",
-              "(in Bar Saloon)",
-              "(on WineBottle Bar)",
-              "(contains BarCabinet WineBottleSpare)",
-              "(filled WineBottleSpare)"
-            ],
-            "bminus": [
-              "(locked BarCabinet)",
-              "(open BarCabinet)",
-              "(needsfilled Guard Glass)",
-              "(filled Glass)",
-              "(filled WineBottle)",
-              "(has Guard WineBottle)",
-              "(has Guard WineBottleSpare)",
-              "(has Dolores WineBottle)",
-              "(has Dolores WineBottleSpare)"
-            ],
-            "unsure": []
-          }
-        ]
+      "character": "Teddy",
+      "motivations": {
+        "bplus": [],
+        "bminus": [
+          "(at Dolores MainStreet)"
+          ],
+        "unsure": []
       },
-      "groundedoperator": "askforrefill Guard Glass Saloon"
+      "goal": {
+        "bplus": [
+          "(at Dolores MainStreet)"
+        ],
+        "bminus": [],
+        "unsure": []
+      }
+    },
+    {
+      "character": "Teddy",
+      "motivations": {
+        "bplus": [
+          "(at Guard Jail)",
+          "(at Teddy Jail)"
+          ],
+        "bminus": [],
+        "unsure": []
+      },
+      "goal": {
+        "bplus": [],
+        "bminus": [
+          "(at Guard Jail)"
+        ],
+        "unsure": []
+      }
     }
   ],
   "operators": [
@@ -251,22 +209,17 @@
       ],
       "pre-u": [],
       "eff-bplus": [
-        { 
-          "effect":"(loaded ?gun)",
-          "observability":["localObs(?place)"]
-        }
+        "(loaded ?gun)"
       ],
       "eff-bminus": [
-        { 
-          "effect":"(has ?person ?ammo)",
-          "observability":["localObs(?place)"]
-        }
+        "(has ?person ?ammo)"
       ],
-      "eff-u": []
+      "eff-u": [],
+      "private-effects": []
     },
     {
       "name": "unload-true",
-      "actionclass": "UnloadTAction",
+      "actionclass": "UnloadActionT",
       "args": [
         {
           "name": "?person",
@@ -309,22 +262,17 @@
       "pre-bminus": [],
       "pre-u": [],
       "eff-bplus": [
-        { 
-          "effect":"(has ?person ?ammo)",
-          "observability":["localObs(?place)"]
-        }
+        "(has ?person ?ammo)"
       ],
       "eff-bminus": [
-        { 
-          "effect":"(loaded ?gun)",
-          "observability":["localObs(?place)"]
-        }
+        "(loaded ?gun)"
       ],
-      "eff-u": []
+      "eff-u": [],
+      "private-effects": []
     },
     {
       "name": "unload-false",
-      "actionclass": "UnloadFAction",
+      "actionclass": "UnloadActionF",
       "args": [
         {
           "name": "?person",
@@ -368,22 +316,17 @@
       "pre-bminus": [],
       "pre-u": [],
       "eff-bplus": [
-        { 
-          "effect":"(has ?person ?ammo)",
-          "observability":["localObs(?place)"]
-        }
+        "(has ?person ?ammo)"
       ],
       "eff-bminus": [
-        { 
-          "effect":"(loaded ?gun)",
-          "observability":["localObs(?place)"]
-        }
+        "(loaded ?gun)"
       ],
-      "eff-u": []
+      "eff-u": [],
+      "private-effects": []
     },
     {
       "name": "checkgunloaded-true",
-      "actionclass": "CheckGunTAction",
+      "actionclass": "DropAction",
       "args": [
         {
           "name": "?person",
@@ -419,17 +362,17 @@
         "(loaded ?gun)"
       ],
       "eff-bplus": [
-        { 
-          "effect":"(loaded ?gun)",
-          "observability":["localObs(?loc)"]
-        }
+        "(loaded ?gun)"
       ],
       "eff-bminus": [],
-      "eff-u": []
+      "eff-u": [],
+      "private-effects": [
+        "(loaded ?gun)"
+      ]
     },
     {
       "name": "checkgunloaded-false",
-      "actionclass": "CheckGunFAction",
+      "actionclass": "UnFreezeAction",
       "args": [
         {
           "name": "?person",
@@ -467,16 +410,16 @@
       ],
       "eff-bplus": [],
       "eff-bminus": [
-        { 
-          "effect":"(loaded ?gun)",
-          "observability":["localObs(?loc)"]
-        }
+        "(loaded ?gun)"
       ],
-      "eff-u": []
+      "eff-u": [],
+      "private-effects": [
+        "(loaded ?gun)"
+      ]
     },
     {
       "name": "fireatlock-true",
-      "actionclass": "FireAtLockTAction",
+      "actionclass": "ShootAction",
       "args": [
         {
           "name": "?person",
@@ -520,16 +463,14 @@
       "pre-u": [],
       "eff-bplus": [],
       "eff-bminus": [
-        { 
-          "effect":"(locked ?door)",
-          "observability":["localObs(?loc)"]
-        }
+        "(locked ?door)"
       ],
-      "eff-u": []
+      "eff-u": [],
+      "private-effects": []
     },
     {
       "name": "fireatlock-false",
-      "actionclass": "FireAtLockFAction",
+      "actionclass": "WaveAction",
       "args": [
         {
           "name": "?person",
@@ -573,71 +514,9 @@
       "eff-bplus": [],
       "eff-bminus": [],
       "eff-u": [
-        { 
-          "effect":"(loaded ?gun)",
-          "observability":["localObs(?loc)"]
-        }
-      ]
-    },
-    {
-      "name": "shoot",
-      "actionclass": "Shoot2Action",
-      "args": [
-        {
-          "name": "?p1",
-          "type": "Person"
-        },
-        {
-          "name": "?p2",
-          "type": "Person"
-        },
-        {
-          "name": "?loc",
-          "type": "Location"
-        },
-        {
-          "name": "?gun",
-          "type": "Gun"
-        }
-      ],
-      "char": "?p1",
-      "loc": "?loc",
-      "pre-t": [
-        "(has ?p1 ?gun)",
-        "(alive ?p1)",
-        "(alive ?p2)",
-        "(at ?p1 ?loc)",
-        "(at ?p2 ?loc)",
         "(loaded ?gun)"
       ],
-      "pre-f": [],
-      "eff-t": [],
-      "eff-f": [
-        "(loaded ?gun)",
-        "(alive ?p2)"
-      ],
-      "pre-bplus": [
-        "(has ?p1 ?gun)",
-        "(alive ?p1)",
-        "(alive ?p2)",
-        "(at ?p1 ?loc)",
-        "(at ?p2 ?loc)",
-        "(loaded ?gun)"
-      ],
-      "pre-bminus": [],
-      "pre-u": [],
-      "eff-bplus": [],
-      "eff-bminus": [
-        { 
-          "effect":"(loaded ?gun)",
-          "observability":["localObs(?loc)"]
-        },
-        { 
-          "effect":"(alive ?p2)",
-          "observability":["localObs(?loc)"]
-        }
-      ],
-      "eff-u": []
+      "private-effects": []
     },
     {
       "name": "traverse",
@@ -690,18 +569,13 @@
       ],
       "pre-u": [],
       "eff-bplus": [
-        { 
-          "effect":"(at ?person ?to)",
-          "observability":["localObs(?from)"]
-        }
+        "(at ?person ?to)"
       ],
       "eff-bminus": [
-        { 
-          "effect":"(at ?person ?from)",
-          "observability":["localObs(?from)"]
-        }
+        "(at ?person ?from)"
       ],
-      "eff-u": []
+      "eff-u": [],
+      "private-effects": []
     },
     {
       "name": "goto",
@@ -746,18 +620,13 @@
       ],
       "pre-u": [],
       "eff-bplus": [
-        { 
-          "effect":"(at ?person ?to)",
-          "observability":["localObs(?to)", "localObs(?from)"]
-        }
+        "(at ?person ?to)"
       ],
       "eff-bminus": [
-        { 
-          "effect":"(at ?person ?from)",
-          "observability":["localObs(?to)","localObs(?from)"]
-        }
+        "(at ?person ?from)"
       ],
-      "eff-u": []
+      "eff-u": [],
+      "private-effects": []
     },
     {
       "name": "pickup",
@@ -808,90 +677,16 @@
       ],
       "pre-u": [],
       "eff-bplus": [
-        { 
-          "effect":"(has ?person ?item)",
-          "observability":["localObs(?loc)"]
-        }
+        "(has ?person ?item)"
       ],
       "eff-bminus": [
-        { 
-          "effect":"(on ?item ?furn)",
-          "observability":["localObs(?loc)"]
-        }
-      ],
-      "eff-u": []
-    },
-    {
-      "name": "pickupthroughjail",
-      "actionclass": "PickUpThroughJailAction",
-      "args": [
-        {
-          "name": "?person",
-          "type": "Person"
-        },
-        {
-          "name": "?item",
-          "type": "Thing"
-        },
-        {
-          "name": "?furn",
-          "type": "Furniture"
-        },
-        {
-          "name": "?loc",
-          "type": "Location"
-        },
-    {
-          "name": "?floc",
-          "type": "Location"
-      
-    }
-      ],
-      "char": "?person",
-      "loc": "?loc",
-      "pre-t": [
-        "(alive ?person)",
-        "(at ?person ?loc)",
-        "(in ?furn ?floc)",
-        "(on ?item ?furn)",
-    "(connected ?loc ?floc JailDoor)"
-      ],
-      "pre-f": [
-        "(has ?person ?item)"
-      ],
-      "eff-t": [
-        "(has ?person ?item)"
-      ],
-      "eff-f": [
         "(on ?item ?furn)"
       ],
-      "pre-bplus": [
-        "(alive ?person)",
-        "(at ?person ?loc)",
-        "(in ?furn ?floc)",
-        "(on ?item ?furn)",
-    "(connected ?loc ?floc JailDoor)"
-      ],
-      "pre-bminus": [
-        "(has ?person ?item)"
-      ],
-      "pre-u": [],
-      "eff-bplus": [
-        { 
-          "effect":"(has ?person ?item)",
-          "observability":["localObs(?loc)"]
-        }
-      ],
-      "eff-bminus": [
-        { 
-          "effect":"(on ?item ?furn)",
-          "observability":["localObs(?loc)"]
-        }
-      ],
-      "eff-u": []
+      "eff-u": [],
+      "private-effects": []
     },
     {
-      "name": "unlockdoor",
+      "name": "unlock",
       "actionclass": "UnlockAction",
       "args": [
         {
@@ -916,7 +711,7 @@
       "pre-t": [
         "(alive ?person)",
         "(at ?person ?loc)",
-        "(in ?door ?loc)",
+        "(in ?door?loc)",
         "(has ?person ?key)",
         "(locked ?door)",
         "(unlocks ?key ?door)"
@@ -927,80 +722,22 @@
         "(locked ?door)"
       ],
       "pre-bplus": [
-        "(alive ?person)",
+       "(alive ?person)",
         "(at ?person ?loc)",
-        "(in ?door ?loc)",
+        "(in ?door?loc)",
         "(has ?person ?key)",
         "(locked ?door)",
         "(unlocks ?key ?door)"
       ],
-      "pre-bminus": [],
+      "pre-bminus": [
+      ],
       "pre-u": [],
       "eff-bplus": [],
       "eff-bminus": [
-        { 
-          "effect":"(locked ?door)",
-          "observability":["localObs(?loc)"]
-        }
+         "(locked ?door)"
       ],
-      "eff-u": []
-    },
-    {
-      "name": "unlockobject",
-      "actionclass": "Unlock2Action",
-      "args": [
-        {
-          "name": "?person",
-          "type": "Person"
-        },
-        {
-          "name": "?loc",
-          "type": "Location"
-        },
-        {
-          "name": "?obj",
-          "type": "Storage"
-        },
-        {
-          "name": "?key",
-          "type": "Key"
-        }
-      ],
-      "char": "?person",
-      "loc": "?loc",
-      "pre-t": [
-        "(alive ?person)",
-        "(at ?person ?loc)",
-        "(in ?obj ?loc)",
-        "(has ?person ?key)",
-        "(locked ?obj)",
-        "(unlocks ?key ?obj)"
-      ],
-      "pre-f": [
-        "(open ?obj)"
-      ],
-      "eff-t": [],
-      "eff-f": [
-        "(locked ?obj)"
-      ],
-      "pre-bplus": [
-        "(alive ?person)",
-        "(at ?person ?loc)",
-        "(in ?obj ?loc)",
-        "(has ?person ?key)",
-        "(locked ?obj)",
-        "(unlocks ?key ?obj)"
-      ],
-      "pre-bminus": [],
-      "pre-u": [],
-      "eff-bplus": [],
-      "eff-bminus": [
-        { 
-          "effect":"(locked ?obj)",
-          "observability":["localObs(?loc)"]
-        }
-      ],
-      "eff-u": []
+      "eff-u": [],
+      "private-effects": []
     },
     {
       "name": "threaten",
@@ -1035,13 +772,13 @@
       "pre-f": [
         "(threatened ?person1)",
         "(threatened ?person2)"
-      ],
+        ],
       "eff-t": [
         "(threatened ?person2)"
-      ],
+        ],
       "eff-f": [],
       "pre-bplus": [
-        "(alive ?person1)",
+       "(alive ?person1)",
         "(at ?person1 ?loc)",
         "(alive ?person2)",
         "(at ?person2 ?loc)",
@@ -1053,13 +790,11 @@
       ],
       "pre-u": [],
       "eff-bplus": [
-        { 
-          "effect":"(threatened ?person2)",
-          "observability":["localObs(?loc)"]
-        }
-      ],
+        "(threatened ?person2)"
+        ],
       "eff-bminus": [],
-      "eff-u": []
+      "eff-u": [],
+      "private-effects": []
     },
     {
       "name": "runaway",
@@ -1107,256 +842,196 @@
       ],
       "pre-u": [],
       "eff-bplus": [
-        { 
-          "effect":"(at ?person ?to)",
-          "observability":["localObs(?from)"]
-        }
+        "(at ?person ?to)"
       ],
       "eff-bminus": [
-        { 
-          "effect":"(at ?person ?from)",
-          "observability":["localObs(?from)"]
-        },
-        { 
-          "effect":"(threatened ?person)",
-          "observability":["localObs(?from)"]
-        }
+        "(at ?person ?from)",
+        "(threatened ?person)"
       ],
-      "eff-u": []
-    },
-    {
-      "name": "open-true",
-      "actionclass": "OpenAction",
-      "args": [
-        {
-          "name": "?person",
-          "type": "Person"
-        },
-        {
-          "name": "?obj",
-          "type": "Storage"
-        },
-        {
-          "name": "?loc",
-          "type": "Location"
-        }
-      ],
-      "char": "?person",
-      "loc": "?loc",
-      "pre-t": [
-        "(alive ?person)",
-        "(at ?person ?loc)",
-        "(in ?obj ?loc)"
-      ],
-      "pre-f": [
-        "(locked ?obj)",
-        "(open ?obj)"
-      ],
-      "eff-t": [
-        "(open ?obj)"
-      ],
-      "eff-f": [],
-      "pre-bplus": [
-        "(alive ?person)",
-        "(at ?person ?loc)",
-        "(in ?obj ?loc)"
-      ],
-      "pre-bminus": [
-        "(locked ?obj)",
-        "(open ?obj)"
-      ],
-      "pre-u": [],
-      "eff-bplus": [
-        { 
-          "effect":"(open ?obj)",
-          "observability":["localObs(?loc)"]
-        }
-      ],
-      "eff-bminus": [],
-      "eff-u": []
-    },
-    {
-      "name": "open-false",
-      "actionclass": "Open2Action",
-      "args": [
-        {
-          "name": "?person",
-          "type": "Person"
-        },
-        {
-          "name": "?obj",
-          "type": "Storage"
-        },
-        {
-          "name": "?loc",
-          "type": "Location"
-        }
-      ],
-      "char": "?person",
-      "loc": "?loc",
-      "pre-t": [
-        "(alive ?person)",
-        "(at ?person ?loc)",
-        "(locked ?obj)",
-        "(in ?obj ?loc)"
-      ],
-      "pre-f": [
-        "(open ?obj)"
-      ],
-      "eff-t": [],
-      "eff-f": [],
-      "pre-bplus": [
-        "(alive ?person)",
-        "(at ?person ?loc)",
-        "(in ?obj ?loc)"
-      ],
-      "pre-bminus": [
-        "(locked ?obj)",
-        "(open ?obj)"
-      ],
-      "pre-u": [],
-      "eff-bplus": [
-        { 
-          "effect":"(locked ?obj)",
-          "observability":["localObs(?loc)"]
-        }
-      ],
-      "eff-bminus": [],
-      "eff-u": []
+      "eff-u": [],
+      "private-effects": []
     }
   ],
   "initial": {
     "t": [
       "(at Dolores JailCell)",
-      "(in Floor JailCell)",
-      "(on 9mmBullet Floor)",
-      "(locked JailDoor)",
+      "(at Teddy MainStreet)",
+      "(at Guard Jail)",
+      "(alive Teddy)",
       "(alive Dolores)",
-      "(connected Jail JailCell JailDoor)",
-      "(connected JailCell Jail JailDoor)",
+      "(alive Guard)",
+      "(in WallHook Jail)",
+      "(in JailDoor Jail)",
+      "(on JailKey WallHook)",
+      "(on Rifle WallHook)",
+      "(locked JailDoor)",
+      "(unlocks JailKey JailDoor)",
       "(adjacent Jail MainStreet)",
-    "(in JailDoor JailCell)",
-    "(in Chair Jail)",
-    "(on Handgun Chair)"
+      "(adjacent MainStreet Jail)",
+      "(connected MainStreet JailCell JailDoor)",
+      "(connected JailCell MainStreet JailDoor)",
+      "(in JailDoor JailCell)"
     ],
     "f": [
       "(at Dolores MainStreet)",
-    "(at Dolores Jail)",
-      "(has Dolores Handgun)",
-      "(has Dolores 9mmBullet)",
-      "(in Floor MainStreet)",
-    "(in Floor Jail)",
-    "(in Chair MainStreet)",
-    "(in Chair JailCell)",
-      "(in JailDoor MainStreet)",
-    "(in JailDoor Jail)",
-      "(loaded Handgun)"
+      "(at Dolores Jail)",
+      "(at Teddy Jail)",
+      "(at Teddy JailCell)",
+      "(at Guard MainStreet)",
+      "(at Guard JailCell)",
+      "(has Dolores JailKey)",
+      "(has Teddy JailKey)",
+      "(has Guard JailKey)",
+      "(has Dolores Rifle)",
+      "(has Teddy Rifle)",
+      "(has Guard Rifle)",
+      "(in WallHook MainStreet)",
+      "(in WallHook JailCell)",
+      "(in JailDoor MainStreet)"
     ],
     "characters": [
       {
         "name": "Dolores",
         "bplus": [
-          "(at Dolores JailCell)",
-      "(in Floor JailCell)",
-      "(on 9mmBullet Floor)",
-      "(locked JailDoor)",
+      "(at Dolores JailCell)",
+      "(at Teddy MainStreet)",
+      "(at Guard Jail)",
+      "(alive Teddy)",
       "(alive Dolores)",
-      "(connected Jail JailCell JailDoor)",
-      "(connected JailCell Jail JailDoor)",
+      "(alive Guard)",
+      "(in WallHook Jail)",
+      "(in JailDoor Jail)",
+      "(on JailKey WallHook)",
+      "(on Rifle WallHook)",
+      "(locked JailDoor)",
+      "(unlocks JailKey JailDoor)",
       "(adjacent Jail MainStreet)",
-    "(in JailDoor JailCell)",
-    "(in Chair Jail)",
-    "(on Handgun Chair)",
-    "(loaded Handgun)"
-        ],
-        "bminus": [
-          "(at Dolores MainStreet)",
-    "(at Dolores Jail)",
-      "(has Dolores Handgun)",
-      "(has Dolores 9mmBullet)",
-      "(in Floor MainStreet)",
-    "(in Floor Jail)",
-    "(in Chair MainStreet)",
-    "(in Chair JailCell)",
-      "(in JailDoor MainStreet)",
-    "(in JailDoor Jail)"
-        ],
+      "(adjacent MainStreet Jail)",
+      "(connected MainStreet JailCell JailDoor)",
+      "(connected JailCell MainStreet JailDoor)",
+      "(in JailDoor JailCell)"
+    ],
+    "bminus": [
+      "(at Dolores MainStreet)",
+      "(at Dolores Jail)",
+      "(at Teddy Jail)",
+      "(at Teddy JailCell)",
+      "(at Guard MainStreet)",
+      "(at Guard JailCell)",
+      "(has Dolores JailKey)",
+      "(has Teddy JailKey)",
+      "(has Guard JailKey)",
+      "(has Dolores Rifle)",
+      "(has Teddy Rifle)",
+      "(has Guard Rifle)",
+      "(in WallHook MainStreet)",
+      "(in WallHook JailCell)",
+      "(in JailDoor MainStreet)"
+    ],
         "unsure": []
       },
       {
         "name": "Teddy",
         "bplus": [
-          "(at Dolores JailCell)",
-          "(at Teddy JailCell)",
-          "(has Dolores Handgun)",
-          "(in Floor JailCell)",
-          "(on 9mmBullet floor)",
-          "(locked JailDoor)",
-          "(alive Dolores)",
-          "(alive Teddy)",
-          "(connected MainStreet JailCell JailDoor)",
-          "(connected JailCell MainStreet JailDoor)",
-          "(in JailDoor JailCell)",
-          "(loaded Handgun)"
-        ],
-        "bminus": [
-          "(at Dolores MainStreet)",
-          "(at Teddy MainStreet)",
-          "(has Teddy Handgun)",
-          "(has Dolores 9mmBullet)",
-          "(has Teddy 9mmBullet)",
-          "(in Floor MainStreet)",
-          "(in JailDoor MainStreet)"
-        ],
+      "(at Dolores JailCell)",
+      "(at Teddy MainStreet)",
+      "(alive Teddy)",
+      "(alive Dolores)",
+      "(alive Guard)",
+      "(in WallHook Jail)",
+      "(in JailDoor Jail)",
+      "(on JailKey WallHook)",
+      "(on Rifle WallHook)",
+      "(locked JailDoor)",
+      "(unlocks JailKey JailDoor)",
+      "(adjacent Jail MainStreet)",
+      "(adjacent MainStreet Jail)",
+      "(connected MainStreet JailCell JailDoor)",
+      "(connected JailCell MainStreet JailDoor)",
+      "(in JailDoor JailCell)"
+    ],
+    "bminus": [
+      "(at Dolores MainStreet)",
+      "(at Dolores Jail)",
+      "(at Teddy Jail)",
+      "(at Teddy JailCell)",
+      "(at Guard MainStreet)",
+      "(at Guard JailCell)",
+      "(has Dolores JailKey)",
+      "(has Teddy JailKey)",
+      "(has Guard JailKey)",
+      "(has Dolores Rifle)",
+      "(has Teddy Rifle)",
+      "(has Guard Rifle)",
+      "(in WallHook MainStreet)",
+      "(in WallHook JailCell)",
+      "(in JailDoor MainStreet)"
+    ],
         "unsure": []
       },
       {
         "name": "Guard",
         "bplus": [
-          "(at Dolores JailCell)",
-          "(at Teddy JailCell)",
-          "(has Dolores Handgun)",
-          "(in Floor JailCell)",
-          "(on 9mmBullet floor)",
-          "(locked JailDoor)",
-          "(alive Dolores)",
-          "(alive Teddy)",
-          "(connected MainStreet JailCell JailDoor)",
-          "(connected JailCell MainStreet JailDoor)",
-          "(in JailDoor JailCell)",
-          "(loaded Handgun)"
-        ],
-        "bminus": [
-          "(at Dolores MainStreet)",
-          "(at Teddy MainStreet)",
-          "(has Teddy Handgun)",
-          "(has Dolores 9mmBullet)",
-          "(has Teddy 9mmBullet)",
-          "(in Floor MainStreet)",
-          "(in JailDoor MainStreet)"
-        ],
+      "(at Dolores JailCell)",
+      "(at Teddy MainStreet)",
+      "(at Guard Jail)",
+      "(alive Teddy)",
+      "(alive Dolores)",
+      "(alive Guard)",
+      "(in WallHook Jail)",
+      "(in JailDoor Jail)",
+      "(on JailKey WallHook)",
+      "(on Rifle WallHook)",
+      "(locked JailDoor)",
+      "(unlocks JailKey JailDoor)",
+      "(adjacent Jail MainStreet)",
+      "(adjacent MainStreet Jail)",
+      "(connected MainStreet JailCell JailDoor)",
+      "(connected JailCell MainStreet JailDoor)",
+      "(in JailDoor JailCell)"
+    ],
+    "bminus": [
+      "(at Dolores MainStreet)",
+      "(at Dolores Jail)",
+      "(at Teddy Jail)",
+      "(at Teddy JailCell)",
+      "(at Guard MainStreet)",
+      "(at Guard JailCell)",
+      "(has Dolores JailKey)",
+      "(has Teddy JailKey)",
+      "(has Guard JailKey)",
+      "(has Dolores Rifle)",
+      "(has Teddy Rifle)",
+      "(has Guard Rifle)",
+      "(in WallHook MainStreet)",
+      "(in WallHook JailCell)",
+      "(in JailDoor MainStreet)"
+    ],
         "unsure": []
       }
     ]
   },
   "final": {
     "t": [
-      "(at Dolores MainStreet)"
+      "(at Dolores MainStreet)",
+      "(at Teddy MainStreet)"
     ],
     "f": [],
     "characters": [
       {
         "name": "Dolores",
         "bplus": [
-          "(at Dolores MainStreet)"
+          "(at Dolores MainStreet)",
+          "(at Teddy MainStreet)"
         ],
         "bminus": [],
         "unsure": []
       },
       {
-        "name": "Dolores",
+        "name": "Teddy",
         "bplus": [
-          "(at Dolores MainStreet)"
+          "(at Dolores MainStreet)",
+          "(at Teddy MainStreet)"
         ],
         "bminus": [],
         "unsure": []

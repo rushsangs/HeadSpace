@@ -29,16 +29,16 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+    <Reference Include="System" />
+    <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Desire.cs" />
+    <Compile Include="CounterAction.cs" />
+    <Compile Include="DomainBuilder\CounteractionBuilder.cs" />
+    <Compile Include="DomainBuilder\DesireBuilder.cs" />
     <Compile Include="DomainBuilder\JSONDomainBuilder.cs" />
-    <Compile Include="EpistemicLiteral.cs" />
-    <Compile Include="Intention.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Operator.cs" />
@@ -54,13 +54,17 @@
     <Compile Include="DomainBuilder\GroundGenerator.cs" />
     <Compile Include="DomainBuilder\StateCreator.cs" />
     <Compile Include="FastForward.cs" />
+    <Compile Include="CausalLink.cs" />
+    <Compile Include="Desire.cs" />
+    <Compile Include="Intention.cs" />
+    <Compile Include="Literal.cs" />
+    <Compile Include="EffectTuple.cs" />
+    <Compile Include="Observabilities.cs" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <None Include="JSON Files\beanstalk.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="JSON Files\breakout.json" />
-    <None Include="packages.config" />
+    <None Include="beanstalk.json" />
+    <None Include="breakout.json" />
     <None Include="Text Files\types.txt" />
     <None Include="Text Files\instances.txt" />
     <None Include="Text Files\operators.txt" />
@@ -70,9 +74,8 @@
     <None Include="Text Files\beanstalk-operators.txt" />
     <None Include="Text Files\beanstalk-types.txt" />
     <None Include="Text Files\beanstalk-goal.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="JSON Files\utahpia.json" />
+    <None Include="packages.config" />
+    <None Include="utahpia.json" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

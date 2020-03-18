@@ -19,10 +19,10 @@ namespace NarrativePlanning.DomainBuilder
             for (int i = 1; i < lines.Length; ++i){
                 root.addNode(getRightTerm(lines[i]), getLeftTerm(lines[i]));
             }
-            Console.WriteLine("done!");
+            UnityConsole.WriteLine("done!");
         }
 
-        public static TypeNode buildTypeTree(JSONDomain.Instance[] types)
+        public static TypeNode buildTypeTree(JSONDomain.TypeElement[] types)
         {
             TypeNode root = new TypeNode(getRightTerm(types[0]));
             root.addNode(getRightTerm(types[0]), getLeftTerm(types[0]));
@@ -46,12 +46,12 @@ namespace NarrativePlanning.DomainBuilder
             return line.Substring(startIndex, line.Length - startIndex).Trim();
         }
 
-        public static String getRightTerm(JSONDomain.Instance line)
+        public static String getRightTerm(JSONDomain.TypeElement line)
         {
             return line.Type;
         }
 
-        public static String getLeftTerm(JSONDomain.Instance line)
+        public static String getLeftTerm(JSONDomain.TypeElement line)
         {
             return line.Name;
         }
