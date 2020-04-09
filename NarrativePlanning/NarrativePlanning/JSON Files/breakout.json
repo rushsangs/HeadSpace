@@ -253,13 +253,13 @@
       "eff-bplus": [
         { 
           "effect":"(loaded ?gun)",
-          "observability":["local(?place)"]
+          "observability":["localObs(?place)"]
         }
       ],
       "eff-bminus": [
         { 
           "effect":"(has ?person ?ammo)",
-          "observability":["local(?place)"]
+          "observability":["localObs(?place)"]
         }
       ],
       "eff-u": []
@@ -311,13 +311,13 @@
       "eff-bplus": [
         { 
           "effect":"(has ?person ?ammo)",
-          "observability":["local(?place)"]
+          "observability":["localObs(?place)"]
         }
       ],
       "eff-bminus": [
         { 
           "effect":"(loaded ?gun)",
-          "observability":["local(?place)"]
+          "observability":["localObs(?place)"]
         }
       ],
       "eff-u": []
@@ -370,13 +370,13 @@
       "eff-bplus": [
         { 
           "effect":"(has ?person ?ammo)",
-          "observability":["local(?place)"]
+          "observability":["localObs(?place)"]
         }
       ],
       "eff-bminus": [
         { 
           "effect":"(loaded ?gun)",
-          "observability":["local(?place)"]
+          "observability":["localObs(?place)"]
         }
       ],
       "eff-u": []
@@ -421,7 +421,7 @@
       "eff-bplus": [
         { 
           "effect":"(loaded ?gun)",
-          "observability":["local(?place)"]
+          "observability":["localObs(?place)"]
         }
       ],
       "eff-bminus": [],
@@ -469,7 +469,7 @@
       "eff-bminus": [
         { 
           "effect":"(loaded ?gun)",
-          "observability":["local(?place)"]
+          "observability":["localObs(?place)"]
         }
       ],
       "eff-u": []
@@ -522,7 +522,7 @@
       "eff-bminus": [
         { 
           "effect":"(locked ?door)",
-          "observability":["local(?place)"]
+          "observability":["localObs(?place)"]
         }
       ],
       "eff-u": []
@@ -575,7 +575,7 @@
       "eff-u": [
         { 
           "effect":"(loaded ?gun)",
-          "observability":["local(?place)"]
+          "observability":["localObs(?place)"]
         }
       ]
     },
@@ -630,11 +630,11 @@
       "eff-bminus": [
         { 
           "effect":"(loaded ?gun)",
-          "observability":["local(?place)"]
+          "observability":["localObs(?place)"]
         },
         { 
           "effect":"(alive ?p2)",
-          "observability":["local(?place)"]
+          "observability":["localObs(?place)"]
         }
       ],
       "eff-u": []
@@ -692,13 +692,13 @@
       "eff-bplus": [
         { 
           "effect":"(at ?person ?to)",
-          "observability":["local(?place)"]
+          "observability":["localObs(?place)"]
         }
       ],
       "eff-bminus": [
         { 
           "effect":"(at ?person ?from)",
-          "observability":["local(?place)"]
+          "observability":["localObs(?place)"]
         }
       ],
       "eff-u": []
@@ -748,13 +748,13 @@
       "eff-bplus": [
         { 
           "effect":"(at ?person ?to)",
-          "observability":["local(?place)"]
+          "observability":["localObs(?place)"]
         }
       ],
       "eff-bminus": [
         { 
           "effect":"(at ?person ?from)",
-          "observability":["local(?place)"]
+          "observability":["localObs(?place)"]
         }
       ],
       "eff-u": []
@@ -810,13 +810,13 @@
       "eff-bplus": [
         { 
           "effect":"(has ?person ?item)",
-          "observability":["local(?place)"]
+          "observability":["localObs(?place)"]
         }
       ],
       "eff-bminus": [
         { 
           "effect":"(on ?item ?furn)",
-          "observability":["local(?place)"]
+          "observability":["localObs(?place)"]
         }
       ],
       "eff-u": []
@@ -879,13 +879,13 @@
       "eff-bplus": [
         { 
           "effect":"(has ?person ?item)",
-          "observability":["local(?place)"]
+          "observability":["localObs(?place)"]
         }
       ],
       "eff-bminus": [
         { 
           "effect":"(on ?item ?furn)",
-          "observability":["local(?place)"]
+          "observability":["localObs(?place)"]
         }
       ],
       "eff-u": []
@@ -940,7 +940,7 @@
       "eff-bminus": [
         { 
           "effect":"(locked ?door)",
-          "observability":["local(?place)"]
+          "observability":["localObs(?place)"]
         }
       ],
       "eff-u": []
@@ -997,7 +997,7 @@
       "eff-bminus": [
         { 
           "effect":"(locked ?obj)",
-          "observability":["local(?place)"]
+          "observability":["localObs(?place)"]
         }
       ],
       "eff-u": []
@@ -1055,7 +1055,7 @@
       "eff-bplus": [
         { 
           "effect":"(threatened ?person2)",
-          "observability":["local(?place)"]
+          "observability":["localObs(?place)"]
         }
       ],
       "eff-bminus": [],
@@ -1109,17 +1109,17 @@
       "eff-bplus": [
         { 
           "effect":"(at ?person ?to)",
-          "observability":["local(?place)"]
+          "observability":["localObs(?place)"]
         }
       ],
       "eff-bminus": [
         { 
           "effect":"(at ?person ?from)",
-          "observability":["local(?place)"]
+          "observability":["localObs(?place)"]
         },
         { 
           "effect":"(threatened ?person)",
-          "observability":["local(?place)"]
+          "observability":["localObs(?place)"]
         }
       ],
       "eff-u": []
@@ -1169,7 +1169,7 @@
       "eff-bplus": [
         { 
           "effect":"(open ?obj)",
-          "observability":["local(?place)"]
+          "observability":["localObs(?place)"]
         }
       ],
       "eff-bminus": [],
@@ -1218,7 +1218,7 @@
       "eff-bplus": [
         { 
           "effect":"(locked ?obj)",
-          "observability":["local(?place)"]
+          "observability":["localObs(?place)"]
         }
       ],
       "eff-bminus": [],
