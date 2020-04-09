@@ -191,6 +191,15 @@ namespace JSONDomain
         public string Groundedoperator { get; set; }
     }
 
+	public partial class EffectTuple
+    {
+        [JsonProperty("effect")]
+        public string Effect { get; set; }
+
+        [JsonProperty("observability")]
+        public string[] Observability { get; set; }
+    }
+
     public partial class Operator
     {
         [JsonProperty("name")]
@@ -230,17 +239,14 @@ namespace JSONDomain
         public string[] PreU { get; set; }
 
         [JsonProperty("eff-bplus")]
-        public string[] EffBplus { get; set; }
+        public EffectTuple[] EffBplus { get; set; }
 
         [JsonProperty("eff-bminus")]
-        public string[] EffBminus { get; set; }
+		public EffectTuple[] EffBminus { get; set; }
 
         [JsonProperty("eff-u")]
-        public string[] EffU { get; set; }
-
-        [JsonProperty("private-effects")]
-        public string[] PrivateEffects { get; set; }
-    }
+		public EffectTuple[] EffU { get; set; }
+  }
 
     public partial class TypeElement
     {

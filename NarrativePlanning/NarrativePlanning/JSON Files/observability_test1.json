@@ -1,0 +1,450 @@
+{
+  "types": [
+    {
+      "name": "Person",
+      "type": "Object"
+    },
+    {
+      "name": "Location",
+      "type": "Object"
+    },
+    {
+      "name": "Thing",
+      "type": "Object"
+    },
+    {
+      "name": "Ammo",
+      "type": "Thing"
+    },
+    {
+      "name": "Weapon",
+      "type": "Thing"
+    },
+    {
+      "name": "Gun",
+      "type": "Weapon"
+    },
+    {
+      "name": "Furniture",
+      "type": "Object"
+    },
+    {
+      "name": "Door",
+      "type": "Object"
+    },
+    {
+      "name": "Key",
+      "type": "Thing"
+    },
+    {
+      "name": "Storage",
+      "type": "Furniture"
+    }
+  ],
+  "instances": [
+    {
+      "name": "Teddy",
+      "type": "Person",
+      "object": "Cowboy1"
+    },
+    {
+      "name": "Dolores",
+      "type": "Person",
+      "object": "FRED"
+    },
+    {
+      "name": "Handgun",
+      "type": "Gun",
+      "object": "Gun1"
+    },
+    {
+      "name": "9mmBullet",
+      "type": "Ammo",
+      "object": "Bullet1"
+    },
+    {
+      "name": "MainStreet",
+      "type": "Location",
+      "object": "HOME"
+    },
+    {
+      "name": "JailCell",
+      "type": "Location",
+      "object": "OTHERPLACE"
+    },
+    {
+      "name": "JailDoor",
+      "type": "Door",
+      "object": "Door1"
+    },
+    {
+      "name": "Floor",
+      "type": "Furniture",
+      "object": "Floor1"
+    },
+    {
+      "name": "WallHook",
+      "type": "Furniture",
+      "object": "Hook1"
+    },
+    {
+      "name": "Rifle",
+      "type": "Gun",
+      "object": "rifle"
+    },
+    {
+      "name": "JailKey",
+      "type": "Key",
+      "object": "key1"
+    },
+    {
+      "name": "Guard",
+      "type": "Person",
+      "object": "person1"
+    },
+    {
+      "name": "Jail",
+      "type": "Location",
+      "object": "jail"
+    },
+    {
+      "name": "Gold",
+      "type": "Thing",
+      "object": "goldbar"
+    },
+    {
+      "name": "Bank",
+      "type": "Location",
+      "object": "bank"
+    },
+    {
+      "name": "VaultKey",
+      "type": "Key",
+      "object": "key2"
+    },
+    {
+      "name": "Vault",
+      "type": "Storage",
+      "object": "vault"
+    },
+    {
+      "name": "Chair",
+      "type": "Furniture",
+      "object": "chair"
+    }
+  ],
+  "desires": [
+    {
+      "character": "Dolores",
+      "motivations": {
+        "bplus": [],
+        "bminus": [
+    "(at Dolores Jail)"
+    ],
+        "unsure": []
+      },
+      "goal": {
+        "bplus": [
+          "(at Dolores Jail)"
+        ],
+        "bminus": [],
+        "unsure": []
+      }
+    },
+    {
+      "character": "Guard",
+      "motivations": {
+        "bplus": [
+          "(at Dolores Jail)"
+        ],
+        "bminus": [],
+        "unsure": []
+      },
+      "goal": {
+        "bplus": [],
+        "bminus": [
+          "(alive Dolores)"
+        ],
+        "unsure": []
+      }
+    }
+  ],
+    "counteractions": [
+    {
+      "conditions": {
+        "t": [
+          "(at Dolores Saloon)",
+          "(at Guard Saloon)",
+          "(alive Dolores)",
+          "(alive Guard)",
+          "(has Guard Glass)",
+          "(in BarCabinet Saloon)",
+          "(in Bar Saloon)"
+        ],
+        "f": [
+          "(needsfilled Guard Glass)",
+          "(filled Glass)"
+        ],
+        "characters": [
+          {
+            "name": "Guard",
+            "bplus": [
+              "(at Dolores Saloon)",
+              "(at Guard Saloon)",
+              "(alive Dolores)",
+              "(alive Guard)",
+              "(has Guard Glass)",
+              "(in BarCabinet Saloon)",
+              "(in Bar Saloon)",
+              "(on WineBottle Bar)",
+              "(contains BarCabinet WineBottleSpare)",
+              "(filled WineBottleSpare)"
+            ],
+            "bminus": [
+              "(locked BarCabinet)",
+              "(open BarCabinet)",
+              "(needsfilled Guard Glass)",
+              "(filled Glass)",
+              "(filled WineBottle)",
+              "(has Guard WineBottle)",
+              "(has Guard WineBottleSpare)",
+              "(has Dolores WineBottle)",
+              "(has Dolores WineBottleSpare)"
+            ],
+            "unsure": []
+          }
+        ]
+      },
+      "groundedoperator": "askforrefill Guard Glass Saloon"
+    }
+  ],
+  "operators": [
+    {
+      "name": "shoot",
+      "actionclass": "Shoot2Action",
+      "args": [
+        {
+          "name": "?p1",
+          "type": "Person"
+        },
+        {
+          "name": "?p2",
+          "type": "Person"
+        },
+        {
+          "name": "?loc",
+          "type": "Location"
+        },
+        {
+          "name": "?gun",
+          "type": "Gun"
+        }
+      ],
+      "char": "?p1",
+      "loc": "?loc",
+      "pre-t": [
+        "(has ?p1 ?gun)",
+        "(alive ?p1)",
+        "(alive ?p2)",
+        "(at ?p1 ?loc)",
+        "(at ?p2 ?loc)",
+        "(loaded ?gun)"
+      ],
+      "pre-f": [],
+      "eff-t": [],
+      "eff-f": [
+        "(loaded ?gun)",
+        "(alive ?p2)"
+      ],
+      "pre-bplus": [
+        "(has ?p1 ?gun)",
+        "(alive ?p1)",
+        "(alive ?p2)",
+        "(at ?p1 ?loc)",
+        "(at ?p2 ?loc)",
+        "(loaded ?gun)"
+      ],
+      "pre-bminus": [],
+      "pre-u": [],
+      "eff-bplus": [],
+      "eff-bminus": [
+        { 
+          "effect":"(loaded ?gun)",
+          "observability":["localObs(?loc)"]
+        },
+        { 
+          "effect":"(alive ?p2)",
+          "observability":["localObs(?loc)"]
+        }
+      ],
+      "eff-u": []
+    },
+    {
+      "name": "goto",
+      "actionclass": "WalkAction2",
+      "args": [
+        {
+          "name": "?person",
+          "type": "Person"
+        },
+        {
+          "name": "?from",
+          "type": "Location"
+        },
+        {
+          "name": "?to",
+          "type": "Location"
+        }
+      ],
+      "char": "?person",
+      "loc": "?from",
+      "pre-t": [
+        "(alive ?person)",
+        "(at ?person ?from)",
+        "(adjacent ?from ?to)"
+      ],
+      "pre-f": [
+        "(at ?person ?to)"
+      ],
+      "eff-t": [
+        "(at ?person ?to)"
+      ],
+      "eff-f": [
+        "(at ?person ?from)"
+      ],
+      "pre-bplus": [
+        "(alive ?person)",
+        "(at ?person ?from)",
+        "(adjacent ?from ?to)"
+      ],
+      "pre-bminus": [
+        "(at ?person ?to)"
+      ],
+      "pre-u": [],
+      "eff-bplus": [
+        { 
+          "effect":"(at ?person ?to)",
+          "observability":["localObs(?to)", "localObs(?from)"]
+        }
+      ],
+      "eff-bminus": [
+        { 
+          "effect":"(at ?person ?from)",
+          "observability":["localObs(?to)","localObs(?from)"]
+        }
+      ],
+      "eff-u": []
+    }
+  ],
+  "initial": {
+    "t": [
+      "(at Dolores JailCell)",
+      "(alive Dolores)",
+      "(adjacent Jail JailCell)",
+      "(adjacent JailCell Jail)",
+      "(adjacent Jail MainStreet)",
+      "(at Guard Jail)",
+      "(alive Guard)",
+      "(has Guard Handgun)",
+      "(loaded Handgun)"
+    ],
+    "f": [
+      "(at Dolores Jail)",
+      "(has Dolores Handgun)",
+      "(at Guard JailCell)"
+    ],
+    "characters": [
+      {
+        "name": "Dolores",
+        "bplus": [
+          "(at Dolores JailCell)",
+      "(alive Dolores)",
+      "(adjacent Jail JailCell)",
+      "(adjacent JailCell Jail)",
+      "(adjacent Jail MainStreet)",
+      "(at Guard Jail)",
+      "(alive Guard)",
+      "(has Guard Handgun)",
+      "(loaded Handgun)"
+        ],
+        "bminus": [
+          "(at Dolores Jail)",
+      "(has Dolores Handgun)",
+      "(at Guard JailCell)"
+        ],
+        "unsure": []
+      },
+      {
+        "name": "Teddy",
+        "bplus": [
+          "(at Dolores JailCell)",
+          "(at Teddy JailCell)",
+          "(has Dolores Handgun)",
+          "(in Floor JailCell)",
+          "(on 9mmBullet floor)",
+          "(locked JailDoor)",
+          "(alive Dolores)",
+          "(alive Teddy)",
+          "(connected MainStreet JailCell JailDoor)",
+          "(connected JailCell MainStreet JailDoor)",
+          "(in JailDoor JailCell)",
+          "(loaded Handgun)"
+        ],
+        "bminus": [
+          "(at Dolores MainStreet)",
+          "(at Teddy MainStreet)",
+          "(has Teddy Handgun)",
+          "(has Dolores 9mmBullet)",
+          "(has Teddy 9mmBullet)",
+          "(in Floor MainStreet)",
+          "(in JailDoor MainStreet)"
+        ],
+        "unsure": []
+      },
+      {
+        "name": "Guard",
+        "bplus": [
+          "(at Dolores JailCell)",
+      "(alive Dolores)",
+      "(adjacent Jail JailCell)",
+      "(adjacent JailCell Jail)",
+      "(adjacent Jail MainStreet)",
+      "(at Guard Jail)",
+      "(alive Guard)",
+      "(has Guard Handgun)",
+      "(loaded Handgun)"
+        ],
+        "bminus": [
+          "(at Dolores Jail)",
+      "(has Dolores Handgun)",
+      "(at Guard JailCell)"
+        ],
+        "unsure": []
+      }
+    ]
+  },
+  "final": {
+    "t": [
+      "(at Dolores Jail)"
+    ],
+    "f": [],
+    "characters": [
+      {
+        "name": "Dolores",
+        "bplus": [
+          "(at Dolores Jail)"
+        ],
+        "bminus": [],
+        "unsure": []
+      },
+      {
+        "name": "Guard",
+        "bplus": [],
+        "bminus": [
+          "(alive Dolores)"
+        ],
+        "unsure": []
+      }
+    ]
+  }
+}

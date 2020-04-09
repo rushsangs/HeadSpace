@@ -92,6 +92,12 @@ namespace NarrativePlanning
             this.links = CausalLink.findLinks(this, grounds, initial, goal);
         }
 
+        //built for FailureManager
+        public void computeCLinks(List<Operator> grounds, WorldState initial, WorldState goal)
+        {
+            this.links = CausalLink.findLinks(this, grounds, initial, goal);
+        }
+
         public Microplan clone()
         {
             Microplan p = new Microplan();

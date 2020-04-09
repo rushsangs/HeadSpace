@@ -21,11 +21,11 @@ namespace NarrativePlanning
         /// <param name="initial">initial WorldState</param>
         /// <param name="goal">Goal worldstate</param>
         /// <param name="operators">List of grounded operators</param>
-        public PlanningProblem(WorldState initial, WorldState goal, List<Operator> operators)
+        /// <param name="desires">List of desires</param>
+        /// <param name="counteractions">List of counteractions</param>
+        public PlanningProblem(WorldState initial, WorldState goal, List<Operator> operators, List<Desire> desires, List<CounterAction> counteractions)
         {
-            w0 = initial;
-            this.goal = goal;
-            this.groundedoperators = operators;
+            initialize(initial, goal, operators, desires, counteractions);
         }
 
         /// <summary>
@@ -38,10 +38,8 @@ namespace NarrativePlanning
         /// <param name="desires">List of desires</param>
         public PlanningProblem(WorldState initial, WorldState goal, List<Operator> operators, List<Desire> desires)
         {
-            w0 = initial;
-            this.goal = goal;
-            this.groundedoperators = operators;
-            this.desires = desires;
+            List<CounterAction> counters = new List<CounterAction>();
+            initialize(initial, goal, operators, desires, counters);
         }
 
         /// <summary>
@@ -51,9 +49,14 @@ namespace NarrativePlanning
         /// <param name="initial">initial WorldState</param>
         /// <param name="goal">Goal worldstate</param>
         /// <param name="operators">List of grounded operators</param>
-        /// <param name="desires">List of desires</param>
-        /// <param name="counteractions">List of counteractions</param>
-        public PlanningProblem(WorldState initial, WorldState goal, List<Operator> operators, List<Desire> desires, List<CounterAction> counteractions)
+        public PlanningProblem(WorldState initial, WorldState goal, List<Operator> operators)
+        {
+            List<Desire> desires = new List<Desire>();
+            List<CounterAction> counters = new List<CounterAction>();
+            initialize(initial, goal, operators, desires, counters);
+        }
+
+        public void initialize(WorldState initial, WorldState goal, List<Operator> operators, List<Desire> desires, List<CounterAction> counteractions)
         {
             w0 = initial;
             this.goal = goal;
@@ -61,6 +64,9 @@ namespace NarrativePlanning
             this.desires = desires;
             this.counteractions = counteractions;
         }
+        
+
+       
 
 
 
@@ -153,6 +159,7 @@ namespace NarrativePlanning
             List<Tuple<String, WorldState>> nextStateTuples = w0.getPossibleApparentNextStatesTuples(groundedoperators);
             int depth = 1;
             int bfactor = 0;
+            int avg_branching_factor = 0;
             int nnodes = 0;
             Plan solutionPlan = null;
             Plan current = new Plan(this);
@@ -164,6 +171,7 @@ namespace NarrativePlanning
                 min = 100;
                 WorldState w = current.steps[current.steps.Count - 1].Item2;
                 int tmp = 0;
+
                 List<Tuple<String, WorldState>> n = w.getPossibleApparentNextStatesTuples(groundedoperators);
                 //check every node in the frontier    
                 foreach (Tuple<String, WorldState> next in n)
@@ -195,7 +203,6 @@ namespace NarrativePlanning
                         p.steps.Add(next);
                         x = FastForward.extractRPSize(FastForward.computeRPG(groundedoperators, next.Item2, this.goal), this.goal, groundedoperators);
                     }
-
                     UnityConsole.Write("Possible apparent next step " + next.Item1 + ", but actual step " + res.Item1 + " with global hueristic of " + x + " and character heuristic of " + y + "\n");
                     if (y < min && y != -1)
                     {
@@ -245,6 +252,7 @@ namespace NarrativePlanning
             int depth = 1;
             int bfactor = 0;
             int nnodes = 0;
+            int avg_branching_factor = 0;
             Plan solutionPlan = null;
             Plan current = new Plan(this);
             //Queue<Plan> queue = new Queue<Plan>();
@@ -299,16 +307,21 @@ namespace NarrativePlanning
                         //solution found!
                         current.steps.Add(res);
                         solutionPlan = current;
-                        UnityConsole.Write("\n Number of nodes = " + nnodes + " and branching factor = " + bfactor);
+                        avg_branching_factor = avg_branching_factor / depth;
+                        UnityConsole.Write("\n Number of nodes = " + nnodes
+                                      + ", max branching factor = " + bfactor
+                                      + ", avg branching factor = " + avg_branching_factor);
                         return solutionPlan;
                     }
                 }
+
 
                 if (n.Count == 0 || best == null)
                     return null;
 
                 UnityConsole.Write("STEP SELECTED: " + best.Item1 + "\n");
                 UnityConsole.Write("----------\n");
+                avg_branching_factor += tmp;
                 if (tmp > bfactor)
                     bfactor = tmp;
 
@@ -502,6 +515,7 @@ namespace NarrativePlanning
                 return null; // FAIL
             return HeadSpaceX(desires, plan, goal, groundedoperators, counteractions);
         }
+
 
         public PlanningProblem clone()
         {

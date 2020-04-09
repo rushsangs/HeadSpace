@@ -49,6 +49,7 @@ namespace NarrativePlanning
             get;
             set;
         }
+        //please note, that the following three hashtables are string->effect tuple
         public Hashtable effBPlus
         {
             get;
@@ -60,15 +61,10 @@ namespace NarrativePlanning
             set;
         }
         public Hashtable effUnsure
-        {
-            get;
-            set;
-        }
-        public Hashtable privateEffects
-        {
-            get;
-            set;
-        }
+		{
+			get;
+			set;
+		}
 
         //public List<Literal> preT,
                             //preF,
@@ -94,7 +90,6 @@ namespace NarrativePlanning
             effBPlus = new Hashtable();
             effBMinus = new Hashtable();
             effUnsure = new Hashtable();
-            privateEffects = new Hashtable();
         }
 
         public Operator(SerializationInfo info, StreamingContext context){
@@ -114,7 +109,6 @@ namespace NarrativePlanning
             effBPlus = info.GetValue("effBPlus", typeof(Hashtable)) as Hashtable;
             effBMinus = info.GetValue("effBMinus", typeof(Hashtable)) as Hashtable;
             effUnsure = info.GetValue("effUnsure", typeof(Hashtable)) as Hashtable;
-            privateEffects = info.GetValue("privateEffects", typeof(Hashtable)) as Hashtable;
 
         }
 
@@ -249,20 +243,30 @@ namespace NarrativePlanning
                                 op.effF.Remove(l);
                                 op.effF.Add(builder.ToString(), 1);
                             }
-                            tmp = (Hashtable)op.effBPlus.Clone();
+							tmp = (Hashtable)op.effBPlus.Clone();
                             foreach (String l in tmp.Keys)
                             {
                                 String[] terms = l.Split(' ');
                                 StringBuilder builder = new StringBuilder(l);
                                 for (int j = 0; j < terms.Length; ++j)
                                 {
-                                    if (dict.Current.Key.Equals(terms[j]))
-                                    {
-                                        builder.Replace(terms[j], words[i + 1]);
-                                    }
+									if (dict.Current.Key.Equals(terms[j]))
+									{
+										builder.Replace(terms[j], words[i + 1]);
+									}
                                 }
+								foreach(ObservabilityRule rule in (tmp[l] as EffectTuple).observabilityrules)
+								{
+									for (int num = 0; num<rule.args.Count; ++num)
+									{
+										if (rule.args[num].Equals(dict.Current.Key))
+											rule.args[num] = rule.args[num].Replace(dict.Current.Key, words[i + 1]);
+									}
+								}
+								EffectTuple e = new EffectTuple(builder.ToString(), ((EffectTuple)op.effBPlus[l]).observabilityrules);
+                                
                                 op.effBPlus.Remove(l);
-                                op.effBPlus.Add(builder.ToString(), 1);
+								op.effBPlus.Add(builder.ToString(), e);
                             }
                             tmp = (Hashtable)op.effBMinus.Clone();
                             foreach (String l in tmp.Keys)
@@ -276,8 +280,18 @@ namespace NarrativePlanning
                                         builder.Replace(terms[j], words[i + 1]);
                                     }
                                 }
+								foreach (ObservabilityRule rule in (tmp[l] as EffectTuple).observabilityrules)
+                                {
+                                    for (int num = 0; num < rule.args.Count; ++num)
+                                    {
+                                        if (rule.args[num].Equals(dict.Current.Key))
+											rule.args[num] = rule.args[num].Replace(dict.Current.Key, words[i + 1]);
+                                    }
+                                }
+								EffectTuple e = new EffectTuple(builder.ToString(), ((EffectTuple)op.effBMinus[l]).observabilityrules);
+                                
                                 op.effBMinus.Remove(l);
-                                op.effBMinus.Add(builder.ToString(), 1);
+                                op.effBMinus.Add(builder.ToString(), e);
                             }
                             tmp = (Hashtable)op.effUnsure.Clone();
                             foreach (String l in tmp.Keys)
@@ -291,24 +305,20 @@ namespace NarrativePlanning
                                         builder.Replace(terms[j], words[i + 1]);
                                     }
                                 }
-                                op.effUnsure.Remove(l);
-                                op.effUnsure.Add(builder.ToString(), 1);
-                            }
-                            tmp = (Hashtable)op.privateEffects.Clone();
-                            foreach (String l in tmp.Keys)
-                            {
-                                String[] terms = l.Split(' ');
-                                StringBuilder builder = new StringBuilder(l);
-                                for (int j = 0; j < terms.Length; ++j)
+								foreach (ObservabilityRule rule in (tmp[l] as EffectTuple).observabilityrules)
                                 {
-                                    if (dict.Current.Key.Equals(terms[j]))
+                                    for (int num = 0; num < rule.args.Count; ++num)
                                     {
-                                        builder.Replace(terms[j], words[i + 1]);
+                                        if (rule.args[num].Equals(dict.Current.Key))
+											rule.args[num] = rule.args[num].Replace(dict.Current.Key, words[i + 1]);
                                     }
                                 }
-                                op.privateEffects.Remove(l);
-                                op.privateEffects.Add(builder.ToString(), 1);
+								EffectTuple e = new EffectTuple(builder.ToString(), ((EffectTuple)op.effUnsure[l]).observabilityrules);
+                                
+                                op.effUnsure.Remove(l);
+                                op.effUnsure.Add(builder.ToString(), e);
                             }
+                            
                         }
                         else{
                             UnityConsole.WriteLine("there seems to be an instance mismatch!");
@@ -359,10 +369,9 @@ namespace NarrativePlanning
             o.preBPlus = this.preBPlus.Clone() as Hashtable;
             o.preBMinus = this.preBMinus.Clone() as Hashtable;
             o.preUnsure = this.preUnsure.Clone() as Hashtable;
-            o.effBPlus = this.effBPlus.Clone() as Hashtable;
-            o.effBMinus = this.effBMinus.Clone() as Hashtable;
-            o.effUnsure = this.effUnsure.Clone() as Hashtable;
-            o.privateEffects = this.privateEffects.Clone() as Hashtable;
+			o.effBPlus = DeepClone<Hashtable>(this.effBPlus);
+			o.effBMinus = DeepClone<Hashtable>(this.effBMinus);
+			o.effUnsure = DeepClone<Hashtable>(this.effUnsure);
             return o;
         }
 
@@ -383,7 +392,18 @@ namespace NarrativePlanning
             info.AddValue("effBPlus", effBPlus);
             info.AddValue("effBMinus", effBMinus);
             info.AddValue("effUnsure", effUnsure);
-            info.AddValue("privateEffects", privateEffects);
+        }
+
+		public static T DeepClone<T>(T obj)
+        {
+            using (var ms = new MemoryStream())
+            {
+                var formatter = new BinaryFormatter();
+                formatter.Serialize(ms, obj);
+                ms.Position = 0;
+
+                return (T)formatter.Deserialize(ms);
+            }
         }
     }
 }

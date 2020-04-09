@@ -139,8 +139,8 @@
       "motivations": {
         "bplus": [],
         "bminus": [
-		"(at Dolores MainStreet)"
-		],
+    "(at Dolores MainStreet)"
+    ],
         "unsure": []
       },
       "goal": {
@@ -421,7 +421,7 @@
       "eff-bplus": [
         { 
           "effect":"(loaded ?gun)",
-          "observability":["localObs(?place)"]
+          "observability":["localObs(?loc)"]
         }
       ],
       "eff-bminus": [],
@@ -469,7 +469,7 @@
       "eff-bminus": [
         { 
           "effect":"(loaded ?gun)",
-          "observability":["localObs(?place)"]
+          "observability":["localObs(?loc)"]
         }
       ],
       "eff-u": []
@@ -522,7 +522,7 @@
       "eff-bminus": [
         { 
           "effect":"(locked ?door)",
-          "observability":["localObs(?place)"]
+          "observability":["localObs(?loc)"]
         }
       ],
       "eff-u": []
@@ -575,7 +575,7 @@
       "eff-u": [
         { 
           "effect":"(loaded ?gun)",
-          "observability":["localObs(?place)"]
+          "observability":["localObs(?loc)"]
         }
       ]
     },
@@ -630,11 +630,11 @@
       "eff-bminus": [
         { 
           "effect":"(loaded ?gun)",
-          "observability":["localObs(?place)"]
+          "observability":["localObs(?loc)"]
         },
         { 
           "effect":"(alive ?p2)",
-          "observability":["localObs(?place)"]
+          "observability":["localObs(?loc)"]
         }
       ],
       "eff-u": []
@@ -692,13 +692,13 @@
       "eff-bplus": [
         { 
           "effect":"(at ?person ?to)",
-          "observability":["localObs(?place)"]
+          "observability":["localObs(?from)"]
         }
       ],
       "eff-bminus": [
         { 
           "effect":"(at ?person ?from)",
-          "observability":["localObs(?place)"]
+          "observability":["localObs(?from)"]
         }
       ],
       "eff-u": []
@@ -748,13 +748,13 @@
       "eff-bplus": [
         { 
           "effect":"(at ?person ?to)",
-          "observability":["localObs(?place)"]
+          "observability":["localObs(?to)", "localObs(?from)"]
         }
       ],
       "eff-bminus": [
         { 
           "effect":"(at ?person ?from)",
-          "observability":["localObs(?place)"]
+          "observability":["localObs(?to)","localObs(?from)"]
         }
       ],
       "eff-u": []
@@ -810,13 +810,13 @@
       "eff-bplus": [
         { 
           "effect":"(has ?person ?item)",
-          "observability":["localObs(?place)"]
+          "observability":["localObs(?loc)"]
         }
       ],
       "eff-bminus": [
         { 
           "effect":"(on ?item ?furn)",
-          "observability":["localObs(?place)"]
+          "observability":["localObs(?loc)"]
         }
       ],
       "eff-u": []
@@ -841,11 +841,11 @@
           "name": "?loc",
           "type": "Location"
         },
-		{
+    {
           "name": "?floc",
           "type": "Location"
-			
-		}
+      
+    }
       ],
       "char": "?person",
       "loc": "?loc",
@@ -854,7 +854,7 @@
         "(at ?person ?loc)",
         "(in ?furn ?floc)",
         "(on ?item ?furn)",
-		"(connected ?loc ?floc JailDoor)"
+    "(connected ?loc ?floc JailDoor)"
       ],
       "pre-f": [
         "(has ?person ?item)"
@@ -870,7 +870,7 @@
         "(at ?person ?loc)",
         "(in ?furn ?floc)",
         "(on ?item ?furn)",
-		"(connected ?loc ?floc JailDoor)"
+    "(connected ?loc ?floc JailDoor)"
       ],
       "pre-bminus": [
         "(has ?person ?item)"
@@ -879,13 +879,13 @@
       "eff-bplus": [
         { 
           "effect":"(has ?person ?item)",
-          "observability":["localObs(?place)"]
+          "observability":["localObs(?loc)"]
         }
       ],
       "eff-bminus": [
         { 
           "effect":"(on ?item ?furn)",
-          "observability":["localObs(?place)"]
+          "observability":["localObs(?loc)"]
         }
       ],
       "eff-u": []
@@ -940,7 +940,7 @@
       "eff-bminus": [
         { 
           "effect":"(locked ?door)",
-          "observability":["localObs(?place)"]
+          "observability":["localObs(?loc)"]
         }
       ],
       "eff-u": []
@@ -997,7 +997,7 @@
       "eff-bminus": [
         { 
           "effect":"(locked ?obj)",
-          "observability":["localObs(?place)"]
+          "observability":["localObs(?loc)"]
         }
       ],
       "eff-u": []
@@ -1055,7 +1055,7 @@
       "eff-bplus": [
         { 
           "effect":"(threatened ?person2)",
-          "observability":["localObs(?place)"]
+          "observability":["localObs(?loc)"]
         }
       ],
       "eff-bminus": [],
@@ -1109,17 +1109,17 @@
       "eff-bplus": [
         { 
           "effect":"(at ?person ?to)",
-          "observability":["localObs(?place)"]
+          "observability":["localObs(?from)"]
         }
       ],
       "eff-bminus": [
         { 
           "effect":"(at ?person ?from)",
-          "observability":["localObs(?place)"]
+          "observability":["localObs(?from)"]
         },
         { 
           "effect":"(threatened ?person)",
-          "observability":["localObs(?place)"]
+          "observability":["localObs(?from)"]
         }
       ],
       "eff-u": []
@@ -1169,7 +1169,7 @@
       "eff-bplus": [
         { 
           "effect":"(open ?obj)",
-          "observability":["localObs(?place)"]
+          "observability":["localObs(?loc)"]
         }
       ],
       "eff-bminus": [],
@@ -1218,7 +1218,7 @@
       "eff-bplus": [
         { 
           "effect":"(locked ?obj)",
-          "observability":["localObs(?place)"]
+          "observability":["localObs(?loc)"]
         }
       ],
       "eff-bminus": [],
@@ -1235,21 +1235,21 @@
       "(connected Jail JailCell JailDoor)",
       "(connected JailCell Jail JailDoor)",
       "(adjacent Jail MainStreet)",
-	  "(in JailDoor JailCell)",
-	  "(in Chair Jail)",
-		"(on Handgun Chair)"
+    "(in JailDoor JailCell)",
+    "(in Chair Jail)",
+    "(on Handgun Chair)"
     ],
     "f": [
       "(at Dolores MainStreet)",
-	  "(at Dolores Jail)",
+    "(at Dolores Jail)",
       "(has Dolores Handgun)",
       "(has Dolores 9mmBullet)",
       "(in Floor MainStreet)",
-	  "(in Floor Jail)",
-	  "(in Chair MainStreet)",
-	  "(in Chair JailCell)",
+    "(in Floor Jail)",
+    "(in Chair MainStreet)",
+    "(in Chair JailCell)",
       "(in JailDoor MainStreet)",
-	  "(in JailDoor Jail)",
+    "(in JailDoor Jail)",
       "(loaded Handgun)"
     ],
     "characters": [
@@ -1264,22 +1264,22 @@
       "(connected Jail JailCell JailDoor)",
       "(connected JailCell Jail JailDoor)",
       "(adjacent Jail MainStreet)",
-	  "(in JailDoor JailCell)",
-	  "(in Chair Jail)",
-		"(on Handgun Chair)",
-		"(loaded Handgun)"
+    "(in JailDoor JailCell)",
+    "(in Chair Jail)",
+    "(on Handgun Chair)",
+    "(loaded Handgun)"
         ],
         "bminus": [
           "(at Dolores MainStreet)",
-	  "(at Dolores Jail)",
+    "(at Dolores Jail)",
       "(has Dolores Handgun)",
       "(has Dolores 9mmBullet)",
       "(in Floor MainStreet)",
-	  "(in Floor Jail)",
-	  "(in Chair MainStreet)",
-	  "(in Chair JailCell)",
+    "(in Floor Jail)",
+    "(in Chair MainStreet)",
+    "(in Chair JailCell)",
       "(in JailDoor MainStreet)",
-	  "(in JailDoor Jail)"
+    "(in JailDoor Jail)"
         ],
         "unsure": []
       },
