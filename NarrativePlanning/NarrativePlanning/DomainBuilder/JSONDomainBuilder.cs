@@ -71,7 +71,7 @@ namespace NarrativePlanning.DomainBuilder
         {
             StreamReader r = new StreamReader(filename);
             string json = r.ReadToEnd();    
-			var jsonDomain = JsonDomain.FromJson("{}");
+			var jsonDomain = JsonDomain.FromJson(json);
             root = TypeTreeBuilder.buildTypeTree(jsonDomain.Types);
             instancesJSON = jsonDomain.Instances;
             operatorsJSON = jsonDomain.Operators;

@@ -37,10 +37,10 @@ namespace NarrativePlanning
 
 
             ////////////////////////////////////////////////////////
-            DomainBuilder.JSONDomainBuilder j = new NarrativePlanning.DomainBuilder.JSONDomainBuilder("../../JSON Files/observability_test1.json");
+            DomainBuilder.JSONDomainBuilder j = new NarrativePlanning.DomainBuilder.JSONDomainBuilder("../../JSON Files/breakout.json");
 
 
-            // UNCOMMENT THIS IF YOU WANT TO RECREATE OR UPDATE DOMAIN
+            // UNCOMMENT THIS IF YOU WANT TO RECREATE OR UPDATE DOMAIN USING TXT FILES
             //DomainBuilder.TypeTreeBuilder t = new DomainBuilder.TypeTreeBuilder();
             //DomainBuilder.InstanceAdder i = new DomainBuilder.InstanceAdder(t.root);
             //DomainBuilder.OperationBuilder opb = new DomainBuilder.OperationBuilder(t.root);
@@ -69,13 +69,13 @@ namespace NarrativePlanning
     {
         public static void WriteLine(String str)
         {
-            //Console.WriteLine(str);
-            UnityEngine.Debug.Log(str);
+            Console.WriteLine(str);
+            //UnityEngine.Debug.Log(str);
         }
         public static void Write(String str)
         {
-            UnityEngine.Debug.Log(str);
-            //Console.WriteLine(str);
+            //UnityEngine.Debug.Log(str);
+            Console.WriteLine(str);
         }
     }
 }

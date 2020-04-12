@@ -321,7 +321,7 @@ namespace NarrativePlanning
                             
                         }
                         else{
-                            UnityConsole.WriteLine("there seems to be an instance mismatch!");
+                            UnityConsole.WriteLine("there seems to be an instance mismatch grounded operator is " + ground);
                         }
                     }
                     return op;

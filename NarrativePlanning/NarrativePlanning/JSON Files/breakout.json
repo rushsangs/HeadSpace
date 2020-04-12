@@ -39,6 +39,18 @@
     {
       "name": "Storage",
       "type": "Furniture"
+    },
+    {
+      "name": "Furniture",
+      "type": "Object"
+    },
+    {
+      "name": "Vehicle",
+      "type": "Object"
+    },
+    {
+      "name": "Horse",
+      "type": "Vehicle"
     }
   ],
   "instances": [
@@ -78,6 +90,11 @@
       "object": "Door1"
     },
     {
+      "name": "JailOfficeDoor",
+      "type": "Door",
+      "object":  "Door2"
+    },
+    {
       "name": "Floor",
       "type": "Furniture",
       "object": "Floor1"
@@ -103,7 +120,7 @@
       "object": "person1"
     },
     {
-      "name": "Jail",
+      "name": "JailOffice",
       "type": "Location",
       "object": "jail"
     },
@@ -131,6 +148,16 @@
       "name": "Chair",
       "type": "Furniture",
       "object": "chair"
+    },
+    {
+      "name": "WhiteHorse",
+      "type": "Horse",
+      "object": "whitehorse"
+    },
+    {
+      "name": "Safelands",
+      "type": "Location",
+      "object": "safelands"
     }
   ],
   "desires": [
@@ -139,20 +166,20 @@
       "motivations": {
         "bplus": [],
         "bminus": [
-    "(at Dolores MainStreet)"
-    ],
+          "(at Dolores Safelands)"
+        ],
         "unsure": []
       },
       "goal": {
         "bplus": [
-          "(at Dolores MainStreet)"
+          "(at Dolores Safelands)"
         ],
         "bminus": [],
         "unsure": []
       }
     }
   ],
-    "counteractions": [
+  "counteractions": [
     {
       "conditions": {
         "t": [
@@ -251,15 +278,19 @@
       ],
       "pre-u": [],
       "eff-bplus": [
-        { 
-          "effect":"(loaded ?gun)",
-          "observability":["localObs(?place)"]
+        {
+          "effect": "(loaded ?gun)",
+          "observability": [
+            "localObs(?place)"
+          ]
         }
       ],
       "eff-bminus": [
-        { 
-          "effect":"(has ?person ?ammo)",
-          "observability":["localObs(?place)"]
+        {
+          "effect": "(has ?person ?ammo)",
+          "observability": [
+            "localObs(?place)"
+          ]
         }
       ],
       "eff-u": []
@@ -309,15 +340,19 @@
       "pre-bminus": [],
       "pre-u": [],
       "eff-bplus": [
-        { 
-          "effect":"(has ?person ?ammo)",
-          "observability":["localObs(?place)"]
+        {
+          "effect": "(has ?person ?ammo)",
+          "observability": [
+            "localObs(?place)"
+          ]
         }
       ],
       "eff-bminus": [
-        { 
-          "effect":"(loaded ?gun)",
-          "observability":["localObs(?place)"]
+        {
+          "effect": "(loaded ?gun)",
+          "observability": [
+            "localObs(?place)"
+          ]
         }
       ],
       "eff-u": []
@@ -368,15 +403,19 @@
       "pre-bminus": [],
       "pre-u": [],
       "eff-bplus": [
-        { 
-          "effect":"(has ?person ?ammo)",
-          "observability":["localObs(?place)"]
+        {
+          "effect": "(has ?person ?ammo)",
+          "observability": [
+            "localObs(?place)"
+          ]
         }
       ],
       "eff-bminus": [
-        { 
-          "effect":"(loaded ?gun)",
-          "observability":["localObs(?place)"]
+        {
+          "effect": "(loaded ?gun)",
+          "observability": [
+            "localObs(?place)"
+          ]
         }
       ],
       "eff-u": []
@@ -419,9 +458,11 @@
         "(loaded ?gun)"
       ],
       "eff-bplus": [
-        { 
-          "effect":"(loaded ?gun)",
-          "observability":["localObs(?loc)"]
+        {
+          "effect": "(loaded ?gun)",
+          "observability": [
+            "localObs(?loc)"
+          ]
         }
       ],
       "eff-bminus": [],
@@ -467,9 +508,11 @@
       ],
       "eff-bplus": [],
       "eff-bminus": [
-        { 
-          "effect":"(loaded ?gun)",
-          "observability":["localObs(?loc)"]
+        {
+          "effect": "(loaded ?gun)",
+          "observability": [
+            "localObs(?loc)"
+          ]
         }
       ],
       "eff-u": []
@@ -520,9 +563,11 @@
       "pre-u": [],
       "eff-bplus": [],
       "eff-bminus": [
-        { 
-          "effect":"(locked ?door)",
-          "observability":["localObs(?loc)"]
+        {
+          "effect": "(locked ?door)",
+          "observability": [
+            "localObs(?loc)"
+          ]
         }
       ],
       "eff-u": []
@@ -573,9 +618,11 @@
       "eff-bplus": [],
       "eff-bminus": [],
       "eff-u": [
-        { 
-          "effect":"(loaded ?gun)",
-          "observability":["localObs(?loc)"]
+        {
+          "effect": "(loaded ?gun)",
+          "observability": [
+            "localObs(?loc)"
+          ]
         }
       ]
     },
@@ -628,13 +675,17 @@
       "pre-u": [],
       "eff-bplus": [],
       "eff-bminus": [
-        { 
-          "effect":"(loaded ?gun)",
-          "observability":["localObs(?loc)"]
+        {
+          "effect": "(loaded ?gun)",
+          "observability": [
+            "localObs(?loc)"
+          ]
         },
-        { 
-          "effect":"(alive ?p2)",
-          "observability":["localObs(?loc)"]
+        {
+          "effect": "(alive ?p2)",
+          "observability": [
+            "localObs(?loc)"
+          ]
         }
       ],
       "eff-u": []
@@ -666,7 +717,8 @@
         "(alive ?person)",
         "(at ?person ?from)",
         "(in ?door ?from)",
-        "(connected ?from ?to ?door)"
+        "(connected ?from ?to ?door)",
+        "(open ?door)"
       ],
       "pre-f": [
         "(locked ?door)",
@@ -682,7 +734,8 @@
         "(alive ?person)",
         "(at ?person ?from)",
         "(in ?door ?from)",
-        "(connected ?from ?to ?door)"
+        "(connected ?from ?to ?door)",
+        "(open ?door)"
       ],
       "pre-bminus": [
         "(locked ?door)",
@@ -690,15 +743,19 @@
       ],
       "pre-u": [],
       "eff-bplus": [
-        { 
-          "effect":"(at ?person ?to)",
-          "observability":["localObs(?from)"]
+        {
+          "effect": "(at ?person ?to)",
+          "observability": [
+            "localObs(?from)"
+          ]
         }
       ],
       "eff-bminus": [
-        { 
-          "effect":"(at ?person ?from)",
-          "observability":["localObs(?from)"]
+        {
+          "effect": "(at ?person ?from)",
+          "observability": [
+            "localObs(?from)"
+          ]
         }
       ],
       "eff-u": []
@@ -746,17 +803,154 @@
       ],
       "pre-u": [],
       "eff-bplus": [
-        { 
-          "effect":"(at ?person ?to)",
-          "observability":["localObs(?to)", "localObs(?from)"]
+        {
+          "effect": "(at ?person ?to)",
+          "observability": [
+            "localObs(?to)",
+            "localObs(?from)"
+          ]
         }
       ],
       "eff-bminus": [
-        { 
-          "effect":"(at ?person ?from)",
-          "observability":["localObs(?to)","localObs(?from)"]
+        {
+          "effect": "(at ?person ?from)",
+          "observability": [
+            "localObs(?to)",
+            "localObs(?from)"
+          ]
         }
       ],
+      "eff-u": []
+    },
+    {
+      "name": "rideToSafelands",
+      "actionclass": "WalkAction2",
+      "args": [
+        {
+          "name": "?person",
+          "type": "Person"
+        },
+        {
+          "name": "?from",
+          "type": "Location"
+        },
+        {
+          "name": "?vehicle",
+          "type": "Vehicle"
+        }
+      ],
+      "char": "?person",
+      "loc": "?from",
+      "pre-t": [
+        "(alive ?person)",
+        "(at ?person ?from)",
+        "(mounted ?person ?vehicle)",
+        "(at ?vehicle ?from)"
+      ],
+      "pre-f": [
+        "(at ?person Safelands)"
+      ],
+      "eff-t": [
+        "(at ?person Safelands)",
+        "(at ?vehicle Safelands)"
+      ],
+      "eff-f": [
+        "(at ?person ?from)",
+        "(at ?vehicle ?from)"
+      ],
+      "pre-bplus": [
+        "(alive ?person)",
+        "(at ?person ?from)",
+        "(mounted ?person ?vehicle)",
+        "(at ?vehicle ?from)"
+      ],
+      "pre-bminus": [
+        "(at ?person Safelands)"
+      ],
+      "pre-u": [],
+      "eff-bplus": [
+        {
+          "effect": "(at ?vehicle Safelands)",
+          "observability": [
+            "localObs(Safelands)",
+            "localObs(?from)"
+          ]
+        },
+        {
+          "effect": "(at ?person Safelands)",
+          "observability": [
+            "localObs(Safelands)",
+            "localObs(?from)"
+          ]
+        }
+      ],
+      "eff-bminus": [
+        {
+          "effect": "(at ?person ?from)",
+          "observability": [
+            "localObs(Safelands)",
+            "localObs(?from)"
+          ]
+        },
+        {
+          "effect": "(at ?vehicle ?from)",
+          "observability": [
+            "localObs(Safelands)",
+            "localObs(?from)"
+          ]
+        }
+      ],
+      "eff-u": []
+    },
+    {
+      "name": "mount",
+      "actionclass": "WaveAction",
+      "args": [
+        {
+          "name": "?person",
+          "type": "Person"
+        },
+        {
+          "name": "?from",
+          "type": "Location"
+        },
+        {
+          "name": "?vehicle",
+          "type": "Vehicle"
+        }
+      ],
+      "char": "?person",
+      "loc": "?from",
+      "pre-t": [
+        "(alive ?person)",
+        "(at ?person ?from)",
+        "(at ?vehicle ?from)"
+      ],
+      "pre-f": [
+        "(mounted ?person ?vehicle)"
+      ],
+      "eff-t": [
+        "(mounted ?person ?vehicle)"
+      ],
+      "eff-f": [],
+      "pre-bplus": [
+        "(alive ?person)",
+        "(at ?person ?from)",
+        "(at ?vehicle ?from)"
+      ],
+      "pre-bminus": [
+        "(mounted ?person ?vehicle)"
+      ],
+      "pre-u": [],
+      "eff-bplus": [
+        {
+          "effect": "(mounted ?person ?vehicle)",
+          "observability": [
+            "localObs(?from)"
+          ]
+        }
+      ],
+      "eff-bminus": [],
       "eff-u": []
     },
     {
@@ -808,15 +1002,19 @@
       ],
       "pre-u": [],
       "eff-bplus": [
-        { 
-          "effect":"(has ?person ?item)",
-          "observability":["localObs(?loc)"]
+        {
+          "effect": "(has ?person ?item)",
+          "observability": [
+            "localObs(?loc)"
+          ]
         }
       ],
       "eff-bminus": [
-        { 
-          "effect":"(on ?item ?furn)",
-          "observability":["localObs(?loc)"]
+        {
+          "effect": "(on ?item ?furn)",
+          "observability": [
+            "localObs(?loc)"
+          ]
         }
       ],
       "eff-u": []
@@ -841,11 +1039,10 @@
           "name": "?loc",
           "type": "Location"
         },
-    {
+        {
           "name": "?floc",
           "type": "Location"
-      
-    }
+        }
       ],
       "char": "?person",
       "loc": "?loc",
@@ -854,7 +1051,7 @@
         "(at ?person ?loc)",
         "(in ?furn ?floc)",
         "(on ?item ?furn)",
-    "(connected ?loc ?floc JailDoor)"
+        "(connected ?loc ?floc JailDoor)"
       ],
       "pre-f": [
         "(has ?person ?item)"
@@ -870,22 +1067,26 @@
         "(at ?person ?loc)",
         "(in ?furn ?floc)",
         "(on ?item ?furn)",
-    "(connected ?loc ?floc JailDoor)"
+        "(connected ?loc ?floc JailDoor)"
       ],
       "pre-bminus": [
         "(has ?person ?item)"
       ],
       "pre-u": [],
       "eff-bplus": [
-        { 
-          "effect":"(has ?person ?item)",
-          "observability":["localObs(?loc)"]
+        {
+          "effect": "(has ?person ?item)",
+          "observability": [
+            "localObs(?loc)"
+          ]
         }
       ],
       "eff-bminus": [
-        { 
-          "effect":"(on ?item ?furn)",
-          "observability":["localObs(?loc)"]
+        {
+          "effect": "(on ?item ?furn)",
+          "observability": [
+            "localObs(?loc)"
+          ]
         }
       ],
       "eff-u": []
@@ -938,9 +1139,11 @@
       "pre-u": [],
       "eff-bplus": [],
       "eff-bminus": [
-        { 
-          "effect":"(locked ?door)",
-          "observability":["localObs(?loc)"]
+        {
+          "effect": "(locked ?door)",
+          "observability": [
+            "localObs(?loc)"
+          ]
         }
       ],
       "eff-u": []
@@ -995,9 +1198,11 @@
       "pre-u": [],
       "eff-bplus": [],
       "eff-bminus": [
-        { 
-          "effect":"(locked ?obj)",
-          "observability":["localObs(?loc)"]
+        {
+          "effect": "(locked ?obj)",
+          "observability": [
+            "localObs(?loc)"
+          ]
         }
       ],
       "eff-u": []
@@ -1053,9 +1258,11 @@
       ],
       "pre-u": [],
       "eff-bplus": [
-        { 
-          "effect":"(threatened ?person2)",
-          "observability":["localObs(?loc)"]
+        {
+          "effect": "(threatened ?person2)",
+          "observability": [
+            "localObs(?loc)"
+          ]
         }
       ],
       "eff-bminus": [],
@@ -1107,19 +1314,25 @@
       ],
       "pre-u": [],
       "eff-bplus": [
-        { 
-          "effect":"(at ?person ?to)",
-          "observability":["localObs(?from)"]
+        {
+          "effect": "(at ?person ?to)",
+          "observability": [
+            "localObs(?from)"
+          ]
         }
       ],
       "eff-bminus": [
-        { 
-          "effect":"(at ?person ?from)",
-          "observability":["localObs(?from)"]
+        {
+          "effect": "(at ?person ?from)",
+          "observability": [
+            "localObs(?from)"
+          ]
         },
-        { 
-          "effect":"(threatened ?person)",
-          "observability":["localObs(?from)"]
+        {
+          "effect": "(threatened ?person)",
+          "observability": [
+            "localObs(?from)"
+          ]
         }
       ],
       "eff-u": []
@@ -1167,9 +1380,64 @@
       ],
       "pre-u": [],
       "eff-bplus": [
-        { 
-          "effect":"(open ?obj)",
-          "observability":["localObs(?loc)"]
+        {
+          "effect": "(open ?obj)",
+          "observability": [
+            "localObs(?loc)"
+          ]
+        }
+      ],
+      "eff-bminus": [],
+      "eff-u": []
+    },
+    {
+      "name": "opendoor-true",
+      "actionclass": "OpenAction",
+      "args": [
+        {
+          "name": "?person",
+          "type": "Person"
+        },
+        {
+          "name": "?obj",
+          "type": "Door"
+        },
+        {
+          "name": "?loc",
+          "type": "Location"
+        }
+      ],
+      "char": "?person",
+      "loc": "?loc",
+      "pre-t": [
+        "(alive ?person)",
+        "(at ?person ?loc)",
+        "(in ?obj ?loc)"
+      ],
+      "pre-f": [
+        "(locked ?obj)",
+        "(open ?obj)"
+      ],
+      "eff-t": [
+        "(open ?obj)"
+      ],
+      "eff-f": [],
+      "pre-bplus": [
+        "(alive ?person)",
+        "(at ?person ?loc)",
+        "(in ?obj ?loc)"
+      ],
+      "pre-bminus": [
+        "(locked ?obj)",
+        "(open ?obj)"
+      ],
+      "pre-u": [],
+      "eff-bplus": [
+        {
+          "effect": "(open ?obj)",
+          "observability": [
+            "localObs(?loc)"
+          ]
         }
       ],
       "eff-bminus": [],
@@ -1216,9 +1484,62 @@
       ],
       "pre-u": [],
       "eff-bplus": [
-        { 
-          "effect":"(locked ?obj)",
-          "observability":["localObs(?loc)"]
+        {
+          "effect": "(locked ?obj)",
+          "observability": [
+            "localObs(?loc)"
+          ]
+        }
+      ],
+      "eff-bminus": [],
+      "eff-u": []
+    },
+    {
+      "name": "opendoor-false",
+      "actionclass": "Open2Action",
+      "args": [
+        {
+          "name": "?person",
+          "type": "Person"
+        },
+        {
+          "name": "?obj",
+          "type": "Door"
+        },
+        {
+          "name": "?loc",
+          "type": "Location"
+        }
+      ],
+      "char": "?person",
+      "loc": "?loc",
+      "pre-t": [
+        "(alive ?person)",
+        "(at ?person ?loc)",
+        "(locked ?obj)",
+        "(in ?obj ?loc)"
+      ],
+      "pre-f": [
+        "(open ?obj)"
+      ],
+      "eff-t": [],
+      "eff-f": [],
+      "pre-bplus": [
+        "(alive ?person)",
+        "(at ?person ?loc)",
+        "(in ?obj ?loc)"
+      ],
+      "pre-bminus": [
+        "(locked ?obj)",
+        "(open ?obj)"
+      ],
+      "pre-u": [],
+      "eff-bplus": [
+        {
+          "effect": "(locked ?obj)",
+          "observability": [
+            "localObs(?loc)"
+          ]
         }
       ],
       "eff-bminus": [],
@@ -1232,54 +1553,70 @@
       "(on 9mmBullet Floor)",
       "(locked JailDoor)",
       "(alive Dolores)",
-      "(connected Jail JailCell JailDoor)",
-      "(connected JailCell Jail JailDoor)",
-      "(adjacent Jail MainStreet)",
-    "(in JailDoor JailCell)",
-    "(in Chair Jail)",
-    "(on Handgun Chair)"
+      "(connected JailOffice JailCell JailDoor)",
+      "(connected JailCell JailOffice JailDoor)",
+      "(connected JailOffice MainStreet JailOfficeDoor)",
+      "(connected MainStreet JailOffice JailOfficeDoor)",
+      "(in JailOfficeDoor JailOffice)",
+      "(in JailDoor JailCell)",
+      "(in Chair JailOffice)",
+      "(on Handgun Chair)",
+      "(at WhiteHorse MainStreet)"
     ],
     "f": [
       "(at Dolores MainStreet)",
-    "(at Dolores Jail)",
+      "(at Dolores JailOffice)",
       "(has Dolores Handgun)",
       "(has Dolores 9mmBullet)",
       "(in Floor MainStreet)",
-    "(in Floor Jail)",
-    "(in Chair MainStreet)",
-    "(in Chair JailCell)",
+      "(in Floor JailOffice)",
+      "(in Chair MainStreet)",
+      "(in Chair JailCell)",
       "(in JailDoor MainStreet)",
-    "(in JailDoor Jail)",
-      "(loaded Handgun)"
+      "(in JailDoor JailOffice)",
+      "(loaded Handgun)",
+      "(at Dolores Safelands)",
+      "(open JailDoor)",
+      "(open JailOfficeDoor)",
+      "(locked JailOfficeDoor)",
+      "(mounted Dolores WhiteHorse)"
     ],
     "characters": [
       {
         "name": "Dolores",
         "bplus": [
           "(at Dolores JailCell)",
-      "(in Floor JailCell)",
-      "(on 9mmBullet Floor)",
-      "(locked JailDoor)",
-      "(alive Dolores)",
-      "(connected Jail JailCell JailDoor)",
-      "(connected JailCell Jail JailDoor)",
-      "(adjacent Jail MainStreet)",
-    "(in JailDoor JailCell)",
-    "(in Chair Jail)",
-    "(on Handgun Chair)",
-    "(loaded Handgun)"
+          "(in Floor JailCell)",
+          "(on 9mmBullet Floor)",
+          "(locked JailDoor)",
+          "(alive Dolores)",
+          "(connected JailOffice JailCell JailDoor)",
+          "(connected JailCell JailOffice JailDoor)",
+          "(connected JailOffice MainStreet JailOfficeDoor)",
+          "(connected MainStreet JailOffice JailOfficeDoor)",
+          "(in JailOfficeDoor JailOffice)",
+          "(in JailDoor JailCell)",
+          "(in Chair JailOffice)",
+          "(on Handgun Chair)",
+          "(loaded Handgun)",
+          "(at WhiteHorse MainStreet)"
         ],
         "bminus": [
           "(at Dolores MainStreet)",
-    "(at Dolores Jail)",
-      "(has Dolores Handgun)",
-      "(has Dolores 9mmBullet)",
-      "(in Floor MainStreet)",
-    "(in Floor Jail)",
-    "(in Chair MainStreet)",
-    "(in Chair JailCell)",
-      "(in JailDoor MainStreet)",
-    "(in JailDoor Jail)"
+          "(at Dolores JailOffice)",
+          "(has Dolores Handgun)",
+          "(has Dolores 9mmBullet)",
+          "(in Floor MainStreet)",
+          "(in Floor JailOffice)",
+          "(in Chair MainStreet)",
+          "(in Chair JailCell)",
+          "(in JailDoor MainStreet)",
+          "(in JailDoor JailOffice)",
+          "(open JailDoor)",
+          "(locked JailOfficeDoor)",
+          "(open JailOfficeDoor)",
+          "(at Dolores Safelands)",
+          "(mounted Dolores WhiteHorse)"
         ],
         "unsure": []
       },
@@ -1341,22 +1678,14 @@
   },
   "final": {
     "t": [
-      "(at Dolores MainStreet)"
+      "(at Dolores Safelands)"
     ],
     "f": [],
     "characters": [
       {
         "name": "Dolores",
         "bplus": [
-          "(at Dolores MainStreet)"
-        ],
-        "bminus": [],
-        "unsure": []
-      },
-      {
-        "name": "Dolores",
-        "bplus": [
-          "(at Dolores MainStreet)"
+          "(at Dolores Safelands)"
         ],
         "bminus": [],
         "unsure": []
